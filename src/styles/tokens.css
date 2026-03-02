@@ -1,13 +1,21 @@
 :root {
   --color-bg: #1a1a1a;
+  --color-bg-secondary: #131313;
+  --color-border-hover: #fff;
+  --color-border: #939698;
+  --color-icon: #fff;
+  --color-disabled: #1b1b1b;
   --color-primary: #6366f1;
   --color-text: #e5e7eb;
 
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
+  --radius-xl: 16px;
 
   --space-sm: 8px;
   --space-md: 12px;
-  --space-lg: 20px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  
 }
