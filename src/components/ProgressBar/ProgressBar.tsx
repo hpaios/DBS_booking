@@ -29,10 +29,10 @@ const ProgressBar: React.FC = () => {
   return (
     <div className="max-w-xl mx-auto p-6">
       {/* Steps container */}
+      <h2 className="text-xs sm:text-sm mt-2 text-center text-[var(--color-text)]">{steps[currentStep].label}</h2>
       <div className="relative flex items-center justify-between">
         {/* Connector line */}
         <div className="absolute top-4 left-4 right-4 h-1 bg-gray-300 z-0 rounded">
-        <span className="text-xs sm:text-sm mt-2 text-center text-[var(--color-text)]">{steps[currentStep].label}</span>
           <div
             className="h-1 bg-[var(--color-primary)] rounded transition-all duration-300"
             style={{
@@ -52,11 +52,11 @@ const ProgressBar: React.FC = () => {
               onClick={() => setCurrentStep(index)}
             >
               <div
-                className={`w-8 h-8 flex items-center justify-center rounded-full border-2 transition-colors duration-300
+                className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors duration-300
                   ${
                     isCompletedOrActive
-                      ? "bg-[var(--color-primary)] border-[var(--color-primary)] text-white"
-                      : "bg-white border-gray-300 text-gray-500"
+                      ? "text-[var(--color-primary)] border-[var(--color-primary)] text-white"
+                      : "bg-white"
                   }`}
               >
                 {index + 1}
@@ -67,7 +67,7 @@ const ProgressBar: React.FC = () => {
       </div>
 
       {/* Navigation */}
-      <div className="flex justify-between mt-6">
+      <div className="flex justify-between my-[var(--space-lg)] ">
         <button
           onClick={goBack}
           disabled={currentStep === 0}
