@@ -1,8 +1,10 @@
-import { apiClient } from "./client";
+import { dbsClient } from './dbsClient'
 
-export const getCategory = async (locationId: number) => {
-  const { data } = await apiClient.get(
-    `/booking/locations/${locationId}/employees`
+const DBS_ID=186414
+
+export const getCategory = async () => {
+  const { data } = await dbsClient.get(
+    `api/booking/locations/${DBS_ID}/employees`
   );
 
   return data;

@@ -1,35 +1,23 @@
-import React, { useState } from "react";
 import ArrowLeft from '../../icons/ArrowLeft'
 import ArrowRight from '../../icons/ArrowRight'
 import { navButtonClass } from './ProgressBar.style'
+import { steps } from '../../config'
 
-interface Step {
-  key: string;
-  label: string;
-}
 
-const steps: Step[] = [
-  { key: "select_categories", label: "Vyberte specialistu" },
-  { key: "select_services", label: "Vyberte služby" },
-  { key: "select_slots", label: "Vyberte datum a čas" },
-  { key: "booking_confirmation", label: "Podrobnosti schůzky" },
-];
-
-const ProgressBar: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const goNext = () => {
-    if (currentStep < steps.length - 1) setCurrentStep(currentStep + 1);
-  };
-
-  const goBack = () => {
-    if (currentStep > 0) setCurrentStep(currentStep - 1);
-  };
-
+const ProgressBar = ({
+  currentStep,
+  handleNextStep,
+  handlePrevStep
+}: {
+  currentStep: number,
+  handleNextStep: () => void
+  handlePrevStep: () => void
+}) => {
+  
+  
   return (
     <div className="max-w-xl mx-auto p-6">
       {/* Steps container */}
-      <h2 className="text-xs sm:text-sm mt-2 text-center text-[var(--color-text)]">{steps[currentStep].label}</h2>
       <div className="relative flex items-center justify-between">
         {/* Connector line */}
         <div className="absolute top-4 left-4 right-4 h-1 bg-gray-300 z-0 rounded">
@@ -49,7 +37,7 @@ const ProgressBar: React.FC = () => {
             <div
               key={step.key}
               className="flex flex-col items-center z-10 cursor-pointer"
-              onClick={() => setCurrentStep(index)}
+              onClick={() => handleNextStep()}
             >
               <div
                 className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors duration-300
@@ -69,14 +57,14 @@ const ProgressBar: React.FC = () => {
       {/* Navigation */}
       <div className="flex justify-between my-[var(--space-lg)] ">
         <button
-          onClick={goBack}
+          onClick={handlePrevStep}
           disabled={currentStep === 0}
           className={navButtonClass}
         >
           <ArrowLeft width={16} height={30} color={currentStep === 0 ? "var(--color-border)" : "var(--color-icon)"} />
         </button>
         <button
-          onClick={goNext}
+          onClick={handleNextStep}
           disabled={currentStep === steps.length - 1}
           className={navButtonClass}
         >
