@@ -2,36 +2,37 @@ name: Deploy Vite React App to GitHub Pages
 
 on:
   push:
-    branches:
-      - main  # ветка, из которой деплой
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Клонируем репо
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2️⃣ Устанавливаем Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      # 3️⃣ Устанавливаем зависимости
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Сборка Vite
       - name: Build project
         run: npm run build
 
-      # 5️⃣ Деплой на GitHub Pages
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # папка с билдом Vite
+          publish_dir: ./dist
+          # force push на случай конфликта
+          force_orphan: true
