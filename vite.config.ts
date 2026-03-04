@@ -4,6 +4,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
+    base: '/DBS_booking/',
     server: {
       proxy: {
         // 🔵 Публічний API (з токеном)
