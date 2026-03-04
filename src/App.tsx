@@ -9,9 +9,6 @@ function App() {
     <QueryProvider>
       <ContainerWrapper>
         <Booking />
-        <div className="w-full h-20 my-[var(--space-lg)]">
-          DBS booking is coming...
-        </div>
         {/* <SelectCategories /> */}
       </ContainerWrapper>
     </QueryProvider>

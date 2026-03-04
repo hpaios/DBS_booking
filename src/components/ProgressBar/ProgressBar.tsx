@@ -14,11 +14,10 @@ const ProgressBar = ({
   handlePrevStep: () => void
 }) => {
   
-  
   return (
     <div className="max-w-xl mx-auto p-6">
       {/* Steps container */}
-      <div className="relative flex items-center justify-between">
+      <div className="relative flex items-center justify-between gap-[4px]">
         {/* Connector line */}
         <div className="absolute top-4 left-4 right-4 h-1 bg-gray-300 z-0 rounded">
           <div
@@ -36,18 +35,17 @@ const ProgressBar = ({
           return (
             <div
               key={step.key}
-              className="flex flex-col items-center z-10 cursor-pointer"
+              className="flex flex-col items-center z-10 cursor-pointer w-full"
               onClick={() => handleNextStep()}
             >
               <div
-                className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors duration-300
+                className={`w-full h-[0.5rem] flex items-center justify-center  transition-colors duration-300
                   ${
                     isCompletedOrActive
-                      ? "text-[var(--color-primary)] border-[var(--color-primary)] text-white"
-                      : "bg-white"
+                      ? "bg-[var(--color-icon)] border-[var(--color-primary)] bg-red"
+                      : "bg-[var(--color-gray)]"
                   }`}
               >
-                {index + 1}
               </div>
             </div>
           );

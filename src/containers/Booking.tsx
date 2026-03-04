@@ -37,7 +37,7 @@ const Booking = () => {
   };
 
   return (<div>
-    <h2 className="text-xs sm:text-sm mt-2 text-center text-[var(--color-text)]">{steps[currentStep].label} {selectedCategoriesIds}</h2>
+    <h2 className="text-xs sm:text-sm mt-2 text-center text-[var(--color-text)]">{steps[currentStep].label}</h2>
     <ProgressBar
       currentStep={currentStep}
       handleNextStep={setNextStep}

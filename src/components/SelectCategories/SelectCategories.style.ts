@@ -1,0 +1,1 @@
+export const categoryStyle = `flex items-center gap-[1rem] my-[1rem] p-[1rem] rounded-[1rem] border-2 cursor-pointer`

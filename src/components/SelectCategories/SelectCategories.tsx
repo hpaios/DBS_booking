@@ -1,4 +1,5 @@
 import { useCategory } from '../../api/hooks/useCategory'
+import { categoryStyle } from './SelectCategories.style'
 
 const SelectCategories = ({
   selectCategory,
@@ -19,9 +20,10 @@ const SelectCategories = ({
         <div
           key={employee?.id}
           onClick={() => selectCategory(employee?.id)}
-          className={selectedCategoriesIds.includes(employee?.id) ? 'border' : ''}
+          className={selectedCategoriesIds.includes(employee?.id) ? `border-white ${categoryStyle}` : `border-transparent ${categoryStyle}`}
         >
-          <img src={employee.avatar} alt="" /> {employee?.firstName}
+          <img src={employee.avatar} alt="" className='w-[60px] h-[60px] rounded-full'/>
+          <h3 className='text-[var(--font-size)]'>{employee?.firstName}</h3>
         </div>
       ))}
     </div>
