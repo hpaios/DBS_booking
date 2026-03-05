@@ -5,22 +5,40 @@ import SelectServices from '../components/SelectServices'
 import SelectCategories from '../components/SelectCategories/SelectCategories'
 import SelectSlots from '../components/SelectSlots'
 import BookingConfirmation from '../components/BookingConfirmation'
-import type { StepKey } from '../interfaces'
-import { toggleId } from '../utils'
+import type { Service, StepKey } from '../interfaces'
+import { useGroupedServices } from '../hooks/useGroupedServices'
+import { toggleId, toggleObjectById } from '../utils'
 
 
 const Booking = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [selectedCategoriesIds, setSelectedCategoriesIds] = useState<number[]>([]);
+  const [selectedCategoriesIds, setSelectedCategoriesIds] = useState<number[]>
+  ([]);
+ const { groupedServices } = useGroupedServices(selectedCategoriesIds);
+ const [selectedServices, setSelectedServices] = useState<Service[]>([])
 
   const handleSelectCategory = (id: number) => {
-    setSelectedCategoriesIds((prev) => toggleId(prev, id));
-  }
+  setSelectedCategoriesIds((prev) => {
+    const newCategories = toggleId(prev, id);
+
+    setSelectedServices((services) =>
+      services.filter((service) =>
+        newCategories.includes(service.parentCategoryId)
+      )
+    );
+
+    return newCategories;
+  });
+};
+
+  const handleSelectServices = (service: Service) => {
+    setSelectedServices((prev) => toggleObjectById(prev, service));
+ };
 
   const stepComponentMap: Record<StepKey, React.ReactNode> = {
     select_categories: <SelectCategories selectCategory={handleSelectCategory} selectedCategoriesIds={selectedCategoriesIds}/>,
-    select_services: <SelectServices categoriesIds={selectedCategoriesIds} />,
-    select_slots: <SelectSlots />,
+    select_services: <SelectServices servicesList={groupedServices} handleSelectedService={handleSelectServices} selectedServices={selectedServices}/>,
+    select_slots: <SelectSlots selectedServices={selectedServices}/>,
     booking_confirmation: <BookingConfirmation />,
   };
 
@@ -32,9 +50,7 @@ const Booking = () => {
     if (currentStep > 0) setCurrentStep(currentStep - 1);
   };
 
-  const getComponentByStep = () => {
-    return stepComponentMap[steps[currentStep].key] ?? null;
-  };
+  const currentComponent = stepComponentMap[steps[currentStep].key] ?? null;
 
   return (<div>
     <h2 className="text-xs sm:text-sm mt-2 text-center text-[var(--color-text)]">{steps[currentStep].label}</h2>
@@ -43,7 +59,7 @@ const Booking = () => {
       handleNextStep={setNextStep}
       handlePrevStep={setPrevStep}
     />
-    {getComponentByStep()}
+    {currentComponent}
   </div>)
 }
 

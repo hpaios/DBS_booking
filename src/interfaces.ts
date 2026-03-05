@@ -15,14 +15,39 @@ export interface Service {
   description: string;
   durationMinutes: number;
   price: number;
+  parentCategoryId: number;
+};
+
+export interface ServicesResponse {
+  count: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  data: Service[];
 };
 
 export interface Category {
   label: string;
   servicesIds: number[];
+  parentCategoryId: number;
 };
 
 export interface MappedCategory {
   label: string;
   services: Service[];
+};
+
+export interface TimeslotsResponse {
+  slots: {
+    start: string;
+    end: string;
+  }[];
+}
+
+export type Timeslot = string;
+
+export interface TimeslotsProps {
+  date: string;
+  onSelect: (slot: Timeslot) => void;
+  selectedSlot?: Timeslot;
 };

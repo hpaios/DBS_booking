@@ -7,6 +7,7 @@ type AccordionItemProps = {
     id: string;
     title: ReactNode;
     content: ReactNode;
+    isActive: boolean;
   };
   isOpen: boolean;
   onToggle: () => void;
@@ -14,10 +15,15 @@ type AccordionItemProps = {
 
 const AccordionItem = ({ item, isOpen, onToggle }: AccordionItemProps) => {
   return (
-    <div className="mb-[var(--space-lg)]">
+    <div className={`rounded mb-[var(--space-lg)] transition`}
+        >
       <button
         onClick={onToggle}
-        className="w-full flex justify-between items-center p-4 text-left bg-[var(--color-bg-secondary)] text-[var(--color-icon)] border-[var(--color-border)] border-1 p-[var(--space-sm)] rounded-[var(--radius-sm)] cursor-pointer"
+        className={`w-full flex justify-between items-center p-4 text-left bg-[var(--color-bg-secondary)] text-[var(--color-icon)] border-[var(--color-border)] border-1 p-[var(--space-sm)] rounded-[var(--radius-sm)] cursor-pointer ${
+            item.isActive
+              ? "border-[var(--color-primary)]"
+              : "border-[var(--color-border)]"
+          }`}
       >
         <span>{item.title}</span>
         <span

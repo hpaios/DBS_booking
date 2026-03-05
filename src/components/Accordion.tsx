@@ -8,6 +8,7 @@ type AccordionItemType = {
   id: string;
   title: ReactNode;
   content: ReactNode;
+  isActive: boolean;
 };
 
 type AccordionProps = {
