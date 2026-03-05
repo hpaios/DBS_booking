@@ -19,7 +19,7 @@ const Booking = () => {
 
   const stepComponentMap: Record<StepKey, React.ReactNode> = {
     select_categories: <SelectCategories selectCategory={handleSelectCategory} selectedCategoriesIds={selectedCategoriesIds}/>,
-    select_services: <SelectServices />,
+    select_services: <SelectServices categoriesIds={selectedCategoriesIds} />,
     select_slots: <SelectSlots />,
     booking_confirmation: <BookingConfirmation />,
   };
