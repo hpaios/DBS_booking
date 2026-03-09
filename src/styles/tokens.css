@@ -8,6 +8,7 @@
   --color-primary: #6366f1;
   --color-text: hsl(220, 13%, 91%);
   --color-gray: #44484C;
+  --color-disabled-text: #828387;
 
   --radius-sm: 6px;
   --radius-md: 10px;

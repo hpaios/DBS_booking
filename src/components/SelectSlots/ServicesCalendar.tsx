@@ -6,22 +6,20 @@ import type { ApiTimeSlot, WeekScheduleItem } from '../../interfaces'
 
 const ServicesCalendar = ({
   slots,
-  weekSchedule
+  weekSchedule,
+  selectedSlot,
+  onSelectSlot
 }: {
-  slots: ApiTimeSlot[];
+  slots: ApiTimeSlot[]
   weekSchedule: WeekScheduleItem[]
+  selectedSlot: ApiTimeSlot | null
+  onSelectSlot: (slot: ApiTimeSlot) => void
 }) => {
-
-  // const filteredSlots = filterSlotsBySchedule(slots, weekSchedule);
-
-  // const calendar = mapSlotsByDays(filteredSlots);
 
   const normalizedSlots = normalizeSlotsBySchedule(
   slots,
   weekSchedule
 );
-
- console.log('normalizedSlots', normalizedSlots);
 
   const calendar = mapSlotsByDays(normalizedSlots);
 
@@ -30,14 +28,18 @@ const ServicesCalendar = ({
   const daySlots = calendar[selectedDate];
 
   return (
-    <div className="flex flex-col gap-4 border p-4 rounded">
+    <div className="flex flex-col gap-4 p-4 rounded">
       <Calendar
-        days={Object.keys(calendar)}
+        calendar={calendar}
         selectedDate={selectedDate}
         onSelect={setSelectedDate}
       />
 
-      <SlotsList slots={daySlots} />
+      <SlotsList
+        slots={daySlots}
+        selectedSlot={selectedSlot}
+        onSelectSlot={onSelectSlot}
+      />
     </div>
   );
 };

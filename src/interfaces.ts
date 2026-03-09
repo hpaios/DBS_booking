@@ -16,6 +16,7 @@ export interface Service {
   durationMinutes: number;
   price: number;
   parentCategoryId: number;
+  parentCategoryLabel: string;
 };
 
 export interface ServicesResponse {
@@ -30,6 +31,7 @@ export interface Category {
   label: string;
   servicesIds: number[];
   parentCategoryId: number;
+  parentCategoryLabel: string;
 };
 
 export interface MappedCategory {
@@ -68,8 +70,15 @@ export interface DaySlots {
 }
 
 export interface WeekScheduleItem {
-  idx: number; // 0-6
+  idx: number;
   workDay: boolean;
-  startTime: string; // "08:00"
-  endTime: string;   // "18:00"
+  startTime: string;
+  endTime: string;
 }
+
+export interface FormattedDate {
+  weekday: string; 
+  day: string;     
+  month: string;   
+  label: string;   
+};

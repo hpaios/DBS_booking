@@ -1,5 +1,5 @@
 import { afternoonSlots, morningSlots } from './config'
-import type { ApiTimeSlot, Category, DaySlots, GroupedServices, MappedCategory, Service, WeekScheduleItem } from './interfaces'
+import type { ApiTimeSlot, Category, DaySlots, FormattedDate, GroupedServices, MappedCategory, Service, WeekScheduleItem } from './interfaces'
 
 export const toggleId = (arr: number[], id: number): number[] =>
   arr.includes(id) ? arr.filter((i) => i !== id) : [...arr, id];
@@ -29,6 +29,7 @@ export const mapServicesByCategory = (
       .map((service) => ({
         ...service,
         parentCategoryId: category.parentCategoryId,
+        parentCategoryLabel: category.parentCategoryLabel
       })),
   }));
 };
@@ -224,4 +225,28 @@ export const normalizeSlotsBySchedule = (
   }
 
   return result.sort((a, b) => a.dateStart.localeCompare(b.dateStart));
+};
+
+export const formatIsoDateCs = (iso: string): FormattedDate => {
+  const date = new Date(iso);
+
+  const weekdayRaw = date.toLocaleDateString("cs-CZ", { weekday: "short" });
+  const weekday = weekdayRaw.charAt(0).toUpperCase() + weekdayRaw.slice(1);
+
+  const day = date.toLocaleDateString("cs-CZ", { day: "numeric" }).replace(/\.$/, "")
+  const month = date.toLocaleDateString("cs-CZ", { month: "short" });
+
+  const label = `${weekday} ${day}. ${month}`;
+
+  return { weekday, day, month, label };
+};
+
+export const formatDurationCsShort = (minutes: number) => {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+
+  const hourStr = hours > 0 ? `${hours} hod` : "";
+  const minStr = mins > 0 ? `${mins} min` : "";
+
+  return [hourStr, minStr].filter(Boolean).join(" ");
 };

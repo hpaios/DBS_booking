@@ -5,7 +5,7 @@ import SelectServices from '../components/SelectServices/SelectServices'
 import SelectCategories from '../components/SelectCategories/SelectCategories'
 import SelectSlots from '../components/SelectSlots/SelectSlots'
 import BookingConfirmation from '../components/BookingConfirmation'
-import type { Service, StepKey } from '../interfaces'
+import type { ApiTimeSlot, Service, StepKey } from '../interfaces'
 import { useGroupedServices } from '../hooks/useGroupedServices'
 import { toggleId, toggleObjectById } from '../utils'
 import { useLocation } from '../api/hooks/useLocations'
@@ -18,8 +18,9 @@ const Booking = () => {
  const { groupedServices } = useGroupedServices(selectedCategoriesIds);
  const { data: location } = useLocation();
  const [selectedServices, setSelectedServices] = useState<Service[]>([])
+ const [selectedSlots, setSelectedSlots] = useState<Record<number, ApiTimeSlot | null>>({});
 
- console.log('location', location)
+ console.log('location', selectedServices)
 
   const handleSelectCategory = (id: number) => {
   setSelectedCategoriesIds((prev) => {
@@ -42,7 +43,17 @@ const Booking = () => {
   const stepComponentMap: Record<StepKey, React.ReactNode> = {
     select_categories: <SelectCategories selectCategory={handleSelectCategory} selectedCategoriesIds={selectedCategoriesIds}/>,
     select_services: <SelectServices servicesList={groupedServices} handleSelectedService={handleSelectServices} selectedServices={selectedServices}/>,
-    select_slots: <SelectSlots selectedServices={selectedServices} weekSchedule={location?.[0].weekSchedule}/>,
+    select_slots: <SelectSlots
+      selectedServices={selectedServices}
+      weekSchedule={location?.[0].weekSchedule}
+      selectedSlots={selectedSlots}
+      onSelectSlot={(employeeId, slot) =>
+        setSelectedSlots(prev => ({
+          ...prev,
+          [employeeId]: slot
+        }))
+      }
+    />,
     booking_confirmation: <BookingConfirmation />,
   };
 

@@ -1,0 +1,1 @@
+export const slotStyle = `border rounded-[1rem] border-[var(--color-gray)] py-[var(--space-lg)] cursor-pointer hover:border-[var(--color-icon)]`
