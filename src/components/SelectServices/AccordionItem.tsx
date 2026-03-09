@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import ArrowLeft from '../icons/ArrowLeft'
+import ArrowLeft from '../../icons/ArrowLeft'
 
 
 type AccordionItemProps = {

@@ -1,20 +1,20 @@
 import { useQueries } from "@tanstack/react-query";
-import { getTimeslots } from '../api/requests'
-import type { TimeslotsResponse } from '../../interfaces'
+import { getTimeSlots } from '../api/requests'
+import type { TimeSlotsResponse } from '../../interfaces'
 
-type TimeslotsMap = Record<number, TimeslotsResponse>;
+type TimeSlotsMap = Record<number, TimeSlotsResponse>;
 
-export const useTimeslots = (employeeIds: number[]) => {
+export const useTimeSlots = (employeeIds: number[]) => {
   const queries = useQueries({
     queries: employeeIds.map((employeeId) => ({
-      queryKey: ["timeslots", employeeId],
-      queryFn: () => getTimeslots(employeeId),
+      queryKey: ["timeSlots", employeeId],
+      queryFn: () => getTimeSlots(employeeId),
       enabled: employeeIds.length > 0,
-      staleTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60
     })),
   });
 
-  const timeslots = queries.reduce<TimeslotsMap>((acc, query, index) => {
+  const timeSlots = queries.reduce<TimeSlotsMap>((acc, query, index) => {
     const employeeId = employeeIds[index];
 
     if (query.data) {
@@ -25,7 +25,7 @@ export const useTimeslots = (employeeIds: number[]) => {
   }, {});
 
   return {
-    timeslots,
+    timeSlots,
     isLoading: queries.some((q) => q.isLoading),
     isFetching: queries.some((q) => q.isFetching),
     isError: queries.some((q) => q.isError),

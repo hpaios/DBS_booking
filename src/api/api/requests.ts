@@ -1,4 +1,4 @@
-import type { ServicesResponse, TimeslotsResponse } from '../../interfaces'
+import type { ServicesResponse, TimeSlotsResponse } from '../../interfaces'
 import { getToday } from '../../utils'
 import { dbsClient } from './dbsClient'
 
@@ -7,6 +7,14 @@ const DBS_ID=186414
 export const getCategory = async () => {
   const { data } = await dbsClient.get(
     `api/booking/locations/${DBS_ID}/employees`
+  );
+
+  return data;
+};
+
+export const getLocation = async () => {
+  const { data } = await dbsClient.get(
+    `api/booking/locations`
   );
 
   return data;
@@ -22,9 +30,9 @@ export const getServices = async (
   return data;
 };
 
-export const getTimeslots = async (
+export const getTimeSlots = async (
   employeeId: number
-): Promise<TimeslotsResponse> => {
+): Promise<TimeSlotsResponse> => {
   const { data } = await dbsClient.get(
     `api/booking/locations/${DBS_ID}/timeslots:search`,
     {

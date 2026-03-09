@@ -1,5 +1,5 @@
 import Accordion from "./Accordion";
-import type { MappedCategory, Service } from "../interfaces";
+import type { MappedCategory, Service } from "../../interfaces";
 
 const SelectServices = ({
   servicesList,

@@ -1,4 +1,4 @@
-import type { Step, Timeslot } from './interfaces'
+import type { Step, TimeSlot } from './interfaces'
 
 export const steps: Step[] = [
   { key: "select_categories", label: "Vyberte specialistu" },
@@ -7,8 +7,8 @@ export const steps: Step[] = [
   { key: "booking_confirmation", label: "Podrobnosti schůzky" },
 ];
 
-export const morningSlots: Timeslot[] = ["08:00", "09:00", "10:00", "11:00"];
-export const afternoonSlots: Timeslot[] = ["12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+export const morningSlots: TimeSlot[] = ["08:00", "09:00", "10:00", "11:00"];
+export const afternoonSlots: TimeSlot[] = ["12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
 
 export const servicesConfig = [
   {

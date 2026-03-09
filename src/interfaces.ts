@@ -37,17 +37,39 @@ export interface MappedCategory {
   services: Service[];
 };
 
-export interface TimeslotsResponse {
+export interface TimeSlotsResponse {
   slots: {
     start: string;
     end: string;
   }[];
 }
 
-export type Timeslot = string;
+export type TimeSlot = string;
 
-export interface TimeslotsProps {
+export interface TimeSlotsProps {
   date: string;
-  onSelect: (slot: Timeslot) => void;
-  selectedSlot?: Timeslot;
+  onSelect: (slot: TimeSlot) => void;
+  selectedSlot?: TimeSlot;
 };
+
+export interface GroupedServices {
+    parentCategoryId: number;
+    services: Service[];
+ };
+
+ export interface ApiTimeSlot {
+  dateStart: string;
+  dateEnd: string;
+};
+
+export interface DaySlots {
+  morning: ApiTimeSlot[];
+  afternoon: ApiTimeSlot[];
+}
+
+export interface WeekScheduleItem {
+  idx: number; // 0-6
+  workDay: boolean;
+  startTime: string; // "08:00"
+  endTime: string;   // "18:00"
+}
