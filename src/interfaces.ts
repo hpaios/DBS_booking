@@ -82,3 +82,8 @@ export interface FormattedDate {
   month: string;   
   label: string;   
 };
+
+export interface SelectedSlot {
+  date: string
+  slot: ApiTimeSlot
+}
