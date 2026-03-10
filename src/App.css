@@ -4,7 +4,6 @@
 
 @layer base {
   @import "./styles/tokens.css";
-}
 
   @font-face {
     font-family: 'Inter';
@@ -22,7 +21,34 @@
     src: url(/fonts/inter-600.woff2) format('woff2');
   }
 
-body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  /* FIX Chrome autofill */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    -webkit-text-fill-color: var(--color-text) !important;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
+  .iti__dropdown-content {
+    background-color: transparent !important;
+    top: 40px !important;
+    max-width: 570px !important;
+  }
+
+  .iti__search-input {
+    background-color: var(--color-bg) !important;
+    color: var(--color-icon) !important;
+    outline: none !important;
+  }
+
+  /* FIX specifically for intl-tel-input */
+  .iti__tel-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  }
 }
