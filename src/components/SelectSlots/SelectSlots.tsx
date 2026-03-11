@@ -1,4 +1,4 @@
-import { useTimeSlots } from '../../api/hooks/useTimeslots'
+import { useTimeSlots } from '../../api/hooks/useTimeSlots'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
 import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays } from '../../utils'
 import ServicesCalendar from './ServicesCalendar'
