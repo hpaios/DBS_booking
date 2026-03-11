@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/dbs/(.*)",
-      "destination": "https://dbs.roapp.page/$1"
+      "source": "/dbs/:path*",
+      "destination": "https://dbs.roapp.page/:path*"
     }
   ]
 }
