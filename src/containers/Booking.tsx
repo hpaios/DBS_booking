@@ -9,6 +9,7 @@ import { isObjectEmpty, toggleId, toggleObjectById } from '../utils'
 import { useLocation } from '../api/hooks/useLocations'
 import SelectSlots from '../components/SelectSlots/SelectSlots'
 import { steps } from '../config'
+import SuccessPage from '../components/SuccessPage/SuccessPage'
 
 const Booking = () => {
   const [currentStep, setCurrentStep] = useState(0)
@@ -57,7 +58,10 @@ const Booking = () => {
      selectedServices={selectedServices}
      selectedSlots={selectedSlots}
      selectedDates={selectedDates}
-    />
+     setCurrentStep={setCurrentStep}
+     currentStep={currentStep}
+    />,
+    success_page: <SuccessPage />
   }
 
   const setNextStep = () => {
@@ -75,15 +79,18 @@ const Booking = () => {
   return (
     <div>
       <h2 className="text-xs sm:text-sm mt-2 text-center text-[var(--color-text)]">
-        {steps[currentStep].label}
+        {steps[currentStep]?.label}
       </h2>
-
-      <ProgressBar
-        currentStep={currentStep}
-        handleNextStep={setNextStep}
-        handlePrevStep={setPrevStep}
-        isNextButtonDisabled={isNextButtonDisabled}
-      />
+       
+       {
+          steps[currentStep]?.key !==  'success_page' &&
+          <ProgressBar
+          currentStep={currentStep}
+          handleNextStep={setNextStep}
+          handlePrevStep={setPrevStep}
+          isNextButtonDisabled={isNextButtonDisabled}
+        />
+       }
 
       {stepComponentMap[steps[currentStep].key]}
     </div>

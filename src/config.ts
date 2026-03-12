@@ -5,6 +5,7 @@ export const steps: Step[] = [
   { key: "select_services", label: "Vyberte služby" },
   { key: "select_slots", label: "Vyberte datum a čas" },
   { key: "booking_confirmation", label: "Podrobnosti schůzky" },
+  { key: "success_page", label: "Schůzka potvrzena" }
 ];
 
 export const morningSlots: TimeSlot[] = ["08:00", "09:00", "10:00", "11:00"];

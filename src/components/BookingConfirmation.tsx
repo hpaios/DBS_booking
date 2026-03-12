@@ -7,10 +7,14 @@ import { createAppointment } from '../api/api/requests'
 const BookingConfirmation = ({
   selectedServices,
   selectedSlots,
+  currentStep,
+  setCurrentStep
 }: {
   selectedServices: Service[]
   selectedSlots: Record<number, SelectedSlot | null>
   selectedDates: Record<number, string>
+  currentStep: number
+  setCurrentStep: (step: number) => void
 }) => {
 
   const [phoneNumber, setNumber] = useState<string | null>(null)
@@ -63,7 +67,7 @@ const BookingConfirmation = ({
     // винужденная мера вот таким костылем задавать время на -1час
     const dateStart = getDateStart(dateEnd, 60)
 
-    await createAppointment({
+    const { data } = await createAppointment({
       name,
       phone: phoneNumber,
       vin,
@@ -75,8 +79,12 @@ const BookingConfirmation = ({
       // @ts-ignore
       dateEnd: dateEnd
     })
-  }
 
+    if (data && data.hash) {
+      setCurrentStep(currentStep + 1)
+    }
+  }
+  
   console.log('selectedServices', selectedServices)
   console.log('selectedSlots', selectedSlots)
 
@@ -176,7 +184,3 @@ const BookingConfirmation = ({
 }
 
 export default BookingConfirmation
-
-// https://dbs.roapp.page/api/booking/locations/186414/appointment
-// http://localhost:5173/dbs/api/booking/locations/186414/appointment
-// http://localhost:5173/roapi/api/booking/locations/186414/appointment

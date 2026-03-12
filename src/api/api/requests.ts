@@ -89,5 +89,5 @@ export const createAppointment = async ({
     }
   )
 
-  return data
+  return { data }
 }
