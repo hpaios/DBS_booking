@@ -7,12 +7,16 @@ import { steps } from '../../config'
 const ProgressBar = ({
   currentStep,
   handleNextStep,
-  handlePrevStep
+  handlePrevStep,
+  isNextButtonDisabled
 }: {
-  currentStep: number,
+  currentStep: number
+  isNextButtonDisabled: boolean
   handleNextStep: () => void
   handlePrevStep: () => void
 }) => {
+
+  const isDisabled = currentStep === steps.length - 1 || isNextButtonDisabled
   
   return (
     <div className="max-w-xl mx-auto p-6">
@@ -63,10 +67,14 @@ const ProgressBar = ({
         </button>
         <button
           onClick={handleNextStep}
-          disabled={currentStep === steps.length - 1}
+          disabled={isDisabled}
           className={navButtonClass}
         >
-          <ArrowRight width={16} height={30} color={currentStep === steps.length - 1 ? "var(--color-border)" : "var(--color-icon)"} />
+          <ArrowRight
+            width={16}
+            height={30}
+            color={isDisabled ? "var(--color-border)" : "var(--color-icon)"}
+          />
         </button>
       </div>
     </div>

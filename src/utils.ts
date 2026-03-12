@@ -1,6 +1,9 @@
 import { afternoonSlots, morningSlots } from './config'
 import type { ApiTimeSlot, Category, DaySlots, FormattedDate, GroupedServices, MappedCategory, Service, WeekScheduleItem } from './interfaces'
 
+export const isObjectEmpty = (obj: Record<string, unknown>) =>
+  obj && Object.keys(obj).length === 0 && obj.constructor === Object;
+
 export const toggleId = (arr: number[], id: number): number[] =>
   arr.includes(id) ? arr.filter((i) => i !== id) : [...arr, id];
 
