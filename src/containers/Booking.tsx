@@ -31,6 +31,16 @@ const Booking = () => {
   }
 
   const handleSelectServices = (service: Service) => {
+    console.log('selectedSlots', selectedSlots)
+    console.log('selectedDates', selectedDates)
+    if (!isObjectEmpty(selectedSlots)) {
+      setSelectedSlots({})
+    }
+
+    if (!isObjectEmpty(selectedDates)) {
+      setSelectedDates({})
+    }
+
     setSelectedServices(prev => toggleObjectById(prev, service))
   }
 
