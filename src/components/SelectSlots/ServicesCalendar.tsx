@@ -1,30 +1,27 @@
 import Calendar from './Calendar'
 import SlotsList from './SlotsList'
 import { mapSlotsByDays, normalizeSlotsBySchedule } from '../../utils'
-import type { ApiTimeSlot, SelectedSlot, WeekScheduleItem } from '../../interfaces'
+import type { ApiTimeSlot, DaySlots, SelectedSlot, WeekScheduleItem } from '../../interfaces'
 
 const ServicesCalendar = ({
   slots,
   weekSchedule,
+  calendar,
+  selectedTimes,
   selectedSlot,
   selectedDate,
   onSelectSlot,
   onSelectDate
 }: {
-  slots: ApiTimeSlot[]
-  weekSchedule: WeekScheduleItem[]
+  slots?: ApiTimeSlot[]
+  weekSchedule?: WeekScheduleItem[]
+  calendar: Record<string, DaySlots>
   selectedSlot: SelectedSlot | null
   selectedDate: string
+  selectedTimes: string[]
   onSelectSlot: (slot: ApiTimeSlot, date: string) => void
   onSelectDate: (date: string) => void
 }) => {
-
-  const normalizedSlots = normalizeSlotsBySchedule(
-  slots,
-  weekSchedule
-);
-
-  const calendar = mapSlotsByDays(normalizedSlots);
 
   const daySlots = calendar[selectedDate];
 
@@ -38,6 +35,7 @@ const ServicesCalendar = ({
 
       <SlotsList
         slots={daySlots}
+        selectedTimes={selectedTimes}
         selectedSlot={selectedSlot && selectedSlot.slot}
         onSelectSlot={(slot) => onSelectSlot(slot, selectedDate)}
       />

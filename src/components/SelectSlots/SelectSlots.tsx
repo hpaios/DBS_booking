@@ -1,6 +1,6 @@
 import { useTimeSlots } from '../../api/hooks/useTimeslots'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
-import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays } from '../../utils'
+import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, shiftSlotsByHour } from '../../utils'
 import ServicesCalendar from './ServicesCalendar'
 
 interface SelectSlotProps {
@@ -23,7 +23,19 @@ const SelectSlots = ({
 
   const uniqueParentCategoryIds = getUniqueParentCategoryIds(selectedServices)
   const { timeSlots } = useTimeSlots(uniqueParentCategoryIds)
+  
   const servicesTimeSlots = Object.keys(timeSlots)
+
+  const totalDuration = selectedServices.reduce(
+  (sum, service) => sum + service.durationMinutes,
+  0
+  )
+
+  const requiredSlots = Math.ceil(totalDuration / 60)
+
+  const selectedTimes = Object.values(selectedSlots)
+  .filter(Boolean)
+  .map(s => s!.slot.dateStart)
 
   return (
     <div className="flex flex-col gap-8">
@@ -41,7 +53,10 @@ const SelectSlots = ({
           0
         )
 
-        const calendarSlots = timeSlots[employeeIdNum] as unknown as ApiTimeSlot[]
+        const calendarSlots = shiftSlotsByHour(
+          timeSlots[employeeIdNum] as unknown as ApiTimeSlot[]
+        )
+
         const normalizedSlots = normalizeSlotsBySchedule(calendarSlots, weekSchedule)
         const calendar = mapSlotsByDays(normalizedSlots)
         const defaultDate = Object.keys(calendar)[0]
@@ -68,8 +83,10 @@ const SelectSlots = ({
             <ServicesCalendar
               weekSchedule={weekSchedule}
               slots={calendarSlots}
+              selectedTimes={selectedTimes}
               selectedSlot={selectedSlots[employeeIdNum]}
               selectedDate={selectedDates[employeeIdNum] ?? defaultDate}
+              calendar={calendar}
               onSelectSlot={(slot, date) =>
                 onSelectSlot(employeeIdNum, { slot, date })
               }

@@ -253,3 +253,53 @@ export const formatDurationCsShort = (minutes: number) => {
 
   return [hourStr, minStr].filter(Boolean).join(" ");
 };
+
+export const filterSlotsByDuration = (
+  slots: ApiTimeSlot[],
+  requiredSlots: number
+) => {
+  const slotSet = new Set(slots.map(s => s.dateStart))
+
+  return slots.filter((slot) => {
+    const start = new Date(slot.dateStart)
+
+    for (let i = 1; i < requiredSlots; i++) {
+      const next = new Date(start)
+      next.setHours(next.getHours() + i)
+
+      if (!slotSet.has(next.toISOString())) {
+        return false
+      }
+    }
+
+    return true
+  })
+}
+
+export const shiftSlotsByHour = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
+
+  const shift = (iso: string) => {
+    const date = iso.slice(0, 10)
+    const [h, m] = iso.slice(11, 16).split(":").map(Number)
+
+    const newH = String(h + 1).padStart(2, "0")
+    const newM = String(m).padStart(2, "0")
+
+    return `${date}T${newH}:${newM}:00Z`
+  }
+
+  return slots.map(slot => ({
+    dateStart: shift(slot.dateStart),
+    dateEnd: shift(slot.dateEnd)
+  }))
+}
+
+export const subtractHour = (iso: string) => {
+  const date = iso.slice(0, 10)
+  const [h, m] = iso.slice(11, 16).split(":").map(Number)
+
+  const newH = String(h - 1).padStart(2, "0")
+  const newM = String(m).padStart(2, "0")
+
+  return `${date}T${newH}:${newM}:00Z`
+}

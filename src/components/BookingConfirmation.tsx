@@ -3,6 +3,7 @@ import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../interfaces"
 import { createAppointment } from '../api/api/requests'
+import { subtractHour } from '../utils'
 
 const BookingConfirmation = ({
   selectedServices,
@@ -37,53 +38,75 @@ const BookingConfirmation = ({
     isValidName &&
     isValidVin
 
-
-  const getDateStart = (dateEnd: string, duration: number) => {
-    const [datePart, timePart] = dateEnd.split("T")
-    const [year, month, day] = datePart.split("-").map(Number)
-    const [hour, minute] = timePart.split(":").map(Number)
-
-    // Создаем Date в локальном времени
-    const dateStart = new Date(year, month - 1, day, hour, minute)
-    dateStart.setMinutes(dateStart.getMinutes() - duration) // прибавляем 60 минут
-
-    // Форматируем обратно в ISO без пересчета UTC
-    const pad = (n: number) => n.toString().padStart(2, "0")
-    const dateStartISO =
-      `${dateStart.getFullYear()}-${pad(dateStart.getMonth() + 1)}-${pad(dateStart.getDate())}T${pad(dateStart.getHours())}:${pad(dateStart.getMinutes())}:${pad(dateStart.getSeconds())}Z`
-
-    return dateStartISO;
-  }
-
-
   const handleSubmit = async () => {
   setTouched(true)
 
   if (!isFormValid || !phoneNumber) return
 
-    const dateEnd = selectedSlots[selectedServices[0]?.parentCategoryId]?.slot.dateStart as string;
+  const requests = Object.entries(selectedSlots)
+    .filter(([_, value]) => value?.slot?.dateStart)
+    .map(([employeeId, value]) => {
 
-    // TODO: IMPORTANT - при букинге в crm запись идет на +1 час
-    // винужденная мера вот таким костылем задавать время на -1час
-    const dateStart = getDateStart(dateEnd, 60)
+     
+      const dateStart = subtractHour(value!.slot.dateStart as string)
+      const dateEnd = subtractHour(value!.slot.dateEnd as string)
 
-    const { data } = await createAppointment({
-      name,
-      phone: phoneNumber,
-      vin,
-      comment,
-      employeeId: selectedServices[0]?.parentCategoryId,
-      serviceIds: selectedServices.map(s => s.id),
-      // @ts-ignore
-      dateStart: dateStart,
-      // @ts-ignore
-      dateEnd: dateEnd
+      const employeeServices = selectedServices.filter(
+        s => s.parentCategoryId === Number(employeeId)
+      )
+
+      return createAppointment({
+        name,
+        phone: phoneNumber,
+        vin,
+        comment,
+        employeeId: Number(employeeId),
+        serviceIds: employeeServices.map(s => s.id),
+        // @ts-ignore
+        dateStart,
+        // @ts-ignore
+        dateEnd
+      })
     })
 
-    if (data && data.hash) {
-      setCurrentStep(currentStep + 1)
-    }
+  const responses = await Promise.all(requests)
+
+  const success = responses.every(res => res?.data?.hash)
+
+  if (success) {
+    setCurrentStep(currentStep + 1)
   }
+}
+
+
+  // const handleSubmit = async () => {
+  // setTouched(true)
+
+  // if (!isFormValid || !phoneNumber) return
+
+  //   const dateEnd = selectedSlots[selectedServices[0]?.parentCategoryId]?.slot.dateStart as string;
+
+  //   // TODO: IMPORTANT - при букинге в crm запись идет на +1 час
+  //   // винужденная мера вот таким костылем задавать время на -1час
+  //   const dateStart = getDateStart(dateEnd, 60)
+
+  //   const { data } = await createAppointment({
+  //     name,
+  //     phone: phoneNumber,
+  //     vin,
+  //     comment,
+  //     employeeId: selectedServices[0]?.parentCategoryId,
+  //     serviceIds: selectedServices.map(s => s.id),
+  //     // @ts-ignore
+  //     dateStart: dateStart,
+  //     // @ts-ignore
+  //     dateEnd: dateEnd
+  //   })
+
+  //   if (data && data.hash) {
+  //     setCurrentStep(currentStep + 1)
+  //   }
+  // }
   
   console.log('selectedServices', selectedServices)
   console.log('selectedSlots', selectedSlots)
