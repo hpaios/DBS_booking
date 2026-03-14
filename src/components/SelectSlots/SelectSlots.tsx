@@ -1,6 +1,6 @@
 import { useTimeSlots } from '../../api/hooks/useTimeslots'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
-import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, shiftSlotsByHour } from '../../utils'
+import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, shiftSlotsByHour, filterSlotsByDuration } from '../../utils'
 import ServicesCalendar from './ServicesCalendar'
 
 interface SelectSlotProps {
@@ -57,7 +57,10 @@ const SelectSlots = ({
           timeSlots[employeeIdNum] as unknown as ApiTimeSlot[]
         )
 
-        const normalizedSlots = normalizeSlotsBySchedule(calendarSlots, weekSchedule)
+        const filteredSlots = filterSlotsByDuration(calendarSlots, requiredSlots)
+
+        const normalizedSlots = normalizeSlotsBySchedule(filteredSlots, weekSchedule)
+
         const calendar = mapSlotsByDays(normalizedSlots)
         const defaultDate = Object.keys(calendar)[0]
 
@@ -81,8 +84,6 @@ const SelectSlots = ({
             </div>
 
             <ServicesCalendar
-              weekSchedule={weekSchedule}
-              slots={calendarSlots}
               selectedTimes={selectedTimes}
               selectedSlot={selectedSlots[employeeIdNum]}
               selectedDate={selectedDates[employeeIdNum] ?? defaultDate}

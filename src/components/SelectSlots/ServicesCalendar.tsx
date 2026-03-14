@@ -1,11 +1,8 @@
 import Calendar from './Calendar'
 import SlotsList from './SlotsList'
-import { mapSlotsByDays, normalizeSlotsBySchedule } from '../../utils'
-import type { ApiTimeSlot, DaySlots, SelectedSlot, WeekScheduleItem } from '../../interfaces'
+import type { ApiTimeSlot, DaySlots, SelectedSlot } from '../../interfaces'
 
 const ServicesCalendar = ({
-  slots,
-  weekSchedule,
   calendar,
   selectedTimes,
   selectedSlot,
@@ -13,8 +10,6 @@ const ServicesCalendar = ({
   onSelectSlot,
   onSelectDate
 }: {
-  slots?: ApiTimeSlot[]
-  weekSchedule?: WeekScheduleItem[]
   calendar: Record<string, DaySlots>
   selectedSlot: SelectedSlot | null
   selectedDate: string

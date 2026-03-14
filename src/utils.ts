@@ -254,28 +254,6 @@ export const formatDurationCsShort = (minutes: number) => {
   return [hourStr, minStr].filter(Boolean).join(" ");
 };
 
-export const filterSlotsByDuration = (
-  slots: ApiTimeSlot[],
-  requiredSlots: number
-) => {
-  const slotSet = new Set(slots.map(s => s.dateStart))
-
-  return slots.filter((slot) => {
-    const start = new Date(slot.dateStart)
-
-    for (let i = 1; i < requiredSlots; i++) {
-      const next = new Date(start)
-      next.setHours(next.getHours() + i)
-
-      if (!slotSet.has(next.toISOString())) {
-        return false
-      }
-    }
-
-    return true
-  })
-}
-
 export const shiftSlotsByHour = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
 
   const shift = (iso: string) => {
@@ -302,4 +280,51 @@ export const subtractHour = (iso: string) => {
   const newM = String(m).padStart(2, "0")
 
   return `${date}T${newH}:${newM}:00Z`
+}
+
+export const filterSlotsByDuration = (
+  slots: ApiTimeSlot[],
+  requiredSlots: number
+): ApiTimeSlot[] => {
+
+  if (requiredSlots <= 1) return slots
+
+  const result: ApiTimeSlot[] = []
+
+  const slotsByDay: Record<string, ApiTimeSlot[]> = {}
+
+  for (const slot of slots) {
+    const day = slot.dateStart.slice(0, 10)
+    if (!slotsByDay[day]) slotsByDay[day] = []
+    slotsByDay[day].push(slot)
+  }
+
+  for (const daySlots of Object.values(slotsByDay)) {
+
+    daySlots.sort((a, b) =>
+      a.dateStart.localeCompare(b.dateStart)
+    )
+
+    for (let i = 0; i <= daySlots.length - requiredSlots; i++) {
+
+      let valid = true
+
+      for (let j = 0; j < requiredSlots - 1; j++) {
+
+        const currentEnd = daySlots[i + j].dateEnd
+        const nextStart = daySlots[i + j + 1].dateStart
+
+        if (currentEnd !== nextStart) {
+          valid = false
+          break
+        }
+      }
+
+      if (valid) {
+        result.push(daySlots[i])
+      }
+    }
+  }
+
+  return result
 }
