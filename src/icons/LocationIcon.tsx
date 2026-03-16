@@ -1,17 +1,13 @@
 import React from "react";
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
-  size?: number;
-  color?: string;
-  className?: string;
+  width?: string
+  height?: string
 }
 
 const LocationIcon: React.FC<IconProps> = ({
   width,
   height
-}: {
-  width?: number
-  height?: number
 }) => {
   return (
     <svg width={width || '20'} height={height || "22"} viewBox="0 0 20 22" fill="none">
