@@ -14,3 +14,15 @@ export const navButtonClass = `
   disabled:hover:border-[var(--color-border)] 
   cursor-pointer
 `;
+
+export const stepClass = `
+  w-full h-[0.5rem] flex items-center justify-center transition-colors duration-300
+`;
+
+export const stepContainer = `
+  relative flex items-center justify-between gap-[4px]
+`;
+
+// export const stepBlockLine = `
+//   h-1 bg-[var(--color-primary)] rounded transition-all duration-300
+// `;

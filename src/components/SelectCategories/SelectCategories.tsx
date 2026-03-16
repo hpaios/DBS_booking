@@ -1,4 +1,5 @@
 import { useCategory } from '../../api/hooks/useCategory'
+import Loader from '../Loader'
 import { categoryStyle } from './SelectCategories.style'
 
 const SelectCategories = ({
@@ -10,20 +11,23 @@ const SelectCategories = ({
 }) => {
   const { data, isLoading, error } = useCategory();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />
   if (error) return <div>Error</div>;
   
   return (
     <div>
-      {data.map((employee: {id: number, firstName: string, avatar: string}) => (
+      {data.map((employee: {id: number, firstName: string, avatar: string, position: string }) => (
 
         <div
           key={employee?.id}
           onClick={() => selectCategory(employee?.id)}
-          className={selectedCategoriesIds.includes(employee?.id) ? `border-white ${categoryStyle}` : `border-transparent ${categoryStyle}`}
+          className={selectedCategoriesIds.includes(employee?.id) ? `border-white ${categoryStyle}` : `border-[var(--color-gray)] ${categoryStyle}`}
         >
-          <img src={employee.avatar} alt="" className='w-[60px] h-[60px] rounded-full'/>
-          <h3 className='text-[var(--font-size)]'>{employee?.firstName}</h3>
+          <img src={employee.avatar} alt={employee?.firstName} className='w-[60px] h-[60px] rounded-full'/>
+          <div>
+            <h4 className='text-[length:var(--font-size)] text-[color:var(--color-icon)]'>{employee?.firstName}</h4>
+            <p className='text-[color:var(--color-disabled-text)] m-0'>{employee?.position}</p>
+          </div>
         </div>
       ))}
     </div>

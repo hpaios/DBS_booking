@@ -86,24 +86,21 @@ const Booking = () => {
   || (currentStep === 2 && isObjectEmpty(selectedSlots))
 
   return (
-    <div className="bg-[var(--color-bg-secondary)] font-['Inter'] p-[1.5rem]">
+    <div className="bg-[var(--color-bg-secondary)] font-['Inter'] p-[1.5rem] rounded-[var(--radius-lg)] mt-[-10px] relative min-h-[480px]">
       <h1 className='text-[var(--color-icon)] text-center'>DBS | Technické centrum & Detailing</h1>
       <h3 className='text-[var(--color-icon)] flex items-center gap-[0.5rem] justify-center'>
         <LocationIcon width={16} height={16}/>
         <div>Františka Kadlece 2441, 180 00 Praha 8-Libeň</div>
       </h3>
-      <h2 className="m-0 text-xs sm:text-sm pt-2 text-center text-[var(--color-text)]">
-        {steps[currentStep]?.label}
-      </h2>
-       
        {
           steps[currentStep]?.key !==  'success_page' &&
           <ProgressBar
-          currentStep={currentStep}
-          handleNextStep={setNextStep}
-          handlePrevStep={setPrevStep}
-          isNextButtonDisabled={isNextButtonDisabled}
-        />
+            label={steps[currentStep]?.label}
+            currentStep={currentStep}
+            handleNextStep={setNextStep}
+            handlePrevStep={setPrevStep}
+            isNextButtonDisabled={isNextButtonDisabled}
+          />
        }
 
       {stepComponentMap[steps[currentStep].key]}
