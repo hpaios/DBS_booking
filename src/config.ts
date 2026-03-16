@@ -13,7 +13,7 @@ export const afternoonSlots: TimeSlot[] = ["12:00", "13:00", "14:00", "15:00", "
 
 export const servicesConfig = [
   {
-    label: 'Akce',
+    label: '🔥 Akce',
     servicesIds: [57822361, 58010425, 58015267, 58015985, 58015870, 58015700],
     parentCategoryId: 308291,
     parentCategoryLabel: 'Autoservis'

@@ -19,15 +19,19 @@ const AccordionItem = ({ item, isOpen, onToggle }: AccordionItemProps) => {
         >
       <button
         onClick={onToggle}
-        className={`w-full flex justify-between items-center p-4 text-left bg-[var(--color-bg-secondary)] text-[var(--color-icon)] border-[var(--color-border)] border-1 p-[var(--space-sm)] rounded-[var(--radius-sm)] cursor-pointer ${
+        className={`w-full flex justify-between items-center p-4 text-left bg-[var(--color-bg-secondary)] text-[var(--color-icon)] border-[var(--color-border)] border-1 p-[var(--space-sm)] rounded-[var(--radius-sm)] cursor-pointer font-semibold ${
             item.isActive
-              ? "border-[var(--color-primary)]"
-              : "border-[var(--color-border)]"
+              ? "border-[var(--color-icon)]"
+              : "border-[var(--color-gray)]"
           }`}
       >
         <span>{item.title}</span>
         <span
-          className={`transition-transform duration-300 flex w-[40px] rounded-full h-[40px] border border-[var(--color-border)] justify-center items-center cursor-pointer`}
+          className={`transition-transform duration-300 flex w-[40px] rounded-full h-[40px] border justify-center items-center cursor-pointer ${
+            item.isActive
+              ? "border-[var(--color-icon)]"
+              : "border-[var(--color-gray)]"
+          }`}
         >
           <ArrowLeft width={16} height={16} className={`text-[var(--color-icon)] ${
             isOpen ? "rotate-90" : "-rotate-90"

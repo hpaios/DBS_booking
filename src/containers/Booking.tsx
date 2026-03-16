@@ -104,6 +104,16 @@ const Booking = () => {
        }
 
       {stepComponentMap[steps[currentStep].key]}
+      {!isNextButtonDisabled &&
+        <div className="fixed bottom-[2rem] left-1/2 -translate-x-1/2 w-full max-w-[660px] px-4 z-50">
+          <div className='p-4 rounded-[var(--radius-lg)] bg-[var(--color-bg-secondary)]'>
+            <button onClick={setNextStep}
+              className='bg-[var(--color-icon)] block text-center text-[var(--color-bg-secondary)] w-full cursor-pointer text-[18px] font-semibold p-2 rounded-[var(--radius-lg)]'>
+                Další
+            </button>
+          </div>
+        </div>
+      }
     </div>
   )
 }

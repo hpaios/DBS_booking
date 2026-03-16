@@ -12,6 +12,7 @@ const ContainerWrapper: React.FC<ContainerWrapperProps> = ({ children }) => {
      <div
       className={HeaderWrapper}
     >
+       <div className="absolute inset-0 bg-gradient-to-b to-transparent via-transparent from-[color:var(--color-bg)]/70 h-[120px] z-5"></div>
       <header
         className={HeaderStyle}
         style={{ backgroundImage: `url(${bgImage})` }}

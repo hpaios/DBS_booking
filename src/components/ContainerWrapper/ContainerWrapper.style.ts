@@ -3,7 +3,8 @@ export const Logo = `
 `;
 
 export const HeaderWrapper = `
-  mx-auto max-w-[600px] w-full rounded-[var(--radius-lg)] box-border mt-[4rem] bg-cover bg-center
+  relative mx-auto max-w-[600px] w-full rounded-[var(--radius-lg)]
+  box-border mt-[4rem] bg-cover bg-center overflow-hidden
 `;
 
 export const HeaderStyle = `
