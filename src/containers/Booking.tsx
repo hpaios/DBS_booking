@@ -10,6 +10,7 @@ import { useLocation } from '../api/hooks/useLocations'
 import SelectSlots from '../components/SelectSlots/SelectSlots'
 import { steps } from '../config'
 import SuccessPage from '../components/SuccessPage/SuccessPage'
+import LocationIcon from '../icons/LocationIcon'
 
 const Booking = () => {
   const [currentStep, setCurrentStep] = useState(0)
@@ -85,8 +86,13 @@ const Booking = () => {
   || (currentStep === 2 && isObjectEmpty(selectedSlots))
 
   return (
-    <div>
-      <h2 className="text-xs sm:text-sm mt-2 text-center text-[var(--color-text)]">
+    <div className="bg-[var(--color-bg-secondary)] font-['Inter'] p-[1.5rem]">
+      <h1 className='text-[var(--color-icon)] text-center'>DBS | Technické centrum & Detailing</h1>
+      <h3 className='text-[var(--color-icon)] flex items-center gap-[0.5rem] justify-center'>
+        <LocationIcon width={16} height={16}/>
+        <div>Františka Kadlece 2441, 180 00 Praha 8-Libeň</div>
+      </h3>
+      <h2 className="m-0 text-xs sm:text-sm pt-2 text-center text-[var(--color-text)]">
         {steps[currentStep]?.label}
       </h2>
        

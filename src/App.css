@@ -26,6 +26,20 @@
     color: var(--color-text);
   }
 
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  h2 {
+    margin-top: 0 !important;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
   /* FIX Chrome autofill */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
