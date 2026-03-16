@@ -7,6 +7,9 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     base: "/",
+    build: {
+      chunkSizeWarningLimit: 1000
+    },
     server: {
       proxy: {
         // 🔵 Публічний API (з токеном)
