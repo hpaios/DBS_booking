@@ -328,3 +328,8 @@ export const filterSlotsByDuration = (
 
   return result
 }
+
+export const formatDuration = (minutes: number): string => {
+  const hours = minutes / 60;
+  return `${hours} hod`;
+};

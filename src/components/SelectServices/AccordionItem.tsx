@@ -19,7 +19,7 @@ const AccordionItem = ({ item, isOpen, onToggle }: AccordionItemProps) => {
         >
       <button
         onClick={onToggle}
-        className={`w-full flex justify-between items-center p-4 text-left bg-[var(--color-bg-secondary)] text-[var(--color-icon)] border-[var(--color-border)] border-1 p-[var(--space-sm)] rounded-[var(--radius-sm)] cursor-pointer font-semibold ${
+        className={`w-full flex justify-between items-center text-left bg-[var(--color-bg-secondary)] text-[var(--color-icon)] border-[var(--color-border)] border-1 py-[var(--space-sm)] px-[var(--space-lg)] rounded-[var(--radius-lg)] cursor-pointer font-semibold ${
             item.isActive
               ? "border-[var(--color-icon)]"
               : "border-[var(--color-gray)]"
@@ -46,9 +46,7 @@ const AccordionItem = ({ item, isOpen, onToggle }: AccordionItemProps) => {
         `}
       >
         <div className="overflow-hidden">
-          <div className="p-4 p-[var(--space-sm)]">
-            <span className="p-[var(--space-sm)]">{item.content}</span>
-          </div>
+          <span className="p-[var(--space-sm)]">{item.content}</span>
         </div>
       </div>
     </div>

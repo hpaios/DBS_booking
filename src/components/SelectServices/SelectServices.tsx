@@ -1,5 +1,8 @@
 import Accordion from "./Accordion";
 import type { MappedCategory, Service } from "../../interfaces";
+import { ExpandableText } from '../ExpandableText'
+import Time from '../../icons/Time'
+import { formatDuration } from '../../utils'
 
 const SelectServices = ({
   servicesList,
@@ -34,15 +37,19 @@ const SelectServices = ({
                 <div
                   key={service.id}
                   onClick={() => handleSelectedService(service)}
-                  className={`flex justify-between rounded p-[var(--space-sm)] mb-[var(--space-sm)] cursor-pointer border
+                  className={`rounded-[var(--radius-xl)] p-[var(--space-lg)] mb-[var(--space-sm)] cursor-pointer border
                   ${
                     isSelected
-                      ? "border-[var(--color-primary)]"
-                      : "border-[var(--color-border)]"
+                      ? "border-[var(--color-icon)]"
+                      : "border-[var(--color-gray)]"
                   }`}
                 >
-                  <span>{service.title}</span>
-                  <span>{service.price} Kč</span>
+                  <h5 className=''>{service.title}</h5>
+                  <ExpandableText text={service.description} />
+                  <div className='flex justify-between'>
+                    <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1'><Time/>{formatDuration(service.durationMinutes as unknown as number)}</div>
+                    <span className='text-[var(--color-icon)] text-[14px] font-semibold'>{service.price} Kč</span>
+                  </div>
                 </div>
               );
             })}
