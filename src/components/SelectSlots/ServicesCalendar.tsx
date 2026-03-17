@@ -21,13 +21,13 @@ const ServicesCalendar = ({
   const daySlots = calendar[selectedDate];
 
   return (
-    <div className="flex flex-col gap-4 p-4 rounded">
+    <div className={"flex flex-col gap-4"}>
       <Calendar
         calendar={calendar}
         selectedDate={selectedDate}
         onSelect={onSelectDate}
       />
-
+      <span className='text-[var(--color-gray)] text-[14px] block text-center'>Čas je zobrazen pro časové pásmo: Europe/Prague</span>
       <SlotsList
         slots={daySlots}
         selectedTimes={selectedTimes}

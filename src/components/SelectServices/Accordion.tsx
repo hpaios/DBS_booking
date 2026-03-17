@@ -28,7 +28,7 @@ const Accordion = ({ items, defaultOpenIds = [] }: AccordionProps) => {
   };
 
   return (
-    <div className="w-full">
+    <>
       {items.map((item) => (
         <AccordionItem
           key={item.id}
@@ -37,7 +37,7 @@ const Accordion = ({ items, defaultOpenIds = [] }: AccordionProps) => {
           onToggle={() => toggle(item.id)}
         />
       ))}
-    </div>
+    </>
   );
 };
 

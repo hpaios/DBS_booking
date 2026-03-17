@@ -12,7 +12,7 @@ const Calendar = ({
 }) => {
   const days = Object.keys(calendar)
   return (
-    <div className="flex gap-[10px] overflow-x-auto">
+    <div className="flex gap-[1rem] overflow-x-auto">
       {days.map((day) => {
 
         const formatted = formatIsoDateCs(day);
@@ -28,7 +28,7 @@ const Calendar = ({
             key={day}
             onClick={() => onSelect(day)}
             disabled={isDisabled}
-            className={`border rounded text-[var(--color-icon)] flex gap-[10px] flex-col p-[var(--space-lg)] rounded-[1rem] cursor-pointer hover:border-[var(--color-icon)]
+            className={`border rounded text-[var(--color-icon)] flex gap-[5px] flex-col py-[var(--space-lg)] px-[22px] rounded-[1rem] cursor-pointer hover:border-[var(--color-icon)]
             disabled:bg-[var(--color-disabled)] 
             disabled:cursor-not-allowed 
             disabled::border-[var(--color-disabled)]

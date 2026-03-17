@@ -38,7 +38,7 @@ const SelectSlots = ({
   .map(s => s!.slot.dateStart)
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className={`flex flex-col gap-8 ${selectedTimes.length ? 'pb-[100px]' : 'pb-1'}`}>
       {weekSchedule && servicesTimeSlots.map((employeeId) => {
         const employeeIdNum = Number(employeeId)
 
@@ -66,14 +66,14 @@ const SelectSlots = ({
 
         return (
           <div key={employeeId}>
-            <h2>{employeeServices[0].parentCategoryLabel} služby:</h2>
+            <h2 className='text-[var(--color-icon)] text-[16px] font-semibold'>{employeeServices[0].parentCategoryLabel} služby:</h2>
 
             {employeeServices.map(service => (
               <div key={service.id}>
-                <div className='mb-[var(--space-sm)]'>{service.title}</div>
+                <div className='text-[var(--color-icon)] text-[16px]'>{service.title}</div>
                 <div className='flex justify-between mb-[var(--space-sm)]'>
-                  <span>{formatDurationCsShort(service.durationMinutes)}</span>
-                  <span>{service.price} Kč</span>
+                  <span className='text-[var(--color-border)]'>{formatDurationCsShort(service.durationMinutes)}</span>
+                  <span className='text-[var(--color-icon)] text-[16px]'>{service.price} Kč</span>
                 </div>
               </div>
             ))}

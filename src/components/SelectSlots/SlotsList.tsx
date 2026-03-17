@@ -17,10 +17,10 @@ const SlotsList = ({
 }) => {
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className={`flex flex-col gap-6`}>
       {slots.morning.length > 0 && (
         <div>
-          <h4 className="mb-2">Ráno</h4>
+          <div className="mb-[var(--space-sm)] text-[var(--color-icon)] font-semibold">Ráno</div>
           <div className="grid grid-cols-3 gap-[10px]">
             {slots.morning.map((slot) => {
               const isDisabled = selectedTimes.includes(slot.dateStart) && selectedSlot?.dateStart !== slot.dateStart
@@ -45,7 +45,7 @@ const SlotsList = ({
 
       {slots.afternoon.length > 0 && (
         <div>
-          <h4 className="mb-2">Odpoledne</h4>
+          <div className="mb-[var(--space-sm)] text-[var(--color-icon)] font-semibold">Odpoledne</div>
           <div className="grid grid-cols-3 gap-[10px]">
             {slots.afternoon.map((slot) => {
               const isDisabled = selectedTimes.includes(slot.dateStart) && selectedSlot?.dateStart !== slot.dateStart

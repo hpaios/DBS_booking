@@ -92,7 +92,7 @@ const Booking = () => {
         <LocationIcon width={"16"} height={"16"}/>
         <div>Františka Kadlece 2441, 180 00 Praha 8-Libeň</div>
       </h3>
-       {
+        {
           steps[currentStep]?.key !==  'success_page' &&
           <ProgressBar
             label={steps[currentStep]?.label}
@@ -104,7 +104,8 @@ const Booking = () => {
        }
 
       {stepComponentMap[steps[currentStep].key]}
-      {!isNextButtonDisabled &&
+      {!isNextButtonDisabled && steps[currentStep]?.key !==  'success_page'
+      && steps[currentStep]?.key !== 'booking_confirmation' &&
         <div className="fixed bottom-[2rem] left-1/2 -translate-x-1/2 w-full max-w-[660px] px-4 z-50">
           <div className='p-4 rounded-[var(--radius-lg)] bg-[var(--color-bg-secondary)]'>
             <button onClick={setNextStep}

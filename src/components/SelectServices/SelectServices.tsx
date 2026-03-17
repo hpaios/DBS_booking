@@ -2,7 +2,7 @@ import Accordion from "./Accordion";
 import type { MappedCategory, Service } from "../../interfaces";
 import { ExpandableText } from '../ExpandableText'
 import Time from '../../icons/Time'
-import { formatDuration } from '../../utils'
+import { formatDurationCsShort } from '../../utils'
 
 const SelectServices = ({
   servicesList,
@@ -47,7 +47,7 @@ const SelectServices = ({
                   <h5 className=''>{service.title}</h5>
                   <ExpandableText text={service.description} />
                   <div className='flex justify-between'>
-                    <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1'><Time/>{formatDuration(service.durationMinutes as unknown as number)}</div>
+                    <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1'><Time/>{formatDurationCsShort(service.durationMinutes as unknown as number)}</div>
                     <span className='text-[var(--color-icon)] text-[14px] font-semibold'>{service.price} Kč</span>
                   </div>
                 </div>
@@ -62,7 +62,7 @@ const SelectServices = ({
   if (!servicesList.length) return null;
 
   return (
-    <div>
+    <div className={selectedServices.length ? 'pb-[100px]' : 'pb-1'}>
       <Accordion items={accordionItems()} />
     </div>
   );
