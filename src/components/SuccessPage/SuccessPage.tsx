@@ -11,7 +11,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
   const services = groupServicesToArray(selectedServices)
 
   const getFirstSlotInfo = (
-    group: GroupedArray[],
+    group: GroupedArray,
     selectedSlots: Record<number, SelectedSlot | null>
   ) => {
     const parentCategoryId = group.services[0]?.parentCategoryId

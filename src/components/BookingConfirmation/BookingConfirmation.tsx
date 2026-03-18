@@ -115,7 +115,6 @@ const BookingConfirmation = ({
           initOptions={{
             initialCountry: "cz",
             nationalMode: false,
-            autoHideDialCode: false,
             separateDialCode: false,
           }}
           inputProps={{
