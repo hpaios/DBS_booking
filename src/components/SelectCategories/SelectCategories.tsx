@@ -15,7 +15,7 @@ const SelectCategories = ({
   if (error) return <div>Error</div>;
   
   return (
-    <div>
+    <div className={`${selectedCategoriesIds.length ? 'pb-[100px]' : 'pb-1'}`}>
       {data.map((employee: {id: number, firstName: string, avatar: string, position: string }) => (
 
         <div
