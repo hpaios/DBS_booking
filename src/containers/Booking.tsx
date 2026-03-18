@@ -90,9 +90,9 @@ const Booking = () => {
   || (currentStep === 2 && isObjectEmpty(selectedSlots))
 
   return (
-    <div className="bg-[var(--color-bg-secondary)] font-['Inter'] p-[1.5rem] rounded-[var(--radius-lg)] mt-[-10px] relative min-h-[480px]">
+    <div className="bg-[var(--color-bg-secondary)] font-sans p-[1.5rem] rounded-[var(--radius-lg)] mt-[-10px] relative min-h-[480px]">
       <h1 className='text-[var(--color-icon)] text-center font-sans'>DBS | Technické centrum & Detailing</h1>
-      <h3 className='text-[var(--color-icon)] flex items-center gap-[0.5rem] justify-center font-[Inter]'>
+      <h3 className='text-[var(--color-icon)] flex items-center gap-[0.5rem] justify-center font-sans'>
         <LocationIcon width={"16"} height={"16"}/>
         <div>Františka Kadlece 2441, 180 00 Praha 8-Libeň</div>
       </h3>
@@ -113,7 +113,7 @@ const Booking = () => {
         <div className="fixed bottom-[2rem] left-1/2 -translate-x-1/2 w-full max-w-[660px] px-4 z-50">
           <div className='p-4 rounded-[var(--radius-lg)] bg-[var(--color-bg-secondary)]'>
             <button onClick={setNextStep}
-              className='bg-[var(--color-icon)] block text-center text-[var(--color-bg-secondary)] w-full cursor-pointer text-[18px] font-semibold p-2 rounded-[var(--radius-lg)]'>
+              className='bg-[var(--color-icon)] block text-center text-[var(--color-bg-secondary)] w-full cursor-pointer text-[18px] font-semibold p-2 rounded-[var(--radius-lg)] font-sans'>
                 Další
             </button>
           </div>

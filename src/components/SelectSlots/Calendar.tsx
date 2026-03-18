@@ -28,7 +28,7 @@ const Calendar = ({
             key={day}
             onClick={() => onSelect(day)}
             disabled={isDisabled}
-            className={`border rounded text-[var(--color-icon)] flex gap-[5px] flex-col py-[var(--space-lg)] px-[22px] rounded-[1rem] cursor-pointer hover:border-[var(--color-icon)]
+            className={`border rounded text-[var(--color-icon)] font-sans flex gap-[5px] flex-col py-[var(--space-lg)] px-[22px] rounded-[1rem] cursor-pointer hover:border-[var(--color-icon)]
             disabled:bg-[var(--color-disabled)] 
             disabled:cursor-not-allowed 
             disabled::border-[var(--color-disabled)]

@@ -3,10 +3,10 @@ export const Logo = `
 `;
 
 export const HeaderWrapper = `
-  font-[Inter] relative mx-auto max-w-[600px] w-full rounded-[var(--radius-lg)]
+  relative mx-auto max-w-[600px] w-full rounded-[var(--radius-lg)]
   box-border md:mt-[4rem] mt-[1rem] bg-cover bg-center overflow-hidden
 `;
 
 export const HeaderStyle = `
-  relative h-[120px] bg-cover bg-center rounded-t-[1rem] font-[Inter]
+  relative h-[120px] bg-cover bg-center rounded-t-[1rem]
 `;

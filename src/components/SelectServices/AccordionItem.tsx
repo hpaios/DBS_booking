@@ -19,7 +19,7 @@ const AccordionItem = ({ item, isOpen, onToggle }: AccordionItemProps) => {
         >
       <button
         onClick={onToggle}
-        className={`w-full flex justify-between items-center text-left bg-[var(--color-bg-secondary)] text-[var(--color-icon)] border-[var(--color-border)] border-1 py-[var(--space-sm)] px-[var(--space-lg)] rounded-[var(--radius-lg)] cursor-pointer font-semibold ${
+        className={`w-full flex justify-between items-center text-left bg-[var(--color-bg-secondary)] text-[var(--color-icon)] border-[var(--color-border)] border-1 py-[var(--space-sm)] px-[var(--space-lg)] rounded-[var(--radius-lg)] cursor-pointer font-semibold font-sans ${
             item.isActive
               ? "border-[var(--color-icon)]"
               : "border-[var(--color-gray)]"

@@ -66,19 +66,19 @@ const SelectSlots = ({
 
         return (
           <div key={employeeId}>
-            <h2 className='text-[var(--color-icon)] text-[16px] font-semibold font-[Inter]'>{employeeServices[0].parentCategoryLabel} služby:</h2>
+            <h2 className='text-[var(--color-icon)] text-[16px] font-semibold font-sans'>{employeeServices[0].parentCategoryLabel} služby:</h2>
 
             {employeeServices.map(service => (
               <div key={service.id}>
-                <div className='text-[var(--color-icon)] text-[16px]'>{service.title}</div>
+                <div className='text-[var(--color-icon)] text-[16px] font-sans'>{service.title}</div>
                 <div className='flex justify-between mb-[var(--space-sm)]'>
-                  <span className='text-[var(--color-border)]'>{formatDurationCsShort(service.durationMinutes)}</span>
-                  <span className='text-[var(--color-icon)] text-[16px]'>{service.price} Kč</span>
+                  <span className='text-[var(--color-border)] font-sans'>{formatDurationCsShort(service.durationMinutes)}</span>
+                  <span className='text-[var(--color-icon)] text-[16px] font-sans'>{service.price} Kč</span>
                 </div>
               </div>
             ))}
 
-            <div className='flex justify-between mb-[var(--space-xl)]'>
+            <div className='flex justify-between mb-[var(--space-xl)] font-sans'>
               <span>Celkem: </span>
               <span>{totalPrice} Kč</span>
             </div>
