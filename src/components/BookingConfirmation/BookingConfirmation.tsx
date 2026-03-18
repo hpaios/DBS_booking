@@ -1,4 +1,5 @@
 import { useState } from "react"
+import ReCAPTCHA from "react-google-recaptcha";
 import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
@@ -27,6 +28,7 @@ const BookingConfirmation = ({
   const [email, setEmail] = useState("")
   const [vin, setVin] = useState("")
   const [comment, setComment] = useState("")
+  const [isRecaptcaValid, setIsRecaptcaValid] = useState(false)
 
   const [touched, setTouched] = useState(false)
 
@@ -88,6 +90,10 @@ const BookingConfirmation = ({
   }
 
   const services = groupServicesToArray(selectedServices)
+
+  const onChangeRecaptcha = (value: string | null) => {
+    setIsRecaptcaValid(!!value)
+  }
 
   return (
     <div className="space-y-4">
@@ -164,10 +170,17 @@ const BookingConfirmation = ({
           className={`${inputClass} resize-none h-[60px]`}
         />
       </div>
+      
+      <div className='flex w-full justify-center'>
+         <ReCAPTCHA
+          sitekey='6LeP2Y4sAAAAAL33B9ibyhVWlUNb8VAMBvJlMzRI'
+          onChange={(value: string | null) => onChangeRecaptcha(value)}
+        />
+      </div>
 
       <button
         onClick={handleSubmit}
-        disabled={!isFormValid}
+        disabled={!isFormValid || !isRecaptcaValid}
         className={btnSubmitStyle}
       >
         Odeslat
