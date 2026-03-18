@@ -352,23 +352,6 @@ export const groupServicesToArray = (services: Service[]): GroupedArray[] => {
   }));
 };
 
-// export const formatDateCsCustom = (date: string) => {
-//   const d = new Date(date)
-
-//   const weekday = new Intl.DateTimeFormat("cs-CZ", {
-//     weekday: "long"
-//   }).format(d)
-
-//   const day = new Intl.DateTimeFormat("cs-CZ", {
-//     day: "numeric"
-//   }).format(d)
-
-//   const month = new Intl.DateTimeFormat("cs-CZ", {
-//     month: "long"
-//   }).format(d)
-
-//   return `${weekday}, ${day} ${month}`
-// }
 export const formatBookingDateTimeCs = (
   date: string,
   time: string
