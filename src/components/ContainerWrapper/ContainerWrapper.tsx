@@ -1,5 +1,5 @@
 import React from "react";
-import bgImage from "../../assets/bg.png";
+import bgImage from "../../assets/bg.avif";
 import logo from "../../assets/logo.png";
 import { HeaderStyle, HeaderWrapper, Logo } from './ContainerWrapper.style'
 

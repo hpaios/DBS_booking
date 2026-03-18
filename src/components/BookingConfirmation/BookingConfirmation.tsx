@@ -28,7 +28,7 @@ const BookingConfirmation = ({
   const [email, setEmail] = useState("")
   const [vin, setVin] = useState("")
   const [comment, setComment] = useState("")
-  const [isRecaptcaValid, setIsRecaptcaValid] = useState(false)
+  // const [isRecaptcaValid, setIsRecaptcaValid] = useState(false)
 
   const [touched, setTouched] = useState(false)
 
@@ -92,7 +92,8 @@ const BookingConfirmation = ({
   const services = groupServicesToArray(selectedServices)
 
   const onChangeRecaptcha = (value: string | null) => {
-    setIsRecaptcaValid(!!value)
+    console.log(value)
+    // setIsRecaptcaValid(!!value)
   }
 
   return (
