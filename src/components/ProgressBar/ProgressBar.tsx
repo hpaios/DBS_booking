@@ -29,7 +29,7 @@ const ProgressBar = ({
         >
           <ArrowLeft width={16} height={30} color={currentStep === 0 ? "var(--color-border)" : "var(--color-icon)"} />
         </button>
-        <h2 className="text-center text-[var(--color-icon)]">
+        <h2 className="text-center text-[var(--color-icon)] font-[Inter]">
           {label}
         </h2>
         <button

@@ -66,7 +66,7 @@ const SelectSlots = ({
 
         return (
           <div key={employeeId}>
-            <h2 className='text-[var(--color-icon)] text-[16px] font-semibold'>{employeeServices[0].parentCategoryLabel} služby:</h2>
+            <h2 className='text-[var(--color-icon)] text-[16px] font-semibold font-[Inter]'>{employeeServices[0].parentCategoryLabel} služby:</h2>
 
             {employeeServices.map(service => (
               <div key={service.id}>
