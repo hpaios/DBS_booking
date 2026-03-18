@@ -91,7 +91,7 @@ const Booking = () => {
 
   return (
     <div className="bg-[var(--color-bg-secondary)] font-['Inter'] p-[1.5rem] rounded-[var(--radius-lg)] mt-[-10px] relative min-h-[480px]">
-      <h1 className='text-[var(--color-icon)] text-center font-[Inter]'>DBS | Technické centrum & Detailing</h1>
+      <h1 className='text-[var(--color-icon)] text-center font-sans'>DBS | Technické centrum & Detailing</h1>
       <h3 className='text-[var(--color-icon)] flex items-center gap-[0.5rem] justify-center font-[Inter]'>
         <LocationIcon width={"16"} height={"16"}/>
         <div>Františka Kadlece 2441, 180 00 Praha 8-Libeň</div>
