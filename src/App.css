@@ -17,11 +17,13 @@
     src: url('/fonts/inter-600.woff2') format('woff2');
   }
 
-@layer base {
-
-  html {
-    font-family: 'Inter', sans-serif;
+  html,
+  body,
+  #root {
+    font-family: "Inter", Arial, sans-serif;
   }
+
+@layer base {
 
   body {
     background: var(--color-bg);

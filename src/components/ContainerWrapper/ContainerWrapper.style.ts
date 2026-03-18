@@ -4,7 +4,7 @@ export const Logo = `
 
 export const HeaderWrapper = `
   relative mx-auto max-w-[600px] w-full rounded-[var(--radius-lg)]
-  box-border mt-[4rem] bg-cover bg-center overflow-hidden
+  box-border md:mt-[4rem] mt-0 bg-cover bg-center overflow-hidden
 `;
 
 export const HeaderStyle = `
