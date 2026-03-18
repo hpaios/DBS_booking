@@ -1,5 +1,5 @@
 import { afternoonSlots, morningSlots } from './config'
-import type { ApiTimeSlot, Category, DaySlots, FormattedDate, GroupedServices, MappedCategory, Service, WeekScheduleItem } from './interfaces'
+import type { ApiTimeSlot, Category, DaySlots, FormattedDate, GroupedArray, GroupedServices, GroupedServicesByCategory, MappedCategory, Service, WeekScheduleItem } from './interfaces'
 
 export const isObjectEmpty = (obj: Record<string, unknown>) =>
   obj && Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -329,7 +329,66 @@ export const filterSlotsByDuration = (
   return result
 }
 
-// export const formatDuration = (minutes: number): string => {
-//   const hours = minutes / 60;
-//   return `${hours} hod`;
-// };
+export const groupByCategory = (services: Service[]): GroupedServicesByCategory => {
+  return services.reduce((acc, service) => {
+    const key = service.parentCategoryLabel;
+
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+
+    acc[key].push(service);
+
+    return acc;
+  }, {} as GroupedServicesByCategory);
+};
+
+export const groupServicesToArray = (services: Service[]): GroupedArray[] => {
+  const grouped = groupByCategory(services);
+
+  return Object.entries(grouped).map(([label, services]) => ({
+    label,
+    services
+  }));
+};
+
+// export const formatDateCsCustom = (date: string) => {
+//   const d = new Date(date)
+
+//   const weekday = new Intl.DateTimeFormat("cs-CZ", {
+//     weekday: "long"
+//   }).format(d)
+
+//   const day = new Intl.DateTimeFormat("cs-CZ", {
+//     day: "numeric"
+//   }).format(d)
+
+//   const month = new Intl.DateTimeFormat("cs-CZ", {
+//     month: "long"
+//   }).format(d)
+
+//   return `${weekday}, ${day} ${month}`
+// }
+export const formatBookingDateTimeCs = (
+  date: string,
+  time: string
+) => {
+  const d = new Date(`${date}T${time}:00`)
+
+  const parts = new Intl.DateTimeFormat("cs-CZ", {
+    weekday: "long",
+    day: "numeric",
+    month: "long"
+  }).formatToParts(d)
+
+  const weekday = parts.find(p => p.type === "weekday")?.value ?? ""
+  const day = parts.find(p => p.type === "day")?.value ?? ""
+  const month = parts.find(p => p.type === "month")?.value ?? ""
+
+  const formattedTime = new Intl.DateTimeFormat("cs-CZ", {
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(d)
+
+  return `${weekday}, ${day} ${month} v ${formattedTime}`
+}

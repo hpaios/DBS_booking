@@ -88,3 +88,12 @@ export interface SelectedSlot {
   date: string
   slot: ApiTimeSlot
 }
+
+export interface GroupedArray {
+  label: string
+  services: Service[]
+}
+
+export type GroupedServicesByCategory = {
+  [key: string]: Service[];
+};

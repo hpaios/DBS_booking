@@ -46,14 +46,9 @@ const ProgressBar = ({
       </div>
 
       <div className={stepContainer}>
-          {/* <div
-            className={stepBlockLine}
-            style={{
-              width: `${(currentStep / (steps.length - 1)) * 100}%`,
-            }}
-          /> */}
-
-        {steps.map((step, index) => {
+        {steps
+        .filter(step => step.key !== "success_page")
+        .map((step, index) => {
           const isCompletedOrActive = index <= currentStep;
           const isFirst = index === 0;
           const isLast = index === steps.length - 1;
@@ -63,14 +58,14 @@ const ProgressBar = ({
               key={step.key}
               className="flex flex-col items-center z-10 cursor-pointer w-full"
               onClick={() => handleNextStep()}
-            >
+              >
               <div
                 className={`${stepClass}
                   ${isCompletedOrActive ? "bg-[var(--color-icon)]" : "bg-[var(--color-gray)]"}
                   ${isFirst ? "rounded-l-full" : ""}
                   ${isLast ? "rounded-r-full" : ""}
-              `}
-            />
+                `}
+              />
             </div>
           );
         })}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ProgressBar from '../components/ProgressBar/ProgressBar'
 import SelectServices from '../components/SelectServices/SelectServices'
 import SelectCategories from '../components/SelectCategories/SelectCategories'
-import BookingConfirmation from '../components/BookingConfirmation'
+import BookingConfirmation from '../components/BookingConfirmation/BookingConfirmation'
 import type { SelectedSlot, Service, StepKey } from '../interfaces'
 import { useGroupedServices } from '../hooks/useGroupedServices'
 import { isObjectEmpty, toggleId, toggleObjectById } from '../utils'
@@ -20,6 +20,10 @@ const Booking = () => {
   const [selectedServices, setSelectedServices] = useState<Service[]>([])
   const [selectedSlots, setSelectedSlots] = useState<Record<number, SelectedSlot | null>>({})
   const [selectedDates, setSelectedDates] = useState<Record<number, string>>({})
+
+
+  console.log('selectedDates', selectedDates)
+  console.log('selectedSlots', selectedSlots)
 
   const handleSelectCategory = (id: number) => {
     setSelectedCategoriesIds(prev => {
@@ -70,7 +74,7 @@ const Booking = () => {
      setCurrentStep={setCurrentStep}
      currentStep={currentStep}
     />,
-    success_page: <SuccessPage />
+    success_page: <SuccessPage selectedServices={selectedServices}  selectedSlots={selectedSlots}/>
   }
 
   const setNextStep = () => {

@@ -1,9 +1,11 @@
 import { useState } from "react"
 import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
-import type { SelectedSlot, Service } from "../interfaces"
-import { createAppointment } from '../api/api/requests'
-import { subtractHour } from '../utils'
+import type { SelectedSlot, Service } from "../../interfaces"
+import { createAppointment } from '../../api/api/requests'
+import { groupServicesToArray, subtractHour } from '../../utils'
+import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
+import SummaryOrder from './SummaryOrder'
 
 const BookingConfirmation = ({
   selectedServices,
@@ -30,7 +32,11 @@ const BookingConfirmation = ({
 
   const isValidEmail = /\S+@\S+\.\S+/.test(email)
   const isValidName = name.trim().length > 1
-  const isValidVin = vin.trim().length >= 6
+
+  const hasCategoryAutoservice = selectedServices.some(
+  service => service.parentCategoryId === 308291
+  )
+  const isValidVin = hasCategoryAutoservice ? (vin.trim().length >= 6) : true
 
   const isFormValid =
     isValidPhone &&
@@ -55,11 +61,14 @@ const BookingConfirmation = ({
         s => s.parentCategoryId === Number(employeeId)
       )
 
+      const commentWithVin = vin.length ? `VIN: ${vin}
+      comment: ${comment}` : comment
+
       return createAppointment({
         name,
         phone: phoneNumber,
         vin,
-        comment,
+        comment: commentWithVin,
         employeeId: Number(employeeId),
         serviceIds: employeeServices.map(s => s.id),
         // @ts-ignore
@@ -73,88 +82,52 @@ const BookingConfirmation = ({
 
   const success = responses.every(res => res?.data?.hash)
 
-  if (success) {
-    setCurrentStep(currentStep + 1)
+    if (success) {
+      setCurrentStep(currentStep + 1)
+    }
   }
-}
 
-
-  // const handleSubmit = async () => {
-  // setTouched(true)
-
-  // if (!isFormValid || !phoneNumber) return
-
-  //   const dateEnd = selectedSlots[selectedServices[0]?.parentCategoryId]?.slot.dateStart as string;
-
-  //   // TODO: IMPORTANT - при букинге в crm запись идет на +1 час
-  //   // винужденная мера вот таким костылем задавать время на -1час
-  //   const dateStart = getDateStart(dateEnd, 60)
-
-  //   const { data } = await createAppointment({
-  //     name,
-  //     phone: phoneNumber,
-  //     vin,
-  //     comment,
-  //     employeeId: selectedServices[0]?.parentCategoryId,
-  //     serviceIds: selectedServices.map(s => s.id),
-  //     // @ts-ignore
-  //     dateStart: dateStart,
-  //     // @ts-ignore
-  //     dateEnd: dateEnd
-  //   })
-
-  //   if (data && data.hash) {
-  //     setCurrentStep(currentStep + 1)
-  //   }
-  // }
-  
-  console.log('selectedServices', selectedServices)
-  console.log('selectedSlots', selectedSlots)
-
-  const inputClass =
-    "w-full outline-none bg-transparent text-[var(--color-icon)] px-[var(--space-md)] py-[var(--space-lg)] border-none"
-
-  const wrapperClass =
-    "w-full border rounded-[1rem] transition border-[var(--color-gray)] hover:border-[var(--color-icon)] focus-within:border-[var(--color-icon)] my-[1rem]"
+  const services = groupServicesToArray(selectedServices)
 
   return (
     <div className="space-y-4">
-      <div className='my-[1rem]'>
-        {selectedServices[0]?.parentCategoryLabel}
+      {<SummaryOrder services={services} />}
+      <div className="flex justify-between pt-[var(--space-sm)] mt-[var(--space-md)]">
       </div>
-      <div className='my-[1rem]'>{selectedServices[0]?.title}</div>
-
       <div className={wrapperClass}>
         <input
           type="text"
-          placeholder="Name"
+          placeholder="Jméno"
           value={name}
           onChange={(e) => setName(e.target.value)}
           onBlur={() => setTouched(true)}
           className={inputClass}
         />
+        {touched && !isValidName && (
+          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">Zadejte své jméno</p>
+        )}
       </div>
-
-      {touched && !isValidName && (
-        <p className="text-[var(--color-red)] text-sm">Enter your name</p>
-      )}
 
       <div className={wrapperClass}>
         <IntlTelInput
           onChangeNumber={setNumber}
           onChangeValidity={setIsValidPhone}
-          initOptions={{ initialCountry: "cz" }}
+          initOptions={{
+            initialCountry: "cz",
+            nationalMode: false,
+            autoHideDialCode: false,
+            separateDialCode: false,
+          }}
           inputProps={{
             className: inputClass,
             onBlur: () => setTouched(true),
-            placeholder: "Phone number"
+            placeholder: "Telefon"
           }}
         />
+        {touched && !isValidPhone && (
+          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">Neplatné telefonní číslo</p>
+        )}
       </div>
-
-      {touched && !isValidPhone && (
-        <p className="text-[var(--color-red)] text-sm">Invalid phone number</p>
-      )}
 
       <div className={wrapperClass}>
         <input
@@ -165,26 +138,24 @@ const BookingConfirmation = ({
           onBlur={() => setTouched(true)}
           className={inputClass}
         />
+        {touched && !isValidEmail && (
+          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">Neplatný e-mail</p>
+        )}
       </div>
-
-      {touched && !isValidEmail && (
-        <p className="text-[var(--color-red)] text-sm">Invalid email</p>
-      )}
 
       <div className={wrapperClass}>
         <input
           type="text"
-          placeholder="VIN number"
+          placeholder="Číslo VIN"
           value={vin}
           onChange={(e) => setVin(e.target.value)}
           onBlur={() => setTouched(true)}
           className={inputClass}
         />
+        {touched && !isValidVin && (
+          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">Zadejte číslo VIN</p>
+        )}
       </div>
-
-      {touched && !isValidVin && (
-        <p className="text-[var(--color-red)] text-sm">Enter VIN number</p>
-      )}
 
       <div className={wrapperClass}>
         <textarea
@@ -198,9 +169,9 @@ const BookingConfirmation = ({
       <button
         onClick={handleSubmit}
         disabled={!isFormValid}
-        className="mt-4 w-full px-[1rem] py-3 bg-black text-white rounded-xl disabled:opacity-50"
+        className={btnSubmitStyle}
       >
-        Confirm booking
+        Odeslat
       </button>
     </div>
   )
