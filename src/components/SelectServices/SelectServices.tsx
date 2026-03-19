@@ -3,15 +3,20 @@ import type { MappedCategory, Service } from "../../interfaces";
 import { ExpandableText } from '../ExpandableText'
 import Time from '../../icons/Time'
 import { formatDurationCsShort } from '../../utils'
+import Loader from '../Loader'
 
 const SelectServices = ({
   servicesList,
   selectedServices,
   handleSelectedService,
+  isLoading,
+  error
 }: {
   servicesList: MappedCategory[];
   selectedServices: Service[];
   handleSelectedService: (service: Service) => void
+  isLoading: boolean
+  error: Error | null | undefined
 }) => {
 
   const selectedIds = new Set(selectedServices.map((s) => s.id));
@@ -65,6 +70,9 @@ const SelectServices = ({
   };
 
   if (!servicesList.length) return null;
+
+  if (isLoading) return <Loader />
+  if (error) return <div>Error</div>;
 
   return (
     <div className={selectedServices.length ? 'pb-[100px]' : 'pb-1'}>

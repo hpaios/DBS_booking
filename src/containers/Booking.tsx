@@ -15,15 +15,11 @@ import LocationIcon from '../icons/LocationIcon'
 const Booking = () => {
   const [currentStep, setCurrentStep] = useState(0)
   const [selectedCategoriesIds, setSelectedCategoriesIds] = useState<number[]>([])
-  const { groupedServices } = useGroupedServices(selectedCategoriesIds)
+  const { groupedServices, isLoading, error } = useGroupedServices(selectedCategoriesIds)
   const { data: location } = useLocation()
   const [selectedServices, setSelectedServices] = useState<Service[]>([])
   const [selectedSlots, setSelectedSlots] = useState<Record<number, SelectedSlot | null>>({})
   const [selectedDates, setSelectedDates] = useState<Record<number, string>>({})
-
-
-  console.log('groupedServices', groupedServices)
-  console.log('selectedServices', selectedServices)
 
   const handleSelectCategory = (id: number) => {
     setSelectedCategoriesIds(prev => {
@@ -56,6 +52,9 @@ const Booking = () => {
       servicesList={groupedServices}
       handleSelectedService={handleSelectServices}
       selectedServices={selectedServices}
+      isLoading={isLoading}
+      error={error}
+
     />,
     select_slots: <SelectSlots
       selectedServices={selectedServices}

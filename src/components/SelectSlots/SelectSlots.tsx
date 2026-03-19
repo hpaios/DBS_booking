@@ -1,6 +1,7 @@
 import { useTimeSlots } from '../../api/hooks/useTimeslots'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
 import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, shiftSlotsByHour, filterSlotsByDuration } from '../../utils'
+import Loader from '../Loader'
 import ServicesCalendar from './ServicesCalendar'
 
 interface SelectSlotProps {
@@ -22,7 +23,7 @@ const SelectSlots = ({
 }: SelectSlotProps) => {
 
   const uniqueParentCategoryIds = getUniqueParentCategoryIds(selectedServices)
-  const { timeSlots } = useTimeSlots(uniqueParentCategoryIds)
+  const { timeSlots, isLoading, isError } = useTimeSlots(uniqueParentCategoryIds)
   
   const servicesTimeSlots = Object.keys(timeSlots)
 
@@ -36,6 +37,9 @@ const SelectSlots = ({
   const selectedTimes = Object.values(selectedSlots)
   .filter(Boolean)
   .map(s => s!.slot.dateStart)
+
+  if (isLoading) return <Loader />
+  if (isError) return <div>Error</div>;
 
   return (
     <div className={`flex flex-col gap-8 ${selectedTimes.length ? 'pb-[100px]' : 'pb-1'}`}>
