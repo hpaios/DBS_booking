@@ -22,8 +22,8 @@ const Booking = () => {
   const [selectedDates, setSelectedDates] = useState<Record<number, string>>({})
 
 
-  console.log('selectedDates', selectedDates)
-  console.log('selectedSlots', selectedSlots)
+  console.log('groupedServices', groupedServices)
+  console.log('selectedServices', selectedServices)
 
   const handleSelectCategory = (id: number) => {
     setSelectedCategoriesIds(prev => {

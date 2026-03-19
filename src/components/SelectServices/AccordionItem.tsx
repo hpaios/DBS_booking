@@ -8,6 +8,7 @@ type AccordionItemProps = {
     title: ReactNode;
     content: ReactNode;
     isActive: boolean;
+    selectedCount: number;
   };
   isOpen: boolean;
   onToggle: () => void;
@@ -25,7 +26,7 @@ const AccordionItem = ({ item, isOpen, onToggle }: AccordionItemProps) => {
               : "border-[var(--color-gray)]"
           }`}
       >
-        <span>{item.title}</span>
+        <span>{item.title} {item.selectedCount > 0 ? `(${item.selectedCount})` : ''}</span>
         <span
           className={`transition-transform duration-300 flex w-[40px] rounded-full h-[40px] border justify-center items-center cursor-pointer ${
             item.isActive

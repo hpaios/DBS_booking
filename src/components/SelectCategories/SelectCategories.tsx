@@ -16,6 +16,7 @@ const SelectCategories = ({
   
   return (
     <div className={`${selectedCategoriesIds.length ? 'pb-[100px]' : 'pb-1'}`}>
+      <p className='text-[var(--color-icon)] text-[14px]'>👉 Můžete vybrat více kategorií</p>
       {data.map((employee: {id: number, firstName: string, avatar: string, position: string }) => (
 
         <div
@@ -25,8 +26,8 @@ const SelectCategories = ({
         >
           <img src={employee.avatar} alt={employee?.firstName} className='w-[60px] h-[60px] rounded-full'/>
           <div>
-            <h4 className='text-[length:var(--font-size)] text-[color:var(--color-icon)]'>{employee?.firstName}</h4>
-            <p className='text-[color:var(--color-disabled-text)] m-0'>{employee?.position}</p>
+            <h4 className='text-[length:var(--font-size)] text-[color:var(--color-icon)] font-sans'>{employee?.firstName}</h4>
+            <p className='text-[color:var(--color-disabled-text)] m-0 font-sans'>{employee?.position}</p>
           </div>
         </div>
       ))}

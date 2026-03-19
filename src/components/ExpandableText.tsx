@@ -7,7 +7,7 @@ export const ExpandableText = ({ text }: { text: string }) => {
   return (
     <div className="flex items-start gap-2 my-[var(--space-sm)]">
       <p
-        className={`m-0 flex-1 text-[var(--color-border)] text-[14px] ${
+        className={`m-0 flex-1 text-[var(--color-border)] text-[14px] font-sans ${
           expanded ? "whitespace-normal" : "truncate whitespace-nowrap"
         }`}
       >

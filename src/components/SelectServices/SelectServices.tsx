@@ -24,10 +24,15 @@ const SelectServices = ({
         selectedIds.has(s.id)
       );
 
+      const selectedCount = category.services.filter((s) =>
+        selectedIds.has(s.id)
+      ).length;
+
       return {
         id: category.label,
         title: category.label,
         isActive: hasSelected,
+        selectedCount: selectedCount,
         content: (
           <div className="flex flex-col gap-2">
             {category.services.map((service) => {

@@ -9,6 +9,7 @@ type AccordionItemType = {
   title: ReactNode;
   content: ReactNode;
   isActive: boolean;
+  selectedCount: number;
 };
 
 type AccordionProps = {
@@ -29,6 +30,7 @@ const Accordion = ({ items, defaultOpenIds = [] }: AccordionProps) => {
 
   return (
     <>
+    <div className='text-[var(--color-icon)] text-[14px] mb-[var(--space-md)]'>👉 Můžete vybrat více služeb</div>
       {items.map((item) => (
         <AccordionItem
           key={item.id}
