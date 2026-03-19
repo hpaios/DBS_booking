@@ -5,6 +5,7 @@ import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
 import { createAppointment } from '../../api/api/requests'
 import { groupServicesToArray, subtractHour } from '../../utils'
+import { captchaKey } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
 import SummaryOrder from './SummaryOrder'
 
@@ -28,7 +29,7 @@ const BookingConfirmation = ({
   const [email, setEmail] = useState("")
   const [vin, setVin] = useState("")
   const [comment, setComment] = useState("")
-  // const [isRecaptcaValid, setIsRecaptcaValid] = useState(false)
+  const [isRecaptcaValid, setIsRecaptcaValid] = useState(false)
 
   const [touched, setTouched] = useState(false)
 
@@ -92,8 +93,7 @@ const BookingConfirmation = ({
   const services = groupServicesToArray(selectedServices)
 
   const onChangeRecaptcha = (value: string | null) => {
-    console.log(value)
-    // setIsRecaptcaValid(!!value)
+    setIsRecaptcaValid(!!value)
   }
 
   return (
@@ -174,14 +174,14 @@ const BookingConfirmation = ({
       
       <div className='flex w-full justify-center'>
          <ReCAPTCHA
-          sitekey='6LeP2Y4sAAAAAL33B9ibyhVWlUNb8VAMBvJlMzRI'
+          sitekey={`${captchaKey}`}
           onChange={(value: string | null) => onChangeRecaptcha(value)}
         />
       </div>
 
       <button
         onClick={handleSubmit}
-        disabled={!isFormValid}
+        disabled={!isFormValid && !isRecaptcaValid}
         className={btnSubmitStyle}
       >
         Odeslat

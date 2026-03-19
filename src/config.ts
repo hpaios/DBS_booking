@@ -1,5 +1,7 @@
 import type { Step, TimeSlot } from './interfaces'
 
+export const captchaKey = '6LdmE5AsAAAAAB6icFXF3T9v0VosP8MZakE3r5f9'
+
 export const steps: Step[] = [
   { key: "select_categories", label: "Vyberte kategorii" },
   { key: "select_services", label: "Vyberte služby" },
