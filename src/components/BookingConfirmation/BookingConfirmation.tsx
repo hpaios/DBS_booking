@@ -181,7 +181,7 @@ const BookingConfirmation = ({
 
       <button
         onClick={handleSubmit}
-        disabled={!isFormValid && !isRecaptcaValid}
+        disabled={!isFormValid || !isRecaptcaValid}
         className={btnSubmitStyle}
       >
         Odeslat
