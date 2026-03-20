@@ -3,7 +3,8 @@ export type StepKey =
   | "select_services"
   | "select_slots"
   | "booking_confirmation"
-  | "success_page";
+  | "success_page"
+  | "error_page";
 
 export interface Step {
   key: StepKey;

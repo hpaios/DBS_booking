@@ -1,13 +1,15 @@
 import type { Step, TimeSlot } from './interfaces'
 
-export const captchaKey = '6LdmE5AsAAAAAB6icFXF3T9v0VosP8MZakE3r5f9'
+export const RECAPTCHA_PROD = '6LdmE5AsAAAAAB6icFXF3T9v0VosP8MZakE3r5f9'
+export const RECAPTCHA_LOCAL = '6Ld48JAsAAAAAECLs73WO0GYvazfY2QmyRv9hkPk' 
 
 export const steps: Step[] = [
   { key: "select_categories", label: "Vyberte kategorii" },
   { key: "select_services", label: "Vyberte služby" },
   { key: "select_slots", label: "Vyberte datum a čas" },
   { key: "booking_confirmation", label: "Podrobnosti schůzky" },
-  { key: "success_page", label: "Schůzka potvrzena" }
+  { key: "success_page", label: "Schůzka potvrzena" },
+  { key: "error_page", label: "Rezervace nebyla vytvořena" }
 ];
 
 export const morningSlots: TimeSlot[] = ["08:00", "09:00", "10:00", "11:00"];

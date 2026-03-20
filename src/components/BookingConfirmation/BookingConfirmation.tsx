@@ -5,21 +5,19 @@ import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
 import { createAppointment } from '../../api/api/requests'
 import { groupServicesToArray, subtractHour } from '../../utils'
-import { captchaKey } from '../../config'
+import { RECAPTCHA_PROD } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
 import SummaryOrder from './SummaryOrder'
 
 const BookingConfirmation = ({
   selectedServices,
   selectedSlots,
-  currentStep,
   setCurrentStep
 }: {
   selectedServices: Service[]
   selectedSlots: Record<number, SelectedSlot | null>
   selectedDates: Record<number, string>
-  currentStep: number
-  setCurrentStep: (step: number) => void
+  setCurrentStep: React.Dispatch<React.SetStateAction<number>>
 }) => {
 
   const [phoneNumber, setNumber] = useState<string | null>(null)
@@ -74,9 +72,7 @@ const BookingConfirmation = ({
         comment: commentWithVin,
         employeeId: Number(employeeId),
         serviceIds: employeeServices.map(s => s.id),
-        // @ts-ignore
         dateStart,
-        // @ts-ignore
         dateEnd
       })
     })
@@ -86,7 +82,11 @@ const BookingConfirmation = ({
   const success = responses.every(res => res?.data?.hash)
 
     if (success) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(prev => prev + 1)
+    }
+
+    if (!success) {
+      setCurrentStep(prev => prev + 2)
     }
   }
 
@@ -174,7 +174,7 @@ const BookingConfirmation = ({
       
       <div className='flex w-full justify-center'>
          <ReCAPTCHA
-          sitekey={`${captchaKey}`}
+          sitekey={`${RECAPTCHA_PROD}`}
           onChange={(value: string | null) => onChangeRecaptcha(value)}
         />
       </div>

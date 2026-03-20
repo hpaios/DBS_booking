@@ -11,9 +11,10 @@ import SelectSlots from '../components/SelectSlots/SelectSlots'
 import { steps } from '../config'
 import SuccessPage from '../components/SuccessPage/SuccessPage'
 import LocationIcon from '../icons/LocationIcon'
+import ErrorPage from '../components/ErrorPage/ErrorPage'
 
 const Booking = () => {
-  const [currentStep, setCurrentStep] = useState(0)
+  const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedCategoriesIds, setSelectedCategoriesIds] = useState<number[]>([])
   const { groupedServices, isLoading, error } = useGroupedServices(selectedCategoriesIds)
   const { data: location } = useLocation()
@@ -71,9 +72,9 @@ const Booking = () => {
      selectedSlots={selectedSlots}
      selectedDates={selectedDates}
      setCurrentStep={setCurrentStep}
-     currentStep={currentStep}
     />,
-    success_page: <SuccessPage selectedServices={selectedServices}  selectedSlots={selectedSlots}/>
+    success_page: <SuccessPage selectedServices={selectedServices}  selectedSlots={selectedSlots}/>,
+    error_page: <ErrorPage />
   }
 
   const setNextStep = () => {
@@ -97,6 +98,7 @@ const Booking = () => {
       </h3>
         {
           steps[currentStep]?.key !==  'success_page' &&
+          steps[currentStep]?.key !==  'error_page' &&
           <ProgressBar
             label={steps[currentStep]?.label}
             currentStep={currentStep}
@@ -108,7 +110,7 @@ const Booking = () => {
 
       {stepComponentMap[steps[currentStep].key]}
       {!isNextButtonDisabled && steps[currentStep]?.key !==  'success_page'
-      && steps[currentStep]?.key !== 'booking_confirmation' &&
+      && steps[currentStep]?.key !== 'booking_confirmation' && steps[currentStep]?.key !== 'error_page' &&
         <div className="fixed bottom-[2rem] left-1/2 -translate-x-1/2 w-full max-w-[660px] px-4 z-50">
           <div className='p-4 rounded-[var(--radius-lg)] bg-[var(--color-bg-secondary)]'>
             <button onClick={setNextStep}
