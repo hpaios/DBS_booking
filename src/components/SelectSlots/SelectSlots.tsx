@@ -1,4 +1,5 @@
 import { useTimeSlots } from '../../api/hooks/useTimeslots'
+import ErrorIcon from '../../icons/Error'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
 import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, shiftSlotsByHour, filterSlotsByDuration } from '../../utils'
 import Loader from '../Loader'
@@ -39,7 +40,10 @@ const SelectSlots = ({
   .map(s => s!.slot.dateStart)
 
   if (isLoading) return <Loader />
-  if (isError) return <div>Error</div>;
+  if (isError) return <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-red-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[300px] my-[var(--space-lg)] mx-auto font-sans'>
+    <ErrorIcon />
+    <span>Error</span>
+  </div>
 
   return (
     <div className={`flex flex-col gap-8 ${selectedTimes.length ? 'pb-[100px]' : 'pb-1'}`}>

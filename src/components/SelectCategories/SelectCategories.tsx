@@ -1,4 +1,5 @@
 import { useCategory } from '../../api/hooks/useCategory'
+import ErrorIcon from '../../icons/Error'
 import Loader from '../Loader'
 import { categoryStyle } from './SelectCategories.style'
 
@@ -12,7 +13,10 @@ const SelectCategories = ({
   const { data, isLoading, error } = useCategory();
 
   if (isLoading) return <Loader />
-  if (error) return <div>Error</div>;
+  if (error) return <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-red-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[300px] my-[var(--space-lg)] mx-auto font-sans'>
+    <ErrorIcon />
+    <span>Error</span>
+  </div>
   
   return (
     <div className={`${selectedCategoriesIds.length ? 'pb-[100px]' : 'pb-1'}`}>

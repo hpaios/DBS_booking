@@ -12,12 +12,14 @@ import SummaryOrder from './SummaryOrder'
 const BookingConfirmation = ({
   selectedServices,
   selectedSlots,
-  setCurrentStep
+  setCurrentStep,
+  handleIsErrorSubmit
 }: {
   selectedServices: Service[]
   selectedSlots: Record<number, SelectedSlot | null>
   selectedDates: Record<number, string>
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>
+  handleIsErrorSubmit: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
 
   const [phoneNumber, setNumber] = useState<string | null>(null)
@@ -54,7 +56,6 @@ const BookingConfirmation = ({
     .filter(([_, value]) => value?.slot?.dateStart)
     .map(([employeeId, value]) => {
 
-     
       const dateStart = subtractHour(value!.slot.dateStart as string)
       const dateEnd = subtractHour(value!.slot.dateEnd as string)
 
@@ -86,6 +87,7 @@ const BookingConfirmation = ({
     }
 
     if (!success) {
+      handleIsErrorSubmit(true)
       setCurrentStep(prev => prev + 2)
     }
   }

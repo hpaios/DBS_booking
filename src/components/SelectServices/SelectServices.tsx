@@ -4,6 +4,7 @@ import { ExpandableText } from '../ExpandableText'
 import Time from '../../icons/Time'
 import { formatDurationCsShort } from '../../utils'
 import Loader from '../Loader'
+import ErrorIcon from '../../icons/Error'
 
 const SelectServices = ({
   servicesList,
@@ -72,7 +73,10 @@ const SelectServices = ({
   if (!servicesList.length) return null;
 
   if (isLoading) return <Loader />
-  if (error) return <div>Error</div>;
+  if (error) return <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-red-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[300px] my-[var(--space-lg)] mx-auto font-sans'>
+    <ErrorIcon />
+    <span>Error</span>
+  </div>
 
   return (
     <div className={selectedServices.length ? 'pb-[100px]' : 'pb-1'}>

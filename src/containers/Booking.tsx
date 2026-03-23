@@ -13,7 +13,9 @@ import SuccessPage from '../components/SuccessPage/SuccessPage'
 import LocationIcon from '../icons/LocationIcon'
 import ErrorPage from '../components/ErrorPage/ErrorPage'
 
-const Booking = () => {
+const Booking = ({handleIsErrorSubmit}: {
+  handleIsErrorSubmit: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedCategoriesIds, setSelectedCategoriesIds] = useState<number[]>([])
   const { groupedServices, isLoading, error } = useGroupedServices(selectedCategoriesIds)
@@ -68,10 +70,12 @@ const Booking = () => {
       onSelectedDate={setSelectedDates}
     />,
     booking_confirmation: <BookingConfirmation 
-     selectedServices={selectedServices}
-     selectedSlots={selectedSlots}
-     selectedDates={selectedDates}
-     setCurrentStep={setCurrentStep}
+      selectedServices={selectedServices}
+      selectedSlots={selectedSlots}
+      selectedDates={selectedDates}
+      setCurrentStep={setCurrentStep}
+      handleIsErrorSubmit={handleIsErrorSubmit}
+      
     />,
     success_page: <SuccessPage selectedServices={selectedServices}  selectedSlots={selectedSlots}/>,
     error_page: <ErrorPage />
@@ -106,7 +110,7 @@ const Booking = () => {
             handlePrevStep={setPrevStep}
             isNextButtonDisabled={isNextButtonDisabled}
           />
-       }
+        }
 
       {stepComponentMap[steps[currentStep].key]}
       {!isNextButtonDisabled && steps[currentStep]?.key !==  'success_page'
