@@ -1,7 +1,7 @@
 import { useTimeSlots } from '../../api/hooks/useTimeslots'
 import ErrorIcon from '../../icons/Error'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
-import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, shiftSlotsByHour, filterSlotsByDuration, shiftSlotsByTwoHours } from '../../utils'
+import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, filterSlotsByDuration, shiftSlotsByTwoHours } from '../../utils'
 import Loader from '../Loader'
 import ServicesCalendar from './ServicesCalendar'
 
