@@ -92,6 +92,7 @@ const Booking = ({handleIsErrorSubmit}: {
   const isNextButtonDisabled = (currentStep === 0 && !selectedCategoriesIds.length)
   || (currentStep === 1 && !selectedServices.length)
   || (currentStep === 2 && isObjectEmpty(selectedSlots))
+  || (currentStep === 3)
 
   return (
     <div className="bg-[var(--color-bg-secondary)] font-sans p-[1.5rem] rounded-[var(--radius-lg)] mt-[-10px] relative min-h-[480px]">

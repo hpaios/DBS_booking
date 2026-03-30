@@ -47,7 +47,7 @@ const ProgressBar = ({
 
       <div className={stepContainer}>
         {steps
-        .filter(step => step.key !== "success_page")
+        .filter(step => step.key !== "success_page" && step.key !== "error_page")
         .map((step, index) => {
           const isCompletedOrActive = index <= currentStep;
           const isFirst = index === 0;
