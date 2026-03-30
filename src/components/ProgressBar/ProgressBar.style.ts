@@ -22,7 +22,3 @@ export const stepClass = `
 export const stepContainer = `
   relative flex items-center justify-between gap-[4px]
 `;
-
-// export const stepBlockLine = `
-//   h-1 bg-[var(--color-primary)] rounded transition-all duration-300
-// `;

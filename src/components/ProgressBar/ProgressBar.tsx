@@ -51,7 +51,7 @@ const ProgressBar = ({
         .map((step, index) => {
           const isCompletedOrActive = index <= currentStep;
           const isFirst = index === 0;
-          const isLast = index === steps.length - 1;
+          const isLast = index === steps.length - 3;
 
           return (
             <div
