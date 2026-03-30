@@ -4,7 +4,7 @@ import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
 import { createAppointment } from '../../api/api/requests'
-import { groupServicesToArray, subtractHour } from '../../utils'
+import { groupServicesToArray } from '../../utils'
 import { RECAPTCHA_PROD } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
 import SummaryOrder from './SummaryOrder'
@@ -56,8 +56,11 @@ const BookingConfirmation = ({
     .filter(([_, value]) => value?.slot?.dateStart)
     .map(([employeeId, value]) => {
 
-      const dateStart = subtractHour(value!.slot.dateStart as string)
-      const dateEnd = subtractHour(value!.slot.dateEnd as string)
+      // const dateStart = subtractHour(value!.slot.dateStart as string)
+      // const dateEnd = subtractHour(value!.slot.dateEnd as string)
+
+      const dateStart = value!.slot.dateStart as string
+      const dateEnd = value!.slot.dateEnd as string
 
       const employeeServices = selectedServices.filter(
         s => s.parentCategoryId === Number(employeeId)
