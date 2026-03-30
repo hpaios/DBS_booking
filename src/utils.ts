@@ -282,6 +282,36 @@ export const subtractHour = (iso: string) => {
   return `${date}T${newH}:${newM}:00Z`
 }
 
+export const subtractTwoHours = (iso: string) => {
+  const datePart = iso.slice(0, 10)
+  const [h, m] = iso.slice(11, 16).split(":").map(Number)
+
+  let newH = h - 2
+  let newDate = datePart
+
+  // если ушли в предыдущий день
+  if (newH < 0) {
+    newH += 24
+
+    const d = new Date(datePart)
+    d.setDate(d.getDate() - 1)
+
+    newDate = d.toISOString().slice(0, 10)
+  }
+
+  return `${newDate}T${String(newH).padStart(2, "0")}:${String(m).padStart(2, "0")}:00Z`
+}
+
+// export const subtractHour = (iso: string) => {
+//   const date = iso.slice(0, 10)
+//   const [h, m] = iso.slice(11, 16).split(":").map(Number)
+
+//   const newH = String(h - 1).padStart(2, "0")
+//   const newM = String(m).padStart(2, "0")
+
+//   return `${date}T${newH}:${newM}:00Z`
+// }
+
 export const filterSlotsByDuration = (
   slots: ApiTimeSlot[],
   requiredSlots: number
