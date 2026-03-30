@@ -272,6 +272,24 @@ export const shiftSlotsByHour = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
   }))
 }
 
+export const shiftSlotsByTwoHours = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
+
+  const shift = (iso: string) => {
+    const date = iso.slice(0, 10)
+    const [h, m] = iso.slice(11, 16).split(":").map(Number)
+
+    const newH = String(h + 2).padStart(2, "0")
+    const newM = String(m).padStart(2, "0")
+
+    return `${date}T${newH}:${newM}:00Z`
+  }
+
+  return slots.map(slot => ({
+    dateStart: shift(slot.dateStart),
+    dateEnd: shift(slot.dateEnd)
+  }))
+}
+
 export const subtractHour = (iso: string) => {
   const date = iso.slice(0, 10)
   const [h, m] = iso.slice(11, 16).split(":").map(Number)
@@ -289,7 +307,6 @@ export const subtractTwoHours = (iso: string) => {
   let newH = h - 2
   let newDate = datePart
 
-  // если ушли в предыдущий день
   if (newH < 0) {
     newH += 24
 

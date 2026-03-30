@@ -56,9 +56,11 @@ const BookingConfirmation = ({
     .filter(([_, value]) => value?.slot?.dateStart)
     .map(([employeeId, value]) => {
 
+      // WINTER TIME
       // const dateStart = subtractHour(value!.slot.dateStart as string)
       // const dateEnd = subtractHour(value!.slot.dateEnd as string)
 
+      // SUMMER TIME
       const dateStart = subtractTwoHours(value!.slot.dateStart as string)
       const dateEnd = subtractTwoHours(value!.slot.dateEnd as string)
 

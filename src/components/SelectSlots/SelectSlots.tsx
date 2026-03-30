@@ -1,7 +1,7 @@
 import { useTimeSlots } from '../../api/hooks/useTimeslots'
 import ErrorIcon from '../../icons/Error'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
-import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, shiftSlotsByHour, filterSlotsByDuration } from '../../utils'
+import { formatDurationCsShort, getUniqueParentCategoryIds, normalizeSlotsBySchedule, mapSlotsByDays, shiftSlotsByHour, filterSlotsByDuration, shiftSlotsByTwoHours } from '../../utils'
 import Loader from '../Loader'
 import ServicesCalendar from './ServicesCalendar'
 
@@ -61,7 +61,13 @@ const SelectSlots = ({
           0
         )
 
-        const calendarSlots = shiftSlotsByHour(
+        // WINTER TIME
+        // const calendarSlots = shiftSlotsByHour(
+        //   timeSlots[employeeIdNum] as unknown as ApiTimeSlot[]
+        // )
+
+        // SUMMER TIME
+        const calendarSlots = shiftSlotsByTwoHours(
           timeSlots[employeeIdNum] as unknown as ApiTimeSlot[]
         )
 
