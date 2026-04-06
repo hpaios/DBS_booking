@@ -28,13 +28,6 @@ const SelectSlots = ({
   
   const servicesTimeSlots = Object.keys(timeSlots)
 
-  const totalDuration = selectedServices.reduce(
-  (sum, service) => sum + service.durationMinutes,
-  0
-  )
-
-  const requiredSlots = Math.ceil(totalDuration / 60)
-
   const selectedTimes = Object.values(selectedSlots)
   .filter(Boolean)
   .map(s => s!.slot.dateStart)
@@ -56,6 +49,13 @@ const SelectSlots = ({
 
         if (!employeeServices.length) return null
 
+        const employeeTotalDuration = employeeServices.reduce(
+          (sum, service) => sum + service.durationMinutes,
+          0
+        )
+      
+        const employeeRequiredSlots = Math.ceil(employeeTotalDuration / 60)
+
         const totalPrice = employeeServices.reduce(
           (sum, service) => sum + service.price,
           0
@@ -71,7 +71,7 @@ const SelectSlots = ({
           timeSlots[employeeIdNum] as unknown as ApiTimeSlot[]
         )
 
-        const filteredSlots = filterSlotsByDuration(calendarSlots, requiredSlots)
+        const filteredSlots = filterSlotsByDuration(calendarSlots, employeeRequiredSlots)
 
         const normalizedSlots = normalizeSlotsBySchedule(filteredSlots, weekSchedule)
 

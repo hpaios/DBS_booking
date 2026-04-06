@@ -154,13 +154,6 @@ export const normalizeSlotsBySchedule = (
   const getDate = (iso: string) => iso.slice(0, 10);
   const getTime = (iso: string) => iso.slice(11, 16);
 
-  const addHour = (time: string) => {
-    const [h, m] = time.split(":").map(Number);
-    return `${String(h + 1).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
-  };
-
-  const buildIso = (date: string, time: string) => `${date}T${time}:00Z`;
-
   const scheduleMap = new Map(weekSchedule.map((d) => [d.idx, d]));
 
   const now = new Date();
@@ -208,23 +201,6 @@ export const normalizeSlotsBySchedule = (
     }
 
     result.push(...filtered);
-
-    if (!filtered.length) continue;
-
-    const last = filtered[filtered.length - 1];
-    const lastEnd = getTime(last.dateEnd);
-
-    if (lastEnd < schedule.endTime) {
-
-      const nextEnd = addHour(lastEnd);
-
-      if (nextEnd <= schedule.endTime) {
-        result.push({
-          dateStart: buildIso(day, lastEnd),
-          dateEnd: buildIso(day, nextEnd),
-        });
-      }
-    }
   }
 
   return result.sort((a, b) => a.dateStart.localeCompare(b.dateStart));
@@ -289,6 +265,13 @@ export const shiftSlotsByTwoHours = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
     dateEnd: shift(slot.dateEnd)
   }))
 }
+
+export const addMinutes = (iso: string, minutes: number) => {
+  const date = new Date(iso);
+  date.setMinutes(date.getMinutes() + minutes);
+
+  return date.toISOString();
+};
 
 export const subtractHour = (iso: string) => {
   const date = iso.slice(0, 10)

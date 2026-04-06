@@ -1,3 +1,4 @@
+import InfoIcon from '../../icons/Info'
 import Success from '../../icons/Success'
 import Time from '../../icons/Time'
 import type { GroupedArray, SelectedSlot, Service } from '../../interfaces'
@@ -75,6 +76,10 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
           {totalPrice} Kč
         </span>
       </div>
+      <div className='flex items-center gap-2 text-[var(--color-border)] text-[12px] font-sans mt-[var(--space-md)]'>
+        <InfoIcon width="40" height="40" />
+        Cena zahrnuje pouze práci a nezahrnuje cenu náhradních dílů.
+        Pokud je nutné díly vyměnit, bude vás kontaktovat zaměstnanec DBS a předem s vámi dohodne cenu.</div>
     </div>
   )
 }

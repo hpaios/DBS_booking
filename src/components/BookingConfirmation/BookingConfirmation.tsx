@@ -4,7 +4,7 @@ import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
 import { createAppointment } from '../../api/api/requests'
-import { groupServicesToArray, subtractTwoHours } from '../../utils'
+import { addMinutes, groupServicesToArray, subtractTwoHours } from '../../utils'
 import { RECAPTCHA_PROD } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
 import SummaryOrder from './SummaryOrder'
@@ -62,14 +62,20 @@ const BookingConfirmation = ({
 
       // SUMMER TIME
       const dateStart = subtractTwoHours(value!.slot.dateStart as string)
-      const dateEnd = subtractTwoHours(value!.slot.dateEnd as string)
+      // const dateEnd = subtractTwoHours(value!.slot.dateEnd as string)
 
       // const dateStart = value!.slot.dateStart as string
-      // const dateEnd = value!.slot.dateEnd as string
 
       const employeeServices = selectedServices.filter(
         s => s.parentCategoryId === Number(employeeId)
       )
+
+      const employeeTotalDuration = employeeServices.reduce(
+        (sum, service) => sum + service.durationMinutes,
+        0
+        )
+
+      const dateEnd = addMinutes(dateStart, employeeTotalDuration);
 
       const commentWithVin = vin.length ? `VIN: ${vin}
       comment: ${comment}` : comment
@@ -183,7 +189,7 @@ const BookingConfirmation = ({
       </div>
       
       <div className='flex w-full justify-center'>
-         <ReCAPTCHA
+        <ReCAPTCHA
           sitekey={`${RECAPTCHA_PROD}`}
           onChange={(value: string | null) => onChangeRecaptcha(value)}
         />
