@@ -405,3 +405,11 @@ export const formatBookingDateTimeCs = (
 
   return `${weekday}, ${day} ${month} v ${formattedTime}`
 }
+
+export const getOccupiedSlotStarts = (startIso: string, slotsCount: number) => {
+  return Array.from({ length: slotsCount }, (_, index) => {
+    const date = new Date(startIso);
+    date.setUTCHours(date.getUTCHours() + index);
+    return date.toISOString().slice(0, 19) + 'Z';
+  });
+};
