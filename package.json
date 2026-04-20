@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.21",
+    "@vercel/node": "^5.7.10",
     "axios": "^1.13.6",
     "intl-tel-input": "^26.8.0",
     "react": "^19.2.0",
