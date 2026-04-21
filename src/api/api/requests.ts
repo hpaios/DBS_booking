@@ -1,54 +1,58 @@
 // import axios from 'axios'
 // import type { ServicesResponse, TimeSlotsResponse } from '../../interfaces'
 // import { getToday } from '../../utils'
-// import { dbsClient } from './dbsClient'
+import type { ServicesResponse, TimeSlotsResponse } from '../../interfaces'
+import { getToday } from '../../utils'
+import { dbsClient } from './dbsClient'
 // import { roapiClient } from './roapiClient'
 
-// const DBS_ID=186414
+import axios from 'axios'
 
-// export const getCategory = async () => {
-//   const { data } = await dbsClient.get(
-//     `api/booking/locations/${DBS_ID}/employees`
-//   );
+const DBS_ID=186414
 
-//   return data;
-// };
+export const getCategory = async () => {
+  const { data } = await dbsClient.get(
+    `api/booking/locations/${DBS_ID}/employees`
+  );
 
-// export const getLocation = async () => {
-//   const { data } = await dbsClient.get(
-//     `api/booking/locations`
-//   );
+  return data;
+};
 
-//   return data;
-// };
+export const getLocation = async () => {
+  const { data } = await dbsClient.get(
+    `api/booking/locations`
+  );
 
-// export const getServices = async (
-//   categoryId: number
-// ): Promise<ServicesResponse> => {
-//   const { data } = await dbsClient.get(
-//     `api/booking/locations/${DBS_ID}/services?page=1&pageSize=50&employee_id=${categoryId}`
-//   );
+  return data;
+};
 
-//   return data;
-// };
+export const getServices = async (
+  categoryId: number
+): Promise<ServicesResponse> => {
+  const { data } = await dbsClient.get(
+    `api/booking/locations/${DBS_ID}/services?page=1&pageSize=50&employee_id=${categoryId}`
+  );
 
-// export const getTimeSlots = async (
-//   employeeId: number
-// ): Promise<TimeSlotsResponse> => {
-//   const { data } = await dbsClient.get(
-//     `api/booking/locations/${DBS_ID}/timeslots:search`,
-//     {
-//       params: {
-//         employee_id: employeeId,
-//         slot_minutes: 60,
-//         period_days: 31,
-//         start_date: getToday(),
-//       },
-//     }
-//   );
+  return data;
+};
 
-//   return data;
-// };
+export const getTimeSlots = async (
+  employeeId: number
+): Promise<TimeSlotsResponse> => {
+  const { data } = await dbsClient.get(
+    `api/booking/locations/${DBS_ID}/timeslots:search`,
+    {
+      params: {
+        employee_id: employeeId,
+        slot_minutes: 60,
+        period_days: 31,
+        start_date: getToday(),
+      },
+    }
+  );
+
+  return data;
+};
 
 // export const createClient = async ({
 //   first_name,
@@ -226,9 +230,6 @@
 
 //   return null
 // }
-
-import axios from 'axios'
-import { dbsClient } from './dbsClient'
 
 export const findClientByPhone = async (phone: string) => {
   const { data } = await axios.get('/api/roapp/find-client-by-phone', {
