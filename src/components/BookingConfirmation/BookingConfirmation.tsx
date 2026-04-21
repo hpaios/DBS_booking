@@ -3,9 +3,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
-import { createAppointment, createClient, getOrCreateClient } from '../../api/api/requests'
+import { createAppointment, getOrCreateClient } from '../../api/api/requests'
 import { addMinutes, groupServicesToArray, subtractTwoHours } from '../../utils'
-import { RECAPTCHA_LOCAL, RECAPTCHA_PROD } from '../../config'
+import { RECAPTCHA_PROD } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
 import SummaryOrder from './SummaryOrder'
 
@@ -168,9 +168,6 @@ const BookingConfirmation = ({
           dateEnd,
         })
       })
-  
-    // const responses = await Promise.all(requests)
-    // const success = responses.every(res => res?.data?.hash)
 
     const responses = await Promise.allSettled(requests)
 
@@ -274,8 +271,8 @@ const BookingConfirmation = ({
       
       <div className='flex w-full justify-center'>
         <ReCAPTCHA
-          // sitekey={`${RECAPTCHA_PROD}`}
-          sitekey={`${RECAPTCHA_LOCAL}`}
+          sitekey={`${RECAPTCHA_PROD}`}
+          // sitekey={`${RECAPTCHA_LOCAL}`}
           onChange={(value: string | null) => onChangeRecaptcha(value)}
         />
       </div>
