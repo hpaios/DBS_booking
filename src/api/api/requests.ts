@@ -1,3 +1,4 @@
+import axios from 'axios'
 import type { ServicesResponse, TimeSlotsResponse } from '../../interfaces'
 import { getToday } from '../../utils'
 import { dbsClient } from './dbsClient'
@@ -147,21 +148,54 @@ export const createAppointment = async ({
 //   )?.id || null
 // }
 
+// export const findClientByPhone = async (phone: string) => {
+//   const { data } = await roapiClient.get(
+//     `/contacts/people?phones=${encodeURIComponent(phone)}`,
+//     {
+//       headers: {
+//         accept: 'application/json',
+//         authorization: `Bearer ${import.meta.env.VITE_ROAPP_TOKEN}`,
+//       },
+//     }
+//   )
+
+//   const people = data?.data || data || []
+
+//   return people[0].id || null
+// }
+
 export const findClientByPhone = async (phone: string) => {
-  const { data } = await roapiClient.get(
-    `/contacts/people?phones=${encodeURIComponent(phone)}`,
-    {
-      headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${import.meta.env.VITE_ROAPP_TOKEN}`,
-      },
-    }
-  )
+  const { data } = await axios.get('/api/roapp/find-client-by-phone', {
+    params: { phone },
+  })
 
-  const people = data?.data || data || []
-
-  return people[0].id || null
+  return data?.clientId || null
 }
+
+// export const getOrCreateClient = async ({
+//   first_name,
+//   phone,
+//   email,
+// }: {
+//   first_name: string
+//   phone: string
+//   email: string
+// }) => {
+//   const existingClient = await findClientByPhone(phone)
+
+//   if (existingClient) {
+//     return existingClient
+//   }
+
+//   const createdClient = await createClient({
+//     first_name,
+//     phone,
+//     email,
+//   })
+
+//   return createdClient?.data?.id || createdClient?.id || null
+// }
+
 
 export const getOrCreateClient = async ({
   first_name,
@@ -172,17 +206,23 @@ export const getOrCreateClient = async ({
   phone: string
   email: string
 }) => {
-  const existingClient = await findClientByPhone(phone)
+  const existingClientRes = await findClientByPhone(phone)
 
-  if (existingClient) {
-    return existingClient
+  console.log(existingClientRes)
+
+  if (existingClientRes?.ok && existingClientRes?.clientId) {
+    return existingClientRes.clientId
   }
 
-  const createdClient = await createClient({
+  const createdClientRes = await createClient({
     first_name,
     phone,
     email,
   })
 
-  return createdClient?.data?.id || createdClient?.id || null
+  if (createdClientRes?.ok && createdClientRes?.clientId) {
+    return createdClientRes.clientId
+  }
+
+  return null
 }

@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
             proxy.on("proxyReq", (proxyReq) => {
               proxyReq.setHeader(
                 "Authorization",
-                `Bearer ${env.VITE_ROAPP_TOKEN}`
+                `Bearer ${env.ROAPP_API_KEY}`
               );
               proxyReq.setHeader("Accept", "application/json");
             });
