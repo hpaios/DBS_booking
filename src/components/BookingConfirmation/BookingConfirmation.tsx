@@ -224,8 +224,11 @@ const BookingConfirmation = ({
           : comment
   
         return createAppointment({
-          name,
-          phone: phoneNumber,
+          client: {
+            name,
+            phone: phoneNumber,
+            email,
+          },
           vin,
           comment: commentWithVin,
           employeeId: Number(employeeId),

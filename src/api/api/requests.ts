@@ -282,8 +282,7 @@ export const getOrCreateClient = async ({
 }
 
 export const createAppointment = async ({
-  name,
-  phone,
+  client,
   vin,
   comment,
   employeeId,
@@ -291,8 +290,11 @@ export const createAppointment = async ({
   dateStart,
   dateEnd,
 }: {
-  name: string
-  phone: string
+  client: {
+    name: string
+    phone: string
+    email: string
+  },
   vin: string
   comment?: string
   employeeId: number
@@ -303,8 +305,7 @@ export const createAppointment = async ({
   const { data } = await dbsClient.post(
     '/api/booking/locations/186414/appointment',
     {
-      name,
-      phone,
+      client,
       vin,
       comment,
       employee_id: employeeId,
