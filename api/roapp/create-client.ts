@@ -33,26 +33,22 @@ export default async function handler(
   }
 
   try {
-    const { first_name, name, phone, email } = req.body || {}
+    const { first_name, phone, email } = req.body || {}
 
-    const clientName = first_name || name
-
-    if (!clientName || !phone) {
+    if (!first_name || !phone) {
       return res.status(400).json({
         ok: false,
-        error: 'name/first_name and phone are required',
+        error: 'first_name and phone are required',
       })
-    }
-
-    const payload = {
-      first_name: clientName,
-      phone: normalizePhone(phone),
-      email: email || '',
     }
 
     const response = await axios.post(
       `${ROAPP_API_BASE_URL}/contacts/people`,
-      payload,
+      {
+        first_name,
+        phone: normalizePhone(phone),
+        email: email || '',
+      },
       {
         headers: {
           Authorization: `Bearer ${ROAPP_API_KEY}`,
