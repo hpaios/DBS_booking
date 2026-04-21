@@ -3,9 +3,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
-import { createAppointment } from '../../api/api/requests'
+import { createAppointment, createClient, getOrCreateClient } from '../../api/api/requests'
 import { addMinutes, groupServicesToArray, subtractTwoHours } from '../../utils'
-import { RECAPTCHA_PROD } from '../../config'
+import { RECAPTCHA_LOCAL, RECAPTCHA_PROD } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
 import SummaryOrder from './SummaryOrder'
 
@@ -47,60 +47,144 @@ const BookingConfirmation = ({
     isValidName &&
     isValidVin
 
+  // const handleSubmit = async () => {
+  // setTouched(true)
+
+  // if (!isFormValid || !phoneNumber) return
+
+
+  // const clientRes = await createClient({
+  //   first_name: name,
+  //   phone: phoneNumber,
+  //   email,
+  // })
+
+  // const clientId = clientRes?.data?.id
+
+  // if (!clientId) {
+  //   handleIsErrorSubmit(true)
+  //   return
+  // }
+
+  // const requests = Object.entries(selectedSlots)
+  //   .filter(([_, value]) => value?.slot?.dateStart)
+  //   .map(([employeeId, value]) => {
+
+  //     // WINTER TIME
+  //     // const dateStart = subtractHour(value!.slot.dateStart as string)
+  //     // const dateEnd = subtractHour(value!.slot.dateEnd as string)
+
+  //     // SUMMER TIME
+  //     const dateStart = subtractTwoHours(value!.slot.dateStart as string)
+  //     // const dateEnd = subtractTwoHours(value!.slot.dateEnd as string)
+
+  //     // const dateStart = value!.slot.dateStart as string
+
+  //     const employeeServices = selectedServices.filter(
+  //       s => s.parentCategoryId === Number(employeeId)
+  //     )
+
+  //     const employeeTotalDuration = employeeServices.reduce(
+  //       (sum, service) => sum + service.durationMinutes,
+  //       0
+  //       )
+
+  //     const dateEnd = addMinutes(dateStart, employeeTotalDuration);
+
+  //     const commentWithVin = vin.length ? `VIN: ${vin}
+  //     comment: ${comment}` : comment
+
+  //     return createAppointment({
+  //       name,
+  //       phone: phoneNumber,
+  //       vin,
+  //       comment: commentWithVin,
+  //       employeeId: Number(employeeId),
+  //       serviceIds: employeeServices.map(s => s.id),
+  //       dateStart,
+  //       dateEnd
+  //     })
+  //   })
+
+  // const responses = await Promise.all(requests)
+
+  // const success = responses.every(res => res?.data?.hash)
+
+  //   if (success) {
+  //     setCurrentStep(prev => prev + 1)
+  //   }
+
+  //   if (!success) {
+  //     handleIsErrorSubmit(true)
+  //     setCurrentStep(prev => prev + 2)
+  //   }
+  // }
+
   const handleSubmit = async () => {
-  setTouched(true)
-
-  if (!isFormValid || !phoneNumber) return
-
-  const requests = Object.entries(selectedSlots)
-    .filter(([_, value]) => value?.slot?.dateStart)
-    .map(([employeeId, value]) => {
-
-      // WINTER TIME
-      // const dateStart = subtractHour(value!.slot.dateStart as string)
-      // const dateEnd = subtractHour(value!.slot.dateEnd as string)
-
-      // SUMMER TIME
-      const dateStart = subtractTwoHours(value!.slot.dateStart as string)
-      // const dateEnd = subtractTwoHours(value!.slot.dateEnd as string)
-
-      // const dateStart = value!.slot.dateStart as string
-
-      const employeeServices = selectedServices.filter(
-        s => s.parentCategoryId === Number(employeeId)
-      )
-
-      const employeeTotalDuration = employeeServices.reduce(
-        (sum, service) => sum + service.durationMinutes,
-        0
+    setTouched(true)
+  
+    if (!isFormValid || !phoneNumber) return
+  
+    const clientId = await getOrCreateClient({
+      first_name: name,
+      phone: phoneNumber,
+      email,
+    })
+  
+    if (!clientId) {
+      handleIsErrorSubmit(true)
+      return
+    }
+  
+    const requests = Object.entries(selectedSlots)
+      .filter(([_, value]) => value?.slot?.dateStart)
+      .map(([employeeId, value]) => {
+        const dateStart = subtractTwoHours(value!.slot.dateStart as string)
+  
+        const employeeServices = selectedServices.filter(
+          s => s.parentCategoryId === Number(employeeId)
         )
-
-      const dateEnd = addMinutes(dateStart, employeeTotalDuration);
-
-      const commentWithVin = vin.length ? `VIN: ${vin}
-      comment: ${comment}` : comment
-
-      return createAppointment({
-        name,
-        phone: phoneNumber,
-        vin,
-        comment: commentWithVin,
-        employeeId: Number(employeeId),
-        serviceIds: employeeServices.map(s => s.id),
-        dateStart,
-        dateEnd
+  
+        const employeeTotalDuration = employeeServices.reduce(
+          (sum, service) => sum + service.durationMinutes,
+          0
+        )
+  
+        const dateEnd = addMinutes(dateStart, employeeTotalDuration)
+  
+        const commentWithVin = vin.length
+          ? `VIN: ${vin}\ncomment: ${comment}`
+          : comment
+  
+        return createAppointment({
+          clientId,
+          name,
+          phone: phoneNumber,
+          vin,
+          comment: commentWithVin,
+          employeeId: Number(employeeId),
+          serviceIds: employeeServices.map(s => s.id),
+          dateStart,
+          dateEnd,
+        })
       })
+  
+    // const responses = await Promise.all(requests)
+    // const success = responses.every(res => res?.data?.hash)
+
+    const responses = await Promise.allSettled(requests)
+
+    responses.forEach((res, index) => {
+      if (res.status === 'rejected') {
+        console.error(`Request ${index} failed:`, res.reason)
+      }
     })
 
-  const responses = await Promise.all(requests)
-
-  const success = responses.every(res => res?.data?.hash)
-
+    const success = responses.every(res => res.status === 'fulfilled')
+  
     if (success) {
       setCurrentStep(prev => prev + 1)
-    }
-
-    if (!success) {
+    } else {
       handleIsErrorSubmit(true)
       setCurrentStep(prev => prev + 2)
     }
@@ -190,7 +274,8 @@ const BookingConfirmation = ({
       
       <div className='flex w-full justify-center'>
         <ReCAPTCHA
-          sitekey={`${RECAPTCHA_PROD}`}
+          // sitekey={`${RECAPTCHA_PROD}`}
+          sitekey={`${RECAPTCHA_LOCAL}`}
           onChange={(value: string | null) => onChangeRecaptcha(value)}
         />
       </div>

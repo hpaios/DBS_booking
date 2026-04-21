@@ -1,6 +1,7 @@
 import type { ServicesResponse, TimeSlotsResponse } from '../../interfaces'
 import { getToday } from '../../utils'
 import { dbsClient } from './dbsClient'
+import { roapiClient } from './roapiClient'
 
 const DBS_ID=186414
 
@@ -48,7 +49,33 @@ export const getTimeSlots = async (
   return data;
 };
 
+export const createClient = async ({
+  first_name,
+  phone,
+  email,
+}: {
+  first_name: string
+  phone: string
+  email: string
+}) => {
+  const res = await fetch('/roapi/contacts/people', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${import.meta.env.VITE_ROAPP_TOKEN}`,
+    },
+    body: JSON.stringify({
+      first_name,
+      phone,
+      email,
+    }),
+  })
+
+  return res.json()
+}
+
 export const createAppointment = async ({
+  clientId,
   name,
   phone,
   vin,
@@ -58,17 +85,19 @@ export const createAppointment = async ({
   dateStart,
   dateEnd
 }: {
+  clientId: number
   name: string
   phone: string
   vin: string
   comment?: string
   employeeId: number
-  serviceIds: number[]
+  serviceIds: number[],
   dateStart: string
   dateEnd: string
 }) => {
-  const { data } = await dbsClient.post(
-    `/api/booking/locations/186414/appointment`,
+  const { data } = await roapiClient.post(
+    // `/api/booking/locations/186414/appointment`,
+    `/bookings`,
     {
       client: {
       name,
@@ -77,9 +106,16 @@ export const createAppointment = async ({
       comment,
       vin,
       employee_id: employeeId,
-      service_ids: serviceIds,
-      date_start: dateStart,
-      date_end: dateEnd
+      serviceIds,
+      // date_start: dateStart,
+      // date_end: dateEnd,
+      branch_id: DBS_ID,
+      assignee_id: employeeId,
+      scheduled_for: dateStart,
+      scheduled_to: dateEnd,
+
+      // order_type_id: 344068,
+      client_id: clientId
     },
     {
       headers: {
@@ -90,4 +126,63 @@ export const createAppointment = async ({
   )
 
   return { data }
+}
+
+// export const findClientByEmail = async (email: string) => {
+//   const { data } = await roapiClient.get('/contacts/people', {
+//     headers: {
+//       accept: 'application/json',
+//       authorization: `Bearer ${import.meta.env.VITE_ROAPP_TOKEN}`,
+//     },
+//   })
+
+//   const clients = Array.isArray(data?.data) ? data.data : Array.isArray(data) ? data : []
+
+//   console.log(clients.find((client: {email: string, id: number}) => 
+//     client.email === email
+//   ))
+
+//   return clients.find((client: {email: string, id: number}) => 
+//     client.email === email
+//   )?.id || null
+// }
+
+export const findClientByPhone = async (phone: string) => {
+  const { data } = await roapiClient.get(
+    `/contacts/people?phones=${encodeURIComponent(phone)}`,
+    {
+      headers: {
+        accept: 'application/json',
+        authorization: `Bearer ${import.meta.env.VITE_ROAPP_TOKEN}`,
+      },
+    }
+  )
+
+  const people = data?.data || data || []
+
+  return people[0].id || null
+}
+
+export const getOrCreateClient = async ({
+  first_name,
+  phone,
+  email,
+}: {
+  first_name: string
+  phone: string
+  email: string
+}) => {
+  const existingClient = await findClientByPhone(phone)
+
+  if (existingClient) {
+    return existingClient
+  }
+
+  const createdClient = await createClient({
+    first_name,
+    phone,
+    email,
+  })
+
+  return createdClient?.data?.id || createdClient?.id || null
 }
