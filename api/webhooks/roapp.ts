@@ -10,6 +10,7 @@ const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 type RoappWebhookPayload = {
   id?: string
   created_at?: string
+  created_at_ts?: number
   event_name?: string
   context?: {
     object_id?: number
@@ -21,7 +22,17 @@ type RoappWebhookPayload = {
       name?: string
       type?: number
     }
+    order?: {
+      id?: number
+      name?: string
+    }
     status?: {
+      id?: number
+    }
+    new?: {
+      id?: number
+    }
+    old?: {
       id?: number
     }
     client?: {
@@ -89,26 +100,10 @@ async function sendWazzupMessage({
   return response.data
 }
 
-export default async function handler(
-  req: VercelRequest,
+async function handleLeadCreated(
+  payload: RoappWebhookPayload,
   res: VercelResponse
 ) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ ok: false, error: 'Method not allowed' })
-  }
-
-  const payload = req.body as RoappWebhookPayload
-
-  console.log('Incoming ROAPP webhook:', JSON.stringify(payload, null, 2))
-
-  if (payload?.event_name !== 'Lead.Created') {
-    return res.status(200).json({
-      ok: true,
-      ignored: true,
-      reason: `Unsupported event: ${payload?.event_name || 'unknown'}`,
-    })
-  }
-
   const leadId = payload?.context?.object_id
 
   if (!leadId) {
@@ -121,11 +116,6 @@ export default async function handler(
   try {
     const fullName = payload?.metadata?.client?.fullname || 'zákazníku'
     const clientFirstName = getFirstName(fullName)
-
-    // ВАЖНО:
-    // если phone не приходит в webhook, тут надо будет либо:
-    // 1) получить lead details через правильный lead endpoint
-    // 2) или не отправлять WA до тех пор, пока не узнаем phone
     const phone = normalizePhone(payload?.metadata?.client?.phone)
 
     if (!phone) {
@@ -155,18 +145,69 @@ export default async function handler(
     })
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('Axios error:', {
+      console.error('Lead.Created axios error:', {
         message: error.message,
         status: error.response?.status,
         data: error.response?.data,
       })
     } else {
-      console.error('Unexpected error:', error)
+      console.error('Lead.Created unexpected error:', error)
     }
 
     return res.status(500).json({
       ok: false,
       error: 'Webhook processing failed',
     })
+  }
+}
+
+function handleOrderStatusChanged(
+  payload: RoappWebhookPayload,
+  res: VercelResponse
+) {
+  const orderId = payload?.context?.object_id
+  const newStatusId = payload?.metadata?.new?.id
+  const oldStatusId = payload?.metadata?.old?.id
+
+  console.log(
+    '🟡 Order.Status.Changed payload:',
+    JSON.stringify(payload, null, 2)
+  )
+
+  return res.status(200).json({
+    ok: true,
+    event: payload.event_name,
+    orderId: orderId || null,
+    newStatusId: newStatusId || null,
+    oldStatusId: oldStatusId || null,
+    message: 'Order.Status.Changed received',
+  })
+}
+
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse
+) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ ok: false, error: 'Method not allowed' })
+  }
+
+  const payload = req.body as RoappWebhookPayload
+
+  console.log('Incoming ROAPP webhook:', JSON.stringify(payload, null, 2))
+
+  switch (payload?.event_name) {
+    case 'Lead.Created':
+      return handleLeadCreated(payload, res)
+
+    case 'Order.Status.Changed':
+      return handleOrderStatusChanged(payload, res)
+
+    default:
+      return res.status(200).json({
+        ok: true,
+        ignored: true,
+        reason: `Unsupported event: ${payload?.event_name || 'unknown'}`,
+      })
   }
 }
