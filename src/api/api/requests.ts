@@ -303,7 +303,8 @@ export const createAppointment = async ({
   dateEnd: string
 }) => {
   const { data } = await dbsClient.post(
-    '/api/booking/locations/186414/appointment',
+    // '/api/booking/locations/186414/appointment',
+    '/api/orders',
     {
       client,
       vin,
