@@ -124,12 +124,12 @@ function buildOrderCreatedMessage(data: OrderDetails): string {
   ].join('\n')
 }
 
-async function getOrderById(orderId: number) {
+async function getLeadById(leadId: number) {
   if (!ROAPP_API_KEY) {
     throw new Error('ROAPP_API_KEY is missing')
   }
 
-  const response = await axios.get(`${ROAPP_API_BASE_URL}/orders/${orderId}`, {
+  const response = await axios.get(`${ROAPP_API_BASE_URL}/leads/${leadId}`, {
     headers: {
       Authorization: `Bearer ${ROAPP_API_KEY}`,
       Accept: 'application/json',
@@ -197,7 +197,7 @@ export default async function handler(
 
   console.log('Incoming ROAPP webhook:', JSON.stringify(payload, null, 2))
 
-  if (payload?.event_name !== 'Order.Created') {
+  if (payload?.event_name !== 'Lead.Created') {
     return res.status(200).json({
       ok: true,
       ignored: true,
@@ -205,9 +205,9 @@ export default async function handler(
     })
   }
 
-  const orderId = payload?.context?.object_id
+  const leadId = payload?.context?.object_id
 
-  if (!orderId) {
+  if (!leadId) {
     return res.status(400).json({
       ok: false,
       error: 'Missing context.object_id',
@@ -215,7 +215,7 @@ export default async function handler(
   }
 
   try {
-    const orderResponse = await getOrderById(orderId)
+    const orderResponse = await getLeadById(leadId)
     console.log('ROAPP order response:', JSON.stringify(orderResponse, null, 2))
 
     const order = orderResponse?.data || orderResponse
@@ -233,7 +233,7 @@ export default async function handler(
     const wazzupResponse = await sendWazzupMessage({
       phone: mappedOrder.phone,
       text: messageText,
-      crmMessageId: String(orderId),
+      crmMessageId: String(leadId),
     })
 
     console.log('WAZZUP response:', JSON.stringify(wazzupResponse, null, 2))
@@ -241,7 +241,7 @@ export default async function handler(
     return res.status(200).json({
       ok: true,
       event: payload.event_name,
-      orderId,
+      leadId,
       phone: mappedOrder.phone,
       bookingDate: mappedOrder.bookingDate,
       bookingTime: mappedOrder.bookingTime,
