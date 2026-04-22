@@ -7,9 +7,6 @@ const WAZZUP_API_BASE_URL =
 const WAZZUP_CHANNEL_ID = process.env.WAZZUP_CHANNEL_ID
 const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 
-const DBS_LOCATION_ADDRESS =
-  process.env.DBS_LOCATION_ADDRESS || 'DBS Autoservis & Detailing'
-
 type BookingConfirmationBody = {
   clientFirstName: string
   phone: string
