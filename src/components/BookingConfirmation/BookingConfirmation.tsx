@@ -187,97 +187,167 @@ const BookingConfirmation = ({
   //   }
   // }
 
+  // const handleSubmit = async () => {
+  //   setTouched(true)
+  
+  //   if (!isFormValid || !phoneNumber) return
+  
+  //   const clientId = await getOrCreateClient({
+  //     first_name: name,
+  //     phone: phoneNumber,
+  //     email,
+  //   })
+  
+  //   if (!clientId) {
+  //     handleIsErrorSubmit(true)
+  //     return
+  //   }
+  
+  //   const requests = Object.entries(selectedSlots)
+  //     .filter(([_, value]) => value?.slot?.dateStart)
+  //     .map(([employeeId, value]) => {
+  //       const dateStart = subtractTwoHours(value!.slot.dateStart as string)
+  
+  //       const employeeServices = selectedServices.filter(
+  //         s => s.parentCategoryId === Number(employeeId)
+  //       )
+  
+  //       const employeeTotalDuration = employeeServices.reduce(
+  //         (sum, service) => sum + service.durationMinutes,
+  //         0
+  //       )
+  
+  //       const dateEnd = addMinutes(dateStart, employeeTotalDuration)
+  
+  //       const commentWithVin = vin.length
+  //         ? `VIN: ${vin}\ncomment: ${comment}`
+  //         : comment
+  
+  //       return createAppointment({
+  //         client: {
+  //           name,
+  //           phone: phoneNumber,
+  //           email,
+  //         },
+  //         vin,
+  //         comment: commentWithVin,
+  //         employeeId: Number(employeeId),
+  //         serviceIds: employeeServices.map(s => s.id),
+  //         dateStart,
+  //         dateEnd,
+  //       })
+  //     })
+  
+  //   const responses = await Promise.allSettled(requests)
+  
+  //   const success = responses.every(res => res.status === 'fulfilled')
+  
+  //   if (success) {
+  //     setCurrentStep(prev => prev + 1)
+  //   } else {
+  //     handleIsErrorSubmit(true)
+  //     setCurrentStep(prev => prev + 2)
+  //   }
+  // }
+
   const handleSubmit = async () => {
     setTouched(true)
   
     if (!isFormValid || !phoneNumber) return
   
-    const clientId = await getOrCreateClient({
-      first_name: name,
-      phone: phoneNumber,
-      email,
-    })
-  
-    if (!clientId) {
-      handleIsErrorSubmit(true)
-      return
-    }
-  
-    const requests = Object.entries(selectedSlots)
-      .filter(([_, value]) => value?.slot?.dateStart)
-      .map(([employeeId, value]) => {
-        const dateStart = subtractTwoHours(value!.slot.dateStart as string)
-  
-        const employeeServices = selectedServices.filter(
-          s => s.parentCategoryId === Number(employeeId)
-        )
-  
-        const employeeTotalDuration = employeeServices.reduce(
-          (sum, service) => sum + service.durationMinutes,
-          0
-        )
-  
-        const dateEnd = addMinutes(dateStart, employeeTotalDuration)
-  
-        const commentWithVin = vin.length
-          ? `VIN: ${vin}\ncomment: ${comment}`
-          : comment
-  
-        return createAppointment({
-          client: {
-            name,
-            phone: phoneNumber,
-            email,
-          },
-          vin,
-          comment: commentWithVin,
-          employeeId: Number(employeeId),
-          serviceIds: employeeServices.map(s => s.id),
-          dateStart,
-          dateEnd,
-        })
+    try {
+      const clientId = await getOrCreateClient({
+        first_name: name,
+        phone: phoneNumber,
+        email,
       })
   
-    const responses = await Promise.allSettled(requests)
+      if (!clientId) {
+        handleIsErrorSubmit(true)
+        return
+      }
   
-    const success = responses.every(res => res.status === 'fulfilled')
+      const requests = Object.entries(selectedSlots)
+        .filter(([_, value]) => value?.slot?.dateStart)
+        .map(([employeeId, value]) => {
+          const dateStart = subtractTwoHours(value!.slot.dateStart as string)
   
-    if (success) {
+          const employeeServices = selectedServices.filter(
+            s => s.parentCategoryId === Number(employeeId)
+          )
+  
+          const employeeTotalDuration = employeeServices.reduce(
+            (sum, service) => sum + service.durationMinutes,
+            0
+          )
+  
+          const dateEnd = addMinutes(dateStart, employeeTotalDuration)
+  
+          const commentWithVin = vin.length
+            ? `VIN: ${vin}\ncomment: ${comment}`
+            : comment
+  
+          return createAppointment({
+            client: {
+              name,
+              phone: phoneNumber,
+              email,
+            },
+            vin,
+            comment: commentWithVin,
+            employeeId: Number(employeeId),
+            serviceIds: employeeServices.map(s => s.id),
+            dateStart,
+            dateEnd,
+          })
+        })
+  
+      const responses = await Promise.allSettled(requests)
+      const success = responses.every(res => res.status === 'fulfilled')
+  
+      if (!success) {
+        console.error('Some appointment requests failed:', responses)
+        handleIsErrorSubmit(true)
+        setCurrentStep(prev => prev + 2)
+        return
+      }
+  
+      try {
+        const firstSelectedSlot = Object.values(selectedSlots).find(
+          value => value?.slot?.dateStart
+        )
+  
+        if (firstSelectedSlot?.slot?.dateStart) {
+          const date = new Date(firstSelectedSlot.slot.dateStart)
+  
+          const bookingDate = new Intl.DateTimeFormat('cs-CZ', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }).format(date)
+  
+          const bookingTime = new Intl.DateTimeFormat('cs-CZ', {
+            hour: '2-digit',
+            minute: '2-digit',
+          }).format(date)
+  
+          await sendBookingConfirmation({
+            clientFirstName: name,
+            phone: phoneNumber,
+            bookingDate,
+            bookingTime,
+          })
+        }
+      } catch (error) {
+        console.error('WhatsApp send failed:', error)
+      }
+  
       setCurrentStep(prev => prev + 1)
-    } else {
+    } catch (error) {
+      console.error('handleSubmit failed:', error)
       handleIsErrorSubmit(true)
       setCurrentStep(prev => prev + 2)
     }
-  }
-
-  try {
-    const firstSelectedSlot = Object.values(selectedSlots).find(
-      value => value?.slot?.dateStart
-    )
-
-    if (firstSelectedSlot?.slot?.dateStart) {
-      const date = new Date(firstSelectedSlot.slot.dateStart)
-
-      const bookingDate = new Intl.DateTimeFormat('cs-CZ', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      }).format(date)
-
-      const bookingTime = new Intl.DateTimeFormat('cs-CZ', {
-        hour: '2-digit',
-        minute: '2-digit',
-      }).format(date)
-
-      sendBookingConfirmation({
-        clientFirstName: name,
-        phone: phoneNumber || '',
-        bookingDate,
-        bookingTime,
-      })
-    }
-  } catch (error) {
-    console.error('WhatsApp send failed:', error)
   }
 
   const services = groupServicesToArray(selectedServices)

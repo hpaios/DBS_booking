@@ -281,6 +281,27 @@ export const getOrCreateClient = async ({
   return createdClientId || null
 }
 
+export const sendBookingConfirmation = async ({
+  clientFirstName,
+  phone,
+  bookingDate,
+  bookingTime,
+}: {
+  clientFirstName: string
+  phone: string
+  bookingDate: string
+  bookingTime: string
+}) => {
+  const { data } = await axios.post('/api/send-booking-confirmation', {
+    clientFirstName,
+    phone,
+    bookingDate,
+    bookingTime,
+  })
+
+  return data
+}
+
 export const createAppointment = async ({
   client,
   vin,
