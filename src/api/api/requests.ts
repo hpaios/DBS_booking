@@ -292,7 +292,7 @@ export const sendBookingConfirmation = async ({
   bookingDate: string
   bookingTime: string
 }) => {
-  const { data } = await axios.post('/api/send-booking-confirmation', {
+  const { data } = await axios.post('/api/roapp/send-booking-confirmation', {
     clientFirstName,
     phone,
     bookingDate,
