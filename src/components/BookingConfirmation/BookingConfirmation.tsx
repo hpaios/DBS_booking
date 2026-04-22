@@ -330,6 +330,12 @@ const BookingConfirmation = ({
             hour: '2-digit',
             minute: '2-digit',
           }).format(date)
+
+          console.log('bookingDate', bookingDate)
+          console.log('bookingTime', bookingTime)
+          console.log('name', name)
+          console.log('phoneNumber', phoneNumber)
+          console.log('email', email)
   
           await sendBookingConfirmation({
             clientFirstName: name,
