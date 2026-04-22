@@ -3,7 +3,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
-import { createAppointment, getOrCreateClient } from '../../api/api/requests'
+import { createAppointment, getOrCreateClient, sendBookingConfirmation } from '../../api/api/requests'
 import { addMinutes, groupServicesToArray, subtractTwoHours } from '../../utils'
 import { RECAPTCHA_PROD } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
@@ -248,6 +248,36 @@ const BookingConfirmation = ({
       handleIsErrorSubmit(true)
       setCurrentStep(prev => prev + 2)
     }
+  }
+
+  try {
+    const firstSelectedSlot = Object.values(selectedSlots).find(
+      value => value?.slot?.dateStart
+    )
+
+    if (firstSelectedSlot?.slot?.dateStart) {
+      const date = new Date(firstSelectedSlot.slot.dateStart)
+
+      const bookingDate = new Intl.DateTimeFormat('cs-CZ', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }).format(date)
+
+      const bookingTime = new Intl.DateTimeFormat('cs-CZ', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(date)
+
+      sendBookingConfirmation({
+        clientFirstName: name,
+        phone: phoneNumber || '',
+        bookingDate,
+        bookingTime,
+      })
+    }
+  } catch (error) {
+    console.error('WhatsApp send failed:', error)
   }
 
   const services = groupServicesToArray(selectedServices)
