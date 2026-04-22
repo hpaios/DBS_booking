@@ -326,13 +326,13 @@ const BookingConfirmation = ({
             year: 'numeric',
           }).format(date)
   
-          const bookingTime = new Intl.DateTimeFormat('cs-CZ', {
-            hour: '2-digit',
-            minute: '2-digit',
-          }).format(date)
+          // const bookingTime = new Intl.DateTimeFormat('cs-CZ', {
+          //   hour: '2-digit',
+          //   minute: '2-digit',
+          // }).format(date)
 
           console.log('bookingDate', bookingDate)
-          console.log('bookingTime', bookingTime)
+          console.log('bookingTime', firstSelectedSlot?.slot?.dateStart)
           console.log('name', name)
           console.log('phoneNumber', phoneNumber)
           console.log('email', email)
@@ -341,7 +341,7 @@ const BookingConfirmation = ({
             clientFirstName: name,
             phone: phoneNumber,
             bookingDate,
-            bookingTime,
+            bookingTime: firstSelectedSlot?.slot?.dateStart,
           })
         }
       } catch (error) {

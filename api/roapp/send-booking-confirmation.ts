@@ -23,12 +23,15 @@ function normalizePhone(phone: string): string {
 
 function buildBookingConfirmationMessage(data: BookingConfirmationBody): string 
 {
-  console.log('data', data)
+  const formattedName = data.clientFirstName
+  ? data.clientFirstName.charAt(0).toUpperCase() +
+    data.clientFirstName.slice(1).toLowerCase()
+  : ''
   return [
-    `Dobrý den, ${data.clientFirstName}. Váš termín v DBS Autoservis & Detailing je potvrzen!`,
+    `Dobrý den, ${formattedName}. Váš termín v DBS Autoservis & Detailing je potvrzen!`,
     `🗓 Datum: ${data.bookingDate}`,
     `⏰ Čas: ${data.bookingTime}`,
-    `📍 Adresa: ${DBS_LOCATION_ADDRESS}`,
+    `📍 Adresa: Františka Kadlece 2441, 180 00 Praha 8`,
     `Náš přijímací technik nebo manažer DBS Autoservis & Detailing se s vámi brzy spojí pro upřesnění detailů. Mějte prosím na paměti, že pokud se jedná o servisní zakázku, cena uvedená při rezervaci zahrnuje pouze práci. V případě potřeby objednání náhradních dílů vám v nejbližší době zašleme cenovou nabídku. Těšíme se na vaši návštěvu.`,
   ].join('\n')
 }
