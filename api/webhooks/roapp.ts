@@ -221,7 +221,7 @@ const ROAPP_API_BASE_URL =
   process.env.ROAPP_API_BASE_URL || 'https://api.roapp.io/v2'
 const ROAPP_API_TOKEN = process.env.ROAPP_API_TOKEN
 
-console.log('DEBUG TARGET_STATUS_ID')
+console.log('DEBUG TARGET_STATUS_')
 
 const TARGET_STATUS_ID = 4287767
 const TARGET_CLIENT_ID = 37567839
