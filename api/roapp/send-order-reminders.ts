@@ -12,46 +12,61 @@ function buildReminderMessage(): string {
   return `TEST Dobrý den, připomínáme Vám Vaši rezervaci v DBS Autoservis & Detailing.`
 }
 
-async function sendWazzupMessage(phone: string, text: string, crmMessageId: string) {
+async function sendWazzupMessage(
+  phone: string,
+  text: string,
+  crmMessageId: string
+) {
   if (!WAZZUP_API_KEY || !WAZZUP_CHANNEL_ID) {
     throw new Error('Missing Wazzup config')
   }
 
-  const response = await axios.post(
-    `${WAZZUP_API_BASE_URL}/message`,
-    {
-      channelId: WAZZUP_CHANNEL_ID,
-      chatType: WAZZUP_CHAT_TYPE,
-      chatId: phone,
-      text,
-      crmMessageId,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${WAZZUP_API_KEY}`,
-        'Content-Type': 'application/json',
+  try {
+    const response = await axios.post(
+      `${WAZZUP_API_BASE_URL}/message`,
+      {
+        channelId: WAZZUP_CHANNEL_ID,
+        chatType: WAZZUP_CHAT_TYPE,
+        chatId: phone,
+        text,
+        crmMessageId,
       },
-    }
-  )
-
-  if (axios.isAxiosError(response.data)) {
-    console.error(
-      'send-booking-confirmation axios error:',
-      JSON.stringify(
-        {
-          message: response.data.message,
-          status: response.data.response?.status,
-          data: response.data.response?.data,
+      {
+        headers: {
+          Authorization: `Bearer ${WAZZUP_API_KEY}`,
+          'Content-Type': 'application/json',
         },
-        null,
-        2
-      )
+        timeout: 15000,
+      }
     )
-  } else {
-    console.error('WhatsApp send failed:', response.data)
-  }
 
-  return response.data
+    console.log(
+      'WAZZUP success:',
+      JSON.stringify(response.data, null, 2)
+    )
+
+    return response.data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(
+        'WAZZUP axios error:',
+        JSON.stringify(
+          {
+            message: error.message,
+            status: error.response?.status,
+            data: error.response?.data,
+            innerData: error.response?.data?.data,
+          },
+          null,
+          2
+        )
+      )
+    } else {
+      console.error('WAZZUP unexpected error:', error)
+    }
+
+    throw error
+  }
 }
 
 export default async function handler(
