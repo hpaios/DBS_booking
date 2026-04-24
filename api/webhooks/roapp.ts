@@ -209,7 +209,7 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
-import { supabase } from '../lib/supabase'
+import { supabase } from '../../lib/supabase'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
 const WAZZUP_API_BASE_URL =
@@ -294,10 +294,6 @@ function getFirstName(fullName: unknown): string {
 
 function buildLeadCreatedMessage(clientFirstName: string): string {
   return `Dobrý den, ${clientFirstName}. Děkujeme za váš zájem o DBS Autoservis & Detailing! Vaši poptávku jsme v pořádku přijali a brzy se s vámi spojíme.`
-}
-
-function buildReminderMessage(clientFirstName: string): string {
-  return `Dobrý den, ${clientFirstName}, připomínáme Vám Vaši rezervaci v DBS Autoservis & Detailing. V případě dotazů nás neváhejte kontaktovat.`
 }
 
 async function sendWazzupMessage({
@@ -424,10 +420,7 @@ async function handleOrderStatusChanged(
   const webhookOldStatusId = payload?.metadata?.old?.id
 
   console.log('DEBUG status from webhook:', webhookNewStatusId)
-  console.log('✅ ROAPP order:', JSON.stringify(order, null, 2))
-  console.log('DEBUG order status id:', order?.status?.id)
-  console.log('DEBUG order client id:', order?.client?.id)
-  console.log('DEBUG order phone:', order?.client?.phone)
+  console.log('✅ ROAPP order:', JSON.stringify(payload?.metadata?.order, null, 2))
 
   if (webhookNewStatusId !== TARGET_STATUS_ID) {
     return res.status(200).json({
@@ -457,6 +450,7 @@ async function handleOrderStatusChanged(
     const clientId = order?.client?.id
     const fullName = order?.client?.first_name || order?.client?.name || 'zákazníku'
     const clientFirstName = getFirstName(fullName)
+    console.log('DEBUG client first name:', clientFirstName)
     const phone = normalizePhone(order?.client?.phone?.[0])
 
     if (statusId !== TARGET_STATUS_ID || clientId !== TARGET_CLIENT_ID) {
