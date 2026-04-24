@@ -35,10 +35,18 @@ async function sendWazzupMessage(phone: string, text: string, crmMessageId: stri
   )
 
   if (axios.isAxiosError(response.data)) {
-    console.error('WhatsApp send failed:', {
-      status: response.data.response?.status,
-      data: response.data.response?.data,
-    })
+    console.error(
+      'send-booking-confirmation axios error:',
+      JSON.stringify(
+        {
+          message: response.data.message,
+          status: response.data.response?.status,
+          data: response.data.response?.data,
+        },
+        null,
+        2
+      )
+    )
   } else {
     console.error('WhatsApp send failed:', response.data)
   }
