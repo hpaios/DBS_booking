@@ -209,7 +209,7 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
-import { supabase } from '../../lib/supabase'
+import { supabase } from '../../lib/supabase.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
 const WAZZUP_API_BASE_URL =
