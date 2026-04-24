@@ -424,6 +424,10 @@ async function handleOrderStatusChanged(
   const webhookOldStatusId = payload?.metadata?.old?.id
 
   console.log('DEBUG status from webhook:', webhookNewStatusId)
+  console.log('✅ ROAPP order:', JSON.stringify(order, null, 2))
+  console.log('DEBUG order status id:', order?.status?.id)
+  console.log('DEBUG order client id:', order?.client?.id)
+  console.log('DEBUG order phone:', order?.client?.phone)
 
   if (webhookNewStatusId !== TARGET_STATUS_ID) {
     return res.status(200).json({
