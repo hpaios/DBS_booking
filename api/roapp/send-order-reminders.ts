@@ -9,7 +9,7 @@ const WAZZUP_CHANNEL_ID = process.env.WAZZUP_CHANNEL_ID
 const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 
 function buildReminderMessage(): string {
-  return `Dobrý den, připomínáme Vám Vaši rezervaci v DBS Autoservis & Detailing.`
+  return `TEST Dobrý den, připomínáme Vám Vaši rezervaci v DBS Autoservis & Detailing.`
 }
 
 async function sendWazzupMessage(phone: string, text: string, crmMessageId: string) {
