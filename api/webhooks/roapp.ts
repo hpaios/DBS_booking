@@ -423,6 +423,17 @@ async function handleOrderStatusChanged(
   const webhookNewStatusId = payload?.metadata?.new?.id
   const webhookOldStatusId = payload?.metadata?.old?.id
 
+  console.log('DEBUG status from webhook:', webhookNewStatusId)
+
+  if (webhookNewStatusId !== TARGET_STATUS_ID) {
+    return res.status(200).json({
+      ok: true,
+      ignored: true,
+      reason: 'status mismatch',
+      webhookNewStatusId
+    })
+  }
+
   console.log(
     '🟡 Order.Status.Changed payload:',
     JSON.stringify(payload, null, 2)
