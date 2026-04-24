@@ -99,11 +99,19 @@ export default async function handler(
     })
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('send-booking-confirmation axios error:', {
-        message: error.message,
-        status: error.response?.status,
-        data: error.response?.data,
-      })
+      console.error(
+        'send-booking-confirmation axios error:',
+        JSON.stringify(
+          {
+            message: error.message,
+            status: error.response?.status,
+            data: error.response?.data,
+            innerData: error.response?.data?.data,
+          },
+          null,
+          2
+        )
+      )
     } else {
       console.error('send-booking-confirmation unexpected error:', error)
     }
