@@ -34,6 +34,15 @@ async function sendWazzupMessage(phone: string, text: string, crmMessageId: stri
     }
   )
 
+  if (axios.isAxiosError(response.data)) {
+    console.error('WhatsApp send failed:', {
+      status: response.data.response?.status,
+      data: response.data.response?.data,
+    })
+  } else {
+    console.error('WhatsApp send failed:', response.data)
+  }
+
   return response.data
 }
 
