@@ -7,7 +7,7 @@
   ],
   "crons": [
     {
-      "path": "/api/send-order-reminders",
+      "path": "/api/roapp/send-order-reminders",
       "schedule": "*/1 * * * *"
     }
   ]
