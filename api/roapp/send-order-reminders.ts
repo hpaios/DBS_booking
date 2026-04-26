@@ -8,8 +8,38 @@ const WAZZUP_API_BASE_URL =
 const WAZZUP_CHANNEL_ID = process.env.WAZZUP_CHANNEL_ID
 const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 
-function buildReminderMessage(): string {
-  return `TEST Dobrý den, připomínáme Vám Vaši rezervaci v DBS Autoservis & Detailing.`
+function buildReminderMessage({
+  bookingAt,
+  clientName,
+}: {
+  bookingAt: string
+  clientName?: string | null
+}): string {
+  const formattedName = clientName?.trim() || 'zákazníku'
+  const date = new Date(bookingAt)
+
+  const bookingDate = date.toLocaleDateString('cs-CZ', {
+    timeZone: 'Europe/Prague',
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+
+  const bookingTime = date.toLocaleTimeString('cs-CZ', {
+    timeZone: 'Europe/Prague',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+
+  return [
+    `Dobrý den, ${formattedName}.`,
+    `rádi bychom Vám připomněli Vaši rezervaci v DBS Autoservis & Detailing.`,
+    `🗓 Datum: ${bookingDate}`,
+    `⏰ Čas: ${bookingTime}`,
+    `📍 Adresa: Františka Kadlece 2441, 180 00 Praha 8`,
+    `Těšíme se na Vaši návštěvu!`,
+  ].join('\n')
 }
 
 async function sendWazzupMessage(
@@ -95,7 +125,10 @@ export default async function handler(
 
     for (const reminder of reminders) {
       try {
-        const text = buildReminderMessage()
+        const text = buildReminderMessage({
+          bookingAt: reminder.booking_at,
+          clientName: reminder.client_name,
+        })
 
         await sendWazzupMessage(
           reminder.phone,
