@@ -18,13 +18,22 @@ function buildReminderMessage({
   const formattedName = clientName?.trim() || 'zákazníku'
   const date = new Date(bookingAt)
 
-  const bookingDate = date.toLocaleDateString('cs-CZ', {
-    timeZone: 'Europe/Prague',
+  const weekday = new Intl.DateTimeFormat('cs-CZ', {
     weekday: 'long',
+    timeZone: 'Europe/Prague',
+  }).format(date)
+  
+  const day = new Intl.DateTimeFormat('cs-CZ', {
     day: 'numeric',
+    timeZone: 'Europe/Prague',
+  }).format(date)
+  
+  const month = new Intl.DateTimeFormat('cs-CZ', {
     month: 'long',
-    year: 'numeric',
-  })
+    timeZone: 'Europe/Prague',
+  }).format(date)
+  
+  const bookingDate = `${weekday}, ${day} ${month}`
 
   const bookingTime = date.toLocaleTimeString('cs-CZ', {
     timeZone: 'Europe/Prague',

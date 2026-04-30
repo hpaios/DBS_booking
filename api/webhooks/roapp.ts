@@ -15,7 +15,9 @@ const ROAPP_API_TOKEN = process.env.ROAPP_API_TOKEN
 console.log('DEBUG TARGET_STATUS_')
 
 const TARGET_STATUS_ID = 4287767
-const TARGET_CLIENT_ID = 37567839
+
+// Test client +390988990758
+// const TARGET_CLIENT_ID = 37567839 // for test
 
 type RoappWebhookPayload = {
   id?: string
@@ -310,7 +312,7 @@ async function handleOrderStatusChanged(
     const phone = normalizePhone(order?.client?.phone?.[0])
     const orderScheduledFor = order?.scheduled_for
 
-    if (statusId !== TARGET_STATUS_ID || clientId !== TARGET_CLIENT_ID) {
+    if (statusId !== TARGET_STATUS_ID) {
       return res.status(200).json({
         ok: true,
         ignored: true,
@@ -332,24 +334,6 @@ async function handleOrderStatusChanged(
         clientId,
       })
     }
-
-    // const sendAt = new Date(Date.now() + 15 * 60 * 1000).toISOString()
-
-    // const { error } = await supabase
-    //   .from('order_reminders')
-    //   .upsert(
-    //     {
-    //       order_id: orderId,
-    //       client_id: clientId,
-    //       phone,
-    //       status_id: statusId,
-    //       send_at: sendAt,
-    //       message_sent: false,
-    //     },
-    //     {
-    //       onConflict: 'order_id',
-    //     }
-    //   )
 
     if (!orderScheduledFor) {
       return res.status(200).json({
