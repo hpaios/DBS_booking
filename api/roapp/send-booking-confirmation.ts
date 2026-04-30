@@ -20,12 +20,20 @@ function normalizePhone(phone: string): string {
 
 function buildBookingConfirmationMessage(data: BookingConfirmationBody): string 
 {
-  const formattedName = data.clientFirstName
-  ? data.clientFirstName.charAt(0).toUpperCase() +
-    data.clientFirstName.slice(1).toLowerCase()
-  : ''
+  const formattedName = () => {
+    return data.clientFirstName
+      .trim()
+      .split(/\s+/)
+      .map(
+        word =>
+          word.charAt(0).toUpperCase() +
+          word.slice(1).toLowerCase()
+      )
+      .join(' ')
+  }
+
   return [
-    `Dobrý den, ${formattedName}. Váš termín v DBS Autoservis & Detailing je potvrzen!`,
+    `Dobrý den, ${formattedName()}. Váš termín v DBS Autoservis & Detailing je potvrzen!`,
     `🗓 Datum: ${data.bookingDate}`,
     `⏰ Čas: ${data.bookingTime}`,
     `📍 Adresa: Františka Kadlece 2441, 180 00 Praha 8`,
