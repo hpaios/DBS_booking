@@ -43,7 +43,7 @@ function buildReminderMessage({
 
   return [
     `Dobrý den, ${formattedName}.`,
-    `rádi bychom Vám připomněli Vaši rezervaci v DBS Autoservis & Detailing.`,
+    `Rádi bychom Vám připomněli Vaši rezervaci v DBS Autoservis & Detailing.`,
     `🗓 Datum: ${bookingDate}`,
     `⏰ Čas: ${bookingTime}`,
     `📍 Adresa: Františka Kadlece 2441, 180 00 Praha 8`,
