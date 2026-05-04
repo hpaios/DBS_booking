@@ -219,14 +219,13 @@ async function handleOrderStatusChanged(
   res: VercelResponse
 ) {
   const orderId = payload?.metadata?.order?.id
-  const clientId = payload?.metadata?.order?.client?.id
   const webhookNewStatusId = payload?.metadata?.new?.id
   const webhookOldStatusId = payload?.metadata?.old?.id
 
   console.log('DEBUG status from webhook:', webhookNewStatusId)
   console.log('✅ ROAPP order:', JSON.stringify(payload?.metadata?.order, null, 2))
 
-  if (!TARGET_STATUS_IDS.includes(Number(webhookNewStatusId)) || clientId !== TARGET_CLIENT_ID) {
+  if (!TARGET_STATUS_IDS.includes(Number(webhookNewStatusId))) {
     return res.status(200).json({
       ok: true,
       ignored: true,
@@ -266,12 +265,24 @@ async function handleOrderStatusChanged(
         orderId,
       })
     }
-    
+
     const order = await getOrderById(orderId)
 
     const statusId = order?.status?.id
     const clientId = order?.client?.id
     const fullName = order?.client?.first_name || order?.client?.name || 'zákazníku'
+
+    // Test client +390988990758
+    if (clientId !== TARGET_CLIENT_ID) {
+      return res.status(200).json({
+        ok: true,
+        ignored: true,
+        reason: 'client mismatch',
+        orderId,
+        clientId,
+      })
+    }
+
     const clientFirstName = getFirstName(fullName)
     console.log('DEBUG client first name:', clientFirstName)
     const phone = normalizePhone(order?.client?.phone?.[0])
