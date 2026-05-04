@@ -239,6 +239,13 @@ async function handleOrderStatusChanged(
     JSON.stringify(payload, null, 2)
   )
 
+  console.log('DEBUG TARGET_STATUS_IDS:', TARGET_STATUS_IDS)
+  console.log('DEBUG webhookNewStatusId:', webhookNewStatusId)
+  console.log(
+    'DEBUG status includes:',
+    TARGET_STATUS_IDS.includes(Number(webhookNewStatusId))
+  )
+
   if (!orderId) {
     return res.status(400).json({
       ok: false,
@@ -271,6 +278,12 @@ async function handleOrderStatusChanged(
     const statusId = order?.status?.id
     const clientId = order?.client?.id
     const fullName = order?.client?.first_name || order?.client?.name || 'zákazníku'
+
+    console.log('DEBUG order statusId:', statusId)
+    console.log('DEBUG order clientId:', clientId)
+    console.log('DEBUG TARGET_CLIENT_ID:', TARGET_CLIENT_ID)
+    console.log('DEBUG phone:', order?.client?.phone)
+    console.log('DEBUG orderScheduledFor:', order?.scheduled_for)
 
     // Test client +390988990758
     if (clientId !== TARGET_CLIENT_ID) {
@@ -353,6 +366,8 @@ async function handleOrderStatusChanged(
       .upsert(remindersToSave, {
         onConflict: 'order_id,reminder_type',
       })
+
+    console.log('✅ reminders saved:', remindersToSave.length)
 
     if (error) {
       throw error
