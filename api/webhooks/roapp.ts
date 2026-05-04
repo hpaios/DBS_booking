@@ -273,7 +273,9 @@ async function handleOrderStatusChanged(
       })
     }
 
+    console.log('DEBUG before getOrderById:', orderId)
     const order = await getOrderById(orderId)
+    console.log('DEBUG after getOrderById:', JSON.stringify(order, null, 2))
 
     const statusId = order?.status?.id
     const clientId = order?.client?.id
