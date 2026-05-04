@@ -1,6 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { supabase } from '../../lib/supabase.js'
+import { RoappOrderResponse, RoappWebhookPayload } from '../types.js'
+import { TARGET_CLIENT_ID, TARGET_STATUS_IDS } from '../constants.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
 const WAZZUP_API_BASE_URL =
@@ -13,63 +15,6 @@ const ROAPP_API_BASE_URL =
 const ROAPP_API_TOKEN = process.env.ROAPP_API_TOKEN
 
 console.log('DEBUG TARGET_STATUS_')
-
-const TARGET_STATUS_ID = 4287767
-
-// Test client +390988990758
-// const TARGET_CLIENT_ID = 37567839 // for test
-
-type RoappWebhookPayload = {
-  id?: string
-  created_at?: string
-  created_at_ts?: number
-  event_name?: string
-  context?: {
-    object_id?: number
-    object_type?: string
-  }
-  metadata?: {
-    lead?: {
-      id?: number
-      name?: string
-      type?: number
-    }
-    order?: {
-      id?: number
-      name?: string
-    }
-    status?: {
-      id?: number
-    }
-    new?: {
-      id?: number
-    }
-    old?: {
-      id?: number
-    }
-    client?: {
-      fullname?: string
-      phone?: string
-    }
-    closed_at?: string | null
-  }
-}
-
-type RoappOrderResponse = {
-  id: number
-  status?: {
-    id?: number
-    name?: string
-  }
-  client?: {
-    id?: number
-    name?: string
-    first_name?: string
-    phone?: string[]
-  }
-  scheduled_for?: string | null
-  scheduled_to?: string | null
-}
 
 function normalizePhone(phone: unknown): string | null {
   if (!phone) return null
@@ -274,13 +219,14 @@ async function handleOrderStatusChanged(
   res: VercelResponse
 ) {
   const orderId = payload?.metadata?.order?.id
+  const clientId = payload?.metadata?.order?.client?.id
   const webhookNewStatusId = payload?.metadata?.new?.id
   const webhookOldStatusId = payload?.metadata?.old?.id
 
   console.log('DEBUG status from webhook:', webhookNewStatusId)
   console.log('✅ ROAPP order:', JSON.stringify(payload?.metadata?.order, null, 2))
 
-  if (webhookNewStatusId !== TARGET_STATUS_ID) {
+  if (!TARGET_STATUS_IDS.includes(Number(webhookNewStatusId)) || clientId !== TARGET_CLIENT_ID) {
     return res.status(200).json({
       ok: true,
       ignored: true,
@@ -302,6 +248,25 @@ async function handleOrderStatusChanged(
   }
 
   try {
+    const { data: existingReminders, error: existingError } = await supabase
+    .from('order_reminders')
+    .select('id, order_id, reminder_type, message_sent')
+    .eq('order_id', orderId)
+    .limit(1)
+
+    if (existingError) {
+      throw existingError
+    }
+
+    if (existingReminders && existingReminders.length > 0) {
+      return res.status(200).json({
+        ok: true,
+        ignored: true,
+        reason: 'reminders already scheduled for this order',
+        orderId,
+      })
+    }
+    
     const order = await getOrderById(orderId)
 
     const statusId = order?.status?.id
@@ -312,7 +277,7 @@ async function handleOrderStatusChanged(
     const phone = normalizePhone(order?.client?.phone?.[0])
     const orderScheduledFor = order?.scheduled_for
 
-    if (statusId !== TARGET_STATUS_ID) {
+    if (!TARGET_STATUS_IDS.includes(Number(statusId))) {
       return res.status(200).json({
         ok: true,
         ignored: true,
