@@ -1,9 +1,8 @@
-// Ждем детали (заказаны) id: 4280118
-// Ждем приезда машину оставляют id: 4280780
-// Ждем детали (не заказаны) id: 4073304
-// Ждем приезда клиента (все есть) id: 4287767
+const STATUS_WAITING_FOR_PARTS_ORDER = 4317344 // Ждем приезда (заказать детали)
+const STATUS_WAITING_FOR_CLIENT_ARRIVAL = 4287767 // Ждем приезда клиента (все есть)
+const STATUS_WAITING_FOR_PARTS_DELIVERY = 4317345 // Ждем приезда (детали заказаны)
 
-export const TARGET_STATUS_IDS = [4280118, 4280780, 4073304, 4287767]
+export const TARGET_STATUS_IDS = [STATUS_WAITING_FOR_PARTS_ORDER, STATUS_WAITING_FOR_CLIENT_ARRIVAL, STATUS_WAITING_FOR_PARTS_DELIVERY]
 
 // Test client +390988990758
 export const TARGET_CLIENT_ID = 37567839 // for test
