@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { supabase } from '../../lib/supabase.js'
 import { RoappOrderResponse, RoappWebhookPayload } from '../types.js'
-import { TARGET_CLIENT_ID, TARGET_STATUS_IDS } from '../constants.js'
+import { TARGET_STATUS_IDS } from '../constants.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
 const WAZZUP_API_BASE_URL =
@@ -13,8 +13,6 @@ const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 const ROAPP_API_BASE_URL =
   process.env.ROAPP_API_BASE_URL || 'https://api.roapp.io/v2'
 const ROAPP_API_TOKEN = process.env.ROAPP_API_TOKEN
-
-console.log('DEBUG TARGET_STATUS_')
 
 function normalizePhone(phone: unknown): string | null {
   if (!phone) return null
@@ -222,7 +220,6 @@ async function handleOrderStatusChanged(
   const webhookNewStatusId = payload?.metadata?.new?.id
   const webhookOldStatusId = payload?.metadata?.old?.id
 
-  console.log('DEBUG status from webhook:', webhookNewStatusId)
   console.log('✅ ROAPP order:', JSON.stringify(payload?.metadata?.order, null, 2))
 
   if (!TARGET_STATUS_IDS.includes(Number(webhookNewStatusId))) {
@@ -237,13 +234,6 @@ async function handleOrderStatusChanged(
   console.log(
     '🟡 Order.Status.Changed payload:',
     JSON.stringify(payload, null, 2)
-  )
-
-  console.log('DEBUG TARGET_STATUS_IDS:', TARGET_STATUS_IDS)
-  console.log('DEBUG webhookNewStatusId:', webhookNewStatusId)
-  console.log(
-    'DEBUG status includes:',
-    TARGET_STATUS_IDS.includes(Number(webhookNewStatusId))
   )
 
   if (!orderId) {
@@ -273,30 +263,22 @@ async function handleOrderStatusChanged(
       })
     }
 
-    console.log('DEBUG before getOrderById:', orderId)
     const order = await getOrderById(orderId)
-    console.log('DEBUG after getOrderById:', JSON.stringify(order, null, 2))
 
     const statusId = order?.status?.id
     const clientId = order?.client?.id
     const fullName = order?.client?.first_name || order?.client?.name || 'zákazníku'
 
-    console.log('DEBUG order statusId:', statusId)
-    console.log('DEBUG order clientId:', clientId)
-    console.log('DEBUG TARGET_CLIENT_ID:', TARGET_CLIENT_ID)
-    console.log('DEBUG phone:', order?.client?.phone)
-    console.log('DEBUG orderScheduledFor:', order?.scheduled_for)
-
     // Test client +390988990758
-    if (clientId !== TARGET_CLIENT_ID) {
-      return res.status(200).json({
-        ok: true,
-        ignored: true,
-        reason: 'client mismatch',
-        orderId,
-        clientId,
-      })
-    }
+    // if (clientId !== TARGET_CLIENT_ID) {
+    //   return res.status(200).json({
+    //     ok: true,
+    //     ignored: true,
+    //     reason: 'client mismatch',
+    //     orderId,
+    //     clientId,
+    //   })
+    // }
 
     const clientFirstName = getFirstName(fullName)
     console.log('DEBUG client first name:', clientFirstName)
