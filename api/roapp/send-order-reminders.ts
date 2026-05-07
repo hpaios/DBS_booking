@@ -1,55 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { supabase } from '../../lib/supabase.js'
+import { buildReminderMessage } from './utils.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
 const WAZZUP_API_BASE_URL =
   process.env.WAZZUP_API_BASE_URL || 'https://api.wazzup24.com/v3'
 const WAZZUP_CHANNEL_ID = process.env.WAZZUP_CHANNEL_ID
 const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
-
-function buildReminderMessage({
-  bookingAt,
-  clientName,
-}: {
-  bookingAt: string
-  clientName?: string | null
-}): string {
-  const formattedName = clientName?.trim() || 'zákazníku'
-  const date = new Date(bookingAt)
-
-  const weekday = new Intl.DateTimeFormat('cs-CZ', {
-    weekday: 'long',
-    timeZone: 'Europe/Prague',
-  }).format(date)
-  
-  const day = new Intl.DateTimeFormat('cs-CZ', {
-    day: 'numeric',
-    timeZone: 'Europe/Prague',
-  }).format(date)
-  
-  const month = new Intl.DateTimeFormat('cs-CZ', {
-    month: 'long',
-    timeZone: 'Europe/Prague',
-  }).format(date)
-  
-  const bookingDate = `${weekday}, ${day} ${month}`
-
-  const bookingTime = date.toLocaleTimeString('cs-CZ', {
-    timeZone: 'Europe/Prague',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-
-  return [
-    `Dobrý den, ${formattedName}.`,
-    `Rádi bychom Vám připomněli Vaši rezervaci v DBS Autoservis & Detailing.`,
-    `🗓 Datum: ${bookingDate}`,
-    `⏰ Čas: ${bookingTime}`,
-    `📍 Adresa: Františka Kadlece 2441, 180 00 Praha 8`,
-    `Těšíme se na Vaši návštěvu!`,
-  ].join('\n')
-}
 
 async function sendWazzupMessage(
   phone: string,
@@ -135,6 +93,7 @@ export default async function handler(
     for (const reminder of reminders) {
       try {
         const text = buildReminderMessage({
+          reminderType: reminder.reminder_type,
           bookingAt: reminder.booking_at,
           clientName: reminder.client_name,
         })
