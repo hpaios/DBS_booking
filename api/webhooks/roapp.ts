@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { supabase } from '../../lib/supabase.js'
 import { RoappOrderResponse, RoappWebhookPayload } from '../types.js'
-import { TARGET_STATUS_IDS } from '../constants.js'
+import { STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
 const WAZZUP_API_BASE_URL =
@@ -221,6 +221,37 @@ async function handleOrderStatusChanged(
   const webhookOldStatusId = payload?.metadata?.old?.id
 
   console.log('✅ ROAPP order:', JSON.stringify(payload?.metadata?.order, null, 2))
+
+  if (Number(webhookNewStatusId) === STATUS_NOT_RELEVANT) {
+    if (!orderId) {
+      return res.status(400).json({
+        ok: false,
+        error: 'Missing orderId',
+      })
+    }
+  
+    const { error } = await supabase
+      .from('order_reminders')
+      .delete()
+      .eq('order_id', orderId)
+  
+    if (error) {
+      console.error('Failed to delete reminders:', error)
+  
+      return res.status(500).json({
+        ok: false,
+        error: 'Failed to delete reminders',
+      })
+    }
+  
+    console.log(`✅ Deleted reminders for order ${orderId}`)
+  
+    return res.status(200).json({
+      ok: true,
+      deleted: true,
+      orderId,
+    })
+  }
 
   if (!TARGET_STATUS_IDS.includes(Number(webhookNewStatusId))) {
     return res.status(200).json({
