@@ -7,11 +7,35 @@ const WAZZUP_API_BASE_URL =
 const WAZZUP_CHANNEL_ID = process.env.WAZZUP_CHANNEL_ID
 const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
+
 type BookingConfirmationBody = {
   clientFirstName: string
   phone: string
   bookingDate: string
   bookingTime: string
+}
+
+async function sendTelegramMessage(text: string) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.warn('Telegram env is missing')
+    return null
+  }
+
+  const response = await axios.post(
+    `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+    {
+      chat_id: TELEGRAM_CHAT_ID,
+      text,
+      parse_mode: 'HTML',
+    },
+    {
+      timeout: 15000,
+    }
+  )
+
+  return response.data
 }
 
 function normalizePhone(phone: string): string {
@@ -38,6 +62,27 @@ function buildBookingConfirmationMessage(data: BookingConfirmationBody): string
     `⏰ Čas: ${data.bookingTime}`,
     `📍 Adresa: Františka Kadlece 2441, 180 00 Praha 8`,
     `Náš přijímací technik nebo manažer DBS Autoservis & Detailing se s vámi brzy spojí pro upřesnění detailů. Mějte prosím na paměti, že pokud se jedná o servisní zakázku, cena uvedená při rezervaci zahrnuje pouze práci. V případě potřeby objednání náhradních dílů vám v nejbližší době zašleme cenovou nabídku. Těšíme se na vaši návštěvu.`,
+  ].join('\n')
+}
+
+function buildTelegramBookingMessage({
+  clientFirstName,
+  phone,
+  bookingDate,
+  bookingTime,
+}: {
+  clientFirstName: string
+  phone: string
+  bookingDate: string
+  bookingTime: string
+}) {
+  return [
+    `🚗 <b>Nová rezervace DBS</b>`,
+    ``,
+    `👤 Klient: ${clientFirstName}`,
+    `📞 Telefon: ${phone}`,
+    `🗓 Datum: ${bookingDate}`,
+    `⏰ Čas: ${bookingTime}`,
   ].join('\n')
 }
 
@@ -100,6 +145,19 @@ export default async function handler(
         timeout: 15000,
       }
     )
+
+    const telegramText = buildTelegramBookingMessage({
+      clientFirstName,
+      phone,
+      bookingDate,
+      bookingTime,
+    })
+    
+    try {
+      await sendTelegramMessage(telegramText)
+    } catch (error) {
+      console.error('Telegram send failed:', error)
+    }
 
     return res.status(200).json({
       ok: true,
