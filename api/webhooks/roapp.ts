@@ -423,7 +423,7 @@ async function handleLeadStatusChanged(
   res: VercelResponse
 ) {
   console.log('🟡 Lead.Status.Changed payload:', JSON.stringify(payload, null, 2))
-  console.log('🟡 Lead.Status.Changed res:', res)
+  console.log('🟡 Lead.Status.Changed res:', JSON.stringify(res, null, 2))
 }
 
 // async function handleLeadStatusChanged(
