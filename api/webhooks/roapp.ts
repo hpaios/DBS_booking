@@ -2,8 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { supabase } from '../../lib/supabase.js'
 import { RoappOrderResponse, RoappWebhookPayload } from '../types.js'
-import { LEAD_FOLLOWUP_CANCEL_STATUS_IDS, LEAD_FOLLOWUP_SCHEDULES, LEAD_FOLLOWUP_TRIGGER_STATUS_IDS, STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
-import { getPragueFollowupSendAt } from '../utils.js'
+import { STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
 const WAZZUP_API_BASE_URL =
@@ -14,7 +13,7 @@ const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 const ROAPP_API_BASE_URL =
   process.env.ROAPP_API_BASE_URL || 'https://api.roapp.io/v2'
 const ROAPP_API_TOKEN = process.env.ROAPP_API_TOKEN
-const ROAPP_API_KEY = process.env.ROAPP_API_KEY
+// const ROAPP_API_KEY = process.env.ROAPP_API_KEY
 
 function normalizePhone(phone: unknown): string | null {
   if (!phone) return null
@@ -419,192 +418,30 @@ async function handleOrderStatusChanged(
   }
 }
 
-async function getLeadById(leadId: number) {
-  if (!ROAPP_API_KEY) {
-    throw new Error('ROAPP_API_KEY is missing')
-  }
+// async function getLeadById(leadId: number) {
+//   if (!ROAPP_API_KEY) {
+//     throw new Error('ROAPP_API_KEY is missing')
+//   }
 
-  const response = await axios.get(`https://roapp.readme.io/v1.4/reference/get-leads?id=${leadId}`, {
-    headers: {
-      Authorization: `Bearer ${ROAPP_API_KEY}`,
-      Accept: 'application/json',
-    },
-    timeout: 15000,
-  })
+//   const response = await axios.get(`https://roapp.readme.io/v1.4/reference/get-leads?id=${leadId}`, {
+//     headers: {
+//       Authorization: `Bearer ${ROAPP_API_KEY}`,
+//       Accept: 'application/json',
+//     },
+//     timeout: 15000,
+//   })
 
-  console.log('🟡 getLeadById response:', JSON.stringify(response.data, null, 2))
+//   console.log('🟡 getLeadById response:', JSON.stringify(response.data, null, 2))
 
-  return response.data?.data || response.data
-}
+//   return response.data?.data || response.data
+// }
 
 async function handleLeadStatusChanged(
   payload: RoappWebhookPayload,
   res: VercelResponse
 ) {
-  const leadId = payload?.context?.object_id
-  const newStatusId = payload?.metadata?.new?.id
-  const oldStatusId = payload?.metadata?.old?.id
 
   console.log('🟡 Lead.Status.Changed payload:', JSON.stringify(payload, null, 2))
-  console.log('🟡 Lead.Status.Changed res:', )
-
-  console.log('Lead.Status.Changed:', {
-    leadId,
-    newStatusId,
-    oldStatusId,
-  })
-
-  if (!leadId) {
-    return res.status(400).json({
-      ok: false,
-      error: 'Missing lead id',
-    })
-  }
-
-  if (LEAD_FOLLOWUP_CANCEL_STATUS_IDS.includes(Number(newStatusId))) {
-    const { error } = await supabase
-      .from('lead_followups')
-      .delete()
-      .eq('lead_id', leadId)
-      .eq('message_sent', false)
-
-    if (error) {
-      console.error('Failed to delete lead followups:', error)
-
-      return res.status(500).json({
-        ok: false,
-        error: 'Failed to delete lead followups',
-      })
-    }
-
-    return res.status(200).json({
-      ok: true,
-      deleted: true,
-      reason: 'lead converted or reminders disabled',
-      leadId,
-      newStatusId,
-    })
-  }
-
-  if (!LEAD_FOLLOWUP_TRIGGER_STATUS_IDS.includes(Number(newStatusId))) {
-    return res.status(200).json({
-      ok: true,
-      ignored: true,
-      reason: 'status is not a followup trigger',
-      leadId,
-      newStatusId,
-    })
-  }
-
-  try {
-    const { data: existingFollowups, error: existingError } = await supabase
-      .from('lead_followups')
-      .select('id')
-      .eq('lead_id', leadId)
-      .limit(1)
-
-    if (existingError) {
-      throw existingError
-    }
-
-    if (existingFollowups && existingFollowups.length > 0) {
-      return res.status(200).json({
-        ok: true,
-        ignored: true,
-        reason: 'followups already scheduled for this lead',
-        leadId,
-      })
-    }
-
-    const lead = await getLeadById(leadId)
-    console.log('ROAPP lead details:', JSON.stringify(lead, null, 2))
-
-    const { clientId, name } = lead?.client || {}
-    const { phone } = lead?.contact_phone || {}
-
-    if (!phone) {
-      return res.status(200).json({
-        ok: true,
-        ignored: true,
-        reason: 'Phone not found in lead details',
-        leadId,
-        clientId,
-      })
-    }
-
-    const schedule = LEAD_FOLLOWUP_SCHEDULES[Number(newStatusId)] || []
-
-    const now = Date.now()
-
-    const followupsToSave = schedule
-      .map(item => ({
-        lead_id: leadId,
-        order_id: null,
-        client_id: clientId,
-        phone,
-        client_name: name,
-        trigger_status_id: Number(newStatusId),
-        cancel_status_id: null,
-        reminder_type: item.reminderType,
-        send_at: getPragueFollowupSendAt({
-          baseDateString: payload.created_at,
-          daysToAdd: item.days,
-        }),
-        message_sent: false,
-        canceled: false,
-      }))
-      .filter(item => new Date(item.send_at).getTime() > now)
-
-    if (!followupsToSave.length) {
-      return res.status(200).json({
-        ok: true,
-        ignored: true,
-        reason: 'All followup times are already in the past',
-        leadId,
-      })
-    }
-
-    const { error } = await supabase
-      .from('lead_followups')
-      .upsert(followupsToSave, {
-        onConflict: 'lead_id,reminder_type',
-      })
-
-    if (error) {
-      console.error('Failed to save lead followups:', error)
-
-      return res.status(500).json({
-        ok: false,
-        error: 'Failed to save lead followups',
-      })
-    }
-
-    return res.status(200).json({
-      ok: true,
-      event: payload.event_name,
-      leadId,
-      clientId,
-      statusId: newStatusId,
-      scheduled: true,
-      followups: followupsToSave,
-    })
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Lead.Status.Changed axios error:', {
-        message: error.message,
-        url: error.config?.url,
-        status: error.response?.status,
-        data: error.response?.data,
-      })
-    } else {
-      console.error('Lead.Status.Changed unexpected error:', error)
-    }
-
-    return res.status(500).json({
-      ok: false,
-      error: 'Lead.Status.Changed processing failed',
-    })
-  }
 }
 
 export default async function handler(
