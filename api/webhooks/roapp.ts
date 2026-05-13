@@ -417,6 +417,18 @@ async function handleOrderStatusChanged(
   }
 }
 
+async function handleLeadStatusChanged(
+  payload: RoappWebhookPayload,
+  res: VercelResponse
+) {
+  console.log('🟡 Lead.Status.Changed payload:', JSON.stringify(payload, null, 2))
+
+  return res.status(200).json({
+    ok: true,
+    event: payload.event_name,
+  })
+}
+
 export default async function handler(
   req: VercelRequest,
   res: VercelResponse
@@ -432,6 +444,9 @@ export default async function handler(
   switch (payload?.event_name) {
     case 'Lead.Created':
       return handleLeadCreated(payload, res)
+
+    case 'Lead.Status.Changed':
+      return handleLeadStatusChanged(payload, res)
 
     case 'Order.Status.Changed':
       return handleOrderStatusChanged(payload, res)
