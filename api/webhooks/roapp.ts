@@ -424,13 +424,15 @@ async function getLeadById(leadId: number) {
     throw new Error('ROAPP_API_KEY is missing')
   }
 
-  const response = await axios.get(`https://web.roapp.io/app/leads/get-lead?id=${leadId}`, {
+  const response = await axios.get(`https://roapp.readme.io/v1.4/reference/get-leads?id=${leadId}`, {
     headers: {
       Authorization: `Bearer ${ROAPP_API_KEY}`,
       Accept: 'application/json',
     },
     timeout: 15000,
   })
+
+  console.log('🟡 getLeadById response:', JSON.stringify(response.data, null, 2))
 
   return response.data?.data || response.data
 }
