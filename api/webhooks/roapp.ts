@@ -422,7 +422,6 @@ async function handleLeadStatusChanged(
   payload: RoappWebhookPayload,
   res: VercelResponse
 ) {
-  console.log('🟡 Lead.Status.Changed !!! payload:', JSON.stringify(payload, null, 2))
   console.log('🟡 Lead.Status.Changed !!! res:', res)
 }
 
