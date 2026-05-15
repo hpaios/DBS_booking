@@ -493,6 +493,11 @@ async function getLeadById(leadId: number) {
     status: response.status,
     hasData: Boolean(response.data),
     isArray: Array.isArray(response.data),
+    dataSummary: {
+      name: response.data?.data?.[0]?.client?.name,
+      phone: response.data?.data?.[0]?.client?.phone?.[0],
+      statusName: response.data?.data?.[0]?.status?.name,
+    },
   })
 
   return response.data?.data || response.data
