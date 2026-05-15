@@ -440,8 +440,9 @@ async function handleLeadStatusChanged(
 
     console.log('🟡 Lead.Status.Changed lead summary:', {
       leadId,
-      hasLead: Boolean(lead),
-      isArray: Array.isArray(lead),
+      name: lead?.name,
+      phone: lead?.phone,
+      statusId: lead?.status?.id,
     })
 
     return res.status(200).json({
