@@ -560,24 +560,20 @@ async function handleLeadStatusChanged(
   }
 
   try {
-    const { data: existingFollowups, error: existingError } = await supabase
-      .from('lead_followups')
-      .select('id')
-      .eq('lead_id', leadId)
-      .limit(1)
+    const { error: deleteOldFollowupsError } = await supabase
+    .from('lead_followups')
+    .delete()
+    .eq('lead_id', leadId)
+    .eq('message_sent', false)
 
-    if (existingError) {
-      throw existingError
+    if (deleteOldFollowupsError) {
+      throw deleteOldFollowupsError
     }
 
-    if (existingFollowups && existingFollowups.length > 0) {
-      return res.status(200).json({
-        ok: true,
-        ignored: true,
-        reason: 'followups already scheduled for this lead',
-        leadId,
-      })
-    }
+    console.log('🟡 Old unsent lead followups deleted:', {
+      leadId,
+      newStatusId,
+    })
 
     const leadResponse = await getLeadById(leadId)
     const lead = Array.isArray(leadResponse) ? leadResponse[0] : leadResponse
@@ -635,10 +631,8 @@ async function handleLeadStatusChanged(
     }
 
     const { error } = await supabase
-      .from('lead_followups')
-      .upsert(followupsToSave, {
-        onConflict: 'lead_id,reminder_type',
-      })
+    .from('lead_followups')
+    .insert(followupsToSave)
 
     if (error) {
       console.error('Failed to save lead followups:', error)
