@@ -1,5 +1,3 @@
-import { normalizePhone } from './roapp/send-lead-followups'
-
 function getTimezoneOffsetMs(date: Date, timeZone: string): number {
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone,
@@ -132,12 +130,7 @@ export function mapLeadClientDetails(lead: {
     client?.first_name ||
     'zákazníku'
 
-  const phone = normalizePhone(
-    client?.phone?.[0] ||
-      client?.phones?.[0] ||
-      client?.phone ||
-      client?.phone_number
-  )
+  const phone = client?.phone?.[0] || null
 
   return {
     clientId,
