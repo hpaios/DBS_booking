@@ -449,6 +449,9 @@ async function handleLeadStatusChanged(
       event: payload.event_name,
       leadId,
       received: true,
+      name: lead?.name,
+      phone: lead?.phone,
+      statusId: lead?.status?.id,
     })
   } catch (error) {
     if (axios.isAxiosError(error)) {
