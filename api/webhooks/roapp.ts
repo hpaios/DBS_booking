@@ -13,7 +13,7 @@ const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 const ROAPP_API_BASE_URL =
   process.env.ROAPP_API_BASE_URL || 'https://api.roapp.io/v2'
 const ROAPP_API_TOKEN = process.env.ROAPP_API_TOKEN
-// const ROAPP_API_KEY = process.env.ROAPP_API_KEY
+const ROAPP_API_KEY = process.env.ROAPP_API_KEY
 
 function normalizePhone(phone: unknown): string | null {
   if (!phone) return null
@@ -418,23 +418,23 @@ async function handleOrderStatusChanged(
   }
 }
 
-// async function getLeadById(leadId: number) {
-//   if (!ROAPP_API_KEY) {
-//     throw new Error('ROAPP_API_KEY is missing')
-//   }
+async function getLeadById(leadId: number) {
+  if (!ROAPP_API_KEY) {
+    throw new Error('ROAPP_API_KEY is missing')
+  }
 
-//   const response = await axios.get(`https://roapp.readme.io/v1.4/reference/get-leads?id=${leadId}`, {
-//     headers: {
-//       Authorization: `Bearer ${ROAPP_API_KEY}`,
-//       Accept: 'application/json',
-//     },
-//     timeout: 15000,
-//   })
+  const response = await axios.get(`https://api.roapp.io/lead/?ids[]=${leadId}`, {
+    headers: {
+      Authorization: `Bearer ${ROAPP_API_KEY}`,
+      Accept: 'application/json',
+    },
+    timeout: 15000,
+  })
 
-//   console.log('🟡 getLeadById response:', JSON.stringify(response.data, null, 2))
+  console.log('🟡 getLeadById response:', JSON.stringify(response.data, null, 2))
 
-//   return response.data?.data || response.data
-// }
+  return response.data?.data || response.data
+}
 
 async function handleLeadStatusChanged(
   payload: RoappWebhookPayload,
@@ -442,6 +442,18 @@ async function handleLeadStatusChanged(
 ) {
 
   console.log('🟡 Lead.Status.Changed payload:', JSON.stringify(payload, null, 2))
+  const leadId = payload?.metadata?.lead?.id
+
+  if (!leadId) {
+    return res.status(400).json({
+      ok: false,
+      error: 'Missing metadata.lead.id',
+    })
+  }
+
+  const lead = await getLeadById(leadId)
+
+  console.log('🟡 Lead.Status.Changed lead:', JSON.stringify(lead, null, 2))
 }
 
 export default async function handler(
