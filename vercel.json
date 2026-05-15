@@ -9,6 +9,10 @@
     {
       "path": "/api/roapp/send-order-reminders",
       "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/roapp/send-lead-followups",
+      "schedule": "*/10 * * * *"
     }
   ]
 }
