@@ -444,6 +444,8 @@ async function handleLeadStatusChanged(
   console.log('🟡 Lead.Status.Changed payload:', JSON.stringify(payload, null, 2))
   const leadId = payload?.metadata?.lead?.id
 
+  console.log('🟡 leadId:', leadId)
+
   if (!leadId) {
     return res.status(400).json({
       ok: false,
