@@ -418,30 +418,12 @@ async function handleOrderStatusChanged(
   }
 }
 
-async function getLeadById(leadId: number) {
-  if (!ROAPP_API_KEY) {
-    throw new Error('ROAPP_API_KEY is missing')
-  }
-
-  const response = await axios.get(`https://api.roapp.io/lead/?ids[]=${leadId}`, {
-    headers: {
-      Authorization: `Bearer ${ROAPP_API_KEY}`,
-      Accept: 'application/json',
-    },
-    timeout: 15000,
-  })
-
-  console.log('🟡 getLeadById response:', JSON.stringify(response.data, null, 2))
-
-  return response.data?.data || response.data
-}
-
 async function handleLeadStatusChanged(
   payload: RoappWebhookPayload,
   res: VercelResponse
 ) {
-
   console.log('🟡 Lead.Status.Changed payload:', JSON.stringify(payload, null, 2))
+
   const leadId = payload?.metadata?.lead?.id
 
   console.log('🟡 leadId:', leadId)
@@ -453,9 +435,63 @@ async function handleLeadStatusChanged(
     })
   }
 
-  const lead = await getLeadById(leadId)
+  try {
+    const lead = await getLeadById(leadId)
 
-  console.log('🟡 Lead.Status.Changed lead:', JSON.stringify(lead, null, 2))
+    console.log('🟡 Lead.Status.Changed lead summary:', {
+      leadId,
+      hasLead: Boolean(lead),
+      isArray: Array.isArray(lead),
+    })
+
+    return res.status(200).json({
+      ok: true,
+      event: payload.event_name,
+      leadId,
+      received: true,
+    })
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Lead.Status.Changed axios error:', {
+        message: error.message,
+        url: error.config?.url,
+        status: error.response?.status,
+        data: error.response?.data,
+      })
+    } else {
+      console.error('Lead.Status.Changed unexpected error:', error)
+    }
+
+    return res.status(500).json({
+      ok: false,
+      error: 'Lead.Status.Changed processing failed',
+    })
+  }
+}
+
+async function getLeadById(leadId: number) {
+  if (!ROAPP_API_KEY) {
+    throw new Error('ROAPP_API_KEY is missing')
+  }
+
+  const response = await axios.get(`https://api.roapp.io/lead/`, {
+    params: {
+      'ids[]': leadId,
+    },
+    headers: {
+      Authorization: `Bearer ${ROAPP_API_KEY}`,
+      Accept: 'application/json',
+    },
+    timeout: 15000,
+  })
+
+  console.log('🟡 getLeadById response summary:', {
+    status: response.status,
+    hasData: Boolean(response.data),
+    isArray: Array.isArray(response.data),
+  })
+
+  return response.data?.data || response.data
 }
 
 export default async function handler(
