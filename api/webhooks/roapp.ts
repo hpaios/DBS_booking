@@ -442,7 +442,7 @@ async function handleLeadStatusChanged(
       leadId,
       name: lead?.client?.name,
       phone: lead?.client?.phone?.[0],
-      statusId: lead?.status?.name,
+      statusName: lead?.status?.name,
     })
 
     return res.status(200).json({
@@ -450,9 +450,9 @@ async function handleLeadStatusChanged(
       event: payload.event_name,
       leadId,
       received: true,
-      name: lead?.name,
-      phone: lead?.phone,
-      statusId: lead?.status?.id,
+      name: lead?.client?.name,
+      phone: lead?.client?.phone?.[0],
+      statusName: lead?.status?.name,
     })
   } catch (error) {
     if (axios.isAxiosError(error)) {
