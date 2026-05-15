@@ -143,7 +143,7 @@ DBS`
 
 nechci na Vás nijak tlačit, jen posílám poslední slíbené připomenutí. 
 
-Pokud se rozhodnete využít naše služby nyní nebo kdykoliv v budoucnu, dveře u nás máte otevřené. Mezitím se můžete podívat na ukázky našich reálných prací na Instagramu: [Odkaz na Instagram].
+Pokud se rozhodnete využít naše služby nyní nebo kdykoliv v budoucnu, dveře u nás máte otevřené. Mezitím se můžete podívat na ukázky našich reálných prací na Instagramu: https://www.instagram.com/dbspraha.
 
 Kdykoliv budete naši pomoc potřebovat, jsme tu pro Vás.
 
@@ -180,7 +180,7 @@ DBS`
 
 jen se v krátkosti připomínám, jak jsme se domluvili.
 
-Výsledky naší pečlivé práce a projekty, na kterých zrovna děláme, můžete sledovat na našem Instagramu: [Odkaz na Instagram].
+Výsledky naší pečlivé práce a projekty, na kterých zrovna děláme, můžete sledovat na našem Instagramu: https://www.instagram.com/dbspraha.
 
 Až bude Váš vůz potřebovat naši péči, stačí se ozvat. Jsme připraveni pomoci.
 
@@ -217,7 +217,7 @@ DBS`
 
 nechci Vás nijak rušit dalšími zprávami, proto Vám píšu ohledně naší nabídky naposledy. 
 
-Dveře u nás máte kdykoliv otevřené – až se v budoucnu rozhodnete dopřát Vašemu vozu péči, stačí se nám ozvat. Do té doby můžete sledovat naše aktuální projekty a práci na Instagramu: [Odkaz na Instagram].
+Dveře u nás máte kdykoliv otevřené – až se v budoucnu rozhodnete dopřát Vašemu vozu péči, stačí se nám ozvat. Do té doby můžete sledovat naše aktuální projekty a práci na Instagramu: https://www.instagram.com/dbspraha.
 
 Přeji Vám vše dobré a ať Vám auto dělá jen radost.
 
