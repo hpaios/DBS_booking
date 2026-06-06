@@ -111,7 +111,14 @@ function buildLeadInvitationMessage({
     case 'invitation_cz_2d':
       return `Dobrý den, ${name},
 
-...
+před několika dny jsme Vás zvali na konzultaci ohledně péče o Váš vůz.
+
+Během osobní schůzky můžeme zhodnotit stav vozidla, odpovědět na Vaše dotazy a doporučit nejvhodnější řešení právě pro Vás.
+
+Ukázky naší práce najdete zde:
+https://www.instagram.com/dbspraha.
+
+Pokud Vám to bude vyhovovat, rádi pro Vás najdeme vhodný termín.
 
 S pozdravem,
 Ilja
@@ -120,7 +127,14 @@ DBS`
     case 'invitation_cz_7d':
       return `Dobrý den, ${name},
 
-...
+rád bych Vás znovu pozval na konzultaci do DBS Autoservis & Detailing.
+
+Osobní setkání často pomůže rychleji projít všechny možnosti a vybrat nejvhodnější řešení pro Váš vůz.
+
+Naše aktuální projekty si můžete prohlédnout zde:
+https://www.instagram.com/dbspraha.
+
+Pokud budete mít jakékoliv dotazy, rád Vám poradím.
 
 S pozdravem,
 Ilja
@@ -129,7 +143,12 @@ DBS`
     case 'invitation_cz_14d':
       return `Dobrý den, ${name},
 
-...
+toto je poslední připomenutí možnosti objednat se na konzultaci v DBS Autoservis & Detailing.
+
+Pokud pro Vás nyní péče o vůz není aktuální, budeme rádi, když se na nás obrátíte kdykoliv v budoucnu.
+
+Naše nové projekty a realizace najdete zde:
+https://www.instagram.com/dbspraha.
 
 S pozdravem,
 Ilja
@@ -138,7 +157,14 @@ DBS`
     case 'invitation_ru_2d':
       return `Добрый день, ${name},
 
-...
+несколько дней назад мы приглашали Вас на консультацию по уходу за Вашим автомобилем.
+
+Во время встречи мы сможем оценить состояние автомобиля, ответить на Ваши вопросы и предложить оптимальное решение именно для Вашей ситуации.
+
+Наши работы Вы можете посмотреть здесь:
+https://www.instagram.com/dbspraha.
+
+Если Вам будет удобно, будем рады подобрать подходящее время для визита.
 
 С уважением,
 Илья
@@ -147,7 +173,14 @@ DBS`
     case 'invitation_ru_7d':
       return `Добрый день, ${name},
 
-...
+хочу ещё раз пригласить Вас на консультацию в DBS Autoservis & Detailing.
+
+Личная встреча часто помогает быстрее разобраться во всех деталях и подобрать лучший вариант обслуживания автомобиля.
+
+Наши актуальные проекты можно посмотреть здесь:
+https://www.instagram.com/dbspraha.
+
+Если возникнут вопросы, с удовольствием помогу.
 
 С уважением,
 Илья
@@ -156,7 +189,12 @@ DBS`
     case 'invitation_ru_14d':
       return `Добрый день, ${name},
 
-...
+это последнее напоминание о возможности записаться на консультацию в DBS Autoservis & Detailing.
+
+Если сейчас вопрос обслуживания автомобиля не актуален, будем рады помочь Вам в будущем.
+
+Наши новые проекты и работы Вы можете посмотреть здесь:
+https://www.instagram.com/dbspraha.
 
 С уважением,
 Илья
@@ -165,7 +203,14 @@ DBS`
     default:
       return `Dobrý den, ${name},
 
-...
+rádi bychom Vás pozvali na konzultaci do DBS Autoservis & Detailing.
+
+Během osobní schůzky Vám rádi poradíme, zodpovíme Vaše dotazy a doporučíme nejvhodnější řešení pro Váš vůz.ы
+
+Ukázky naší práce najdete zde:
+https://www.instagram.com/dbspraha.
+
+Pokud Vám to bude vyhovovat, budeme rádi, když se nám ozvete.
 
 S pozdravem,
 Ilja
