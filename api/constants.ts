@@ -12,8 +12,12 @@ const FREQUENT_REMINDERS_STATUS_ID_RU = 4355565 // частые напомина
 const MEDIUM_REMINDERS_STATUS_ID_RU = 4355564 // средние напоминалки RU
 const RARE_REMINDERS_STATUS_ID_RU = 4355566 // редкие напоминалки RU
 
+const INVITATION_STATUS_ID_CZ = 4356502 // приглашение CZ
+const INVITATION_STATUS_ID_RU = 4356503 // приглашение RU
+
 const CLIENT_CONVERTED_STATUS_ID = 4324936 // конвертнулся в клиента (отключить напоминалки)
 const DISABLE_REMINDERS_STATUS_ID = 4324967 // выключить напоминалки (отключить напоминалки)
+const DISABLE_INVITATION_STATUS_ID = 4356504 // выключить приглашение (отключить приглашение)
 
 export const TARGET_STATUS_IDS = [STATUS_WAITING_FOR_PARTS_ORDER, STATUS_WAITING_FOR_CLIENT_ARRIVAL, STATUS_WAITING_FOR_PARTS_DELIVERY]
 
@@ -30,6 +34,15 @@ export const LEAD_FOLLOWUP_TRIGGER_STATUS_IDS = [
 export const LEAD_FOLLOWUP_CANCEL_STATUS_IDS = [
   CLIENT_CONVERTED_STATUS_ID,
   DISABLE_REMINDERS_STATUS_ID,
+]
+
+export const LEAD_INVITATION_TRIGGER_STATUS_IDS = [
+  INVITATION_STATUS_ID_CZ,
+  INVITATION_STATUS_ID_RU,
+]
+
+export const LEAD_INVITATION_CANCEL_STATUS_IDS = [
+  DISABLE_INVITATION_STATUS_ID,
 ]
 
 export const LEAD_FOLLOWUP_SCHEDULES: Record<number, { days: number; reminderType: string }[]> = {
@@ -64,6 +77,23 @@ export const LEAD_FOLLOWUP_SCHEDULES: Record<number, { days: number; reminderTyp
     { days: 7, reminderType: 'rare_ru_7d' },
     { days: 14, reminderType: 'rare_ru_14d' },
     { days: 28, reminderType: 'rare_ru_28d' },
+  ],
+}
+
+export const LEAD_INVITATION_SCHEDULES: Record<
+  number,
+  { days: number; invitationType: string }[]
+> = {
+  [INVITATION_STATUS_ID_CZ]: [
+    { days: 2, invitationType: 'invitation_cz_2d' },
+    { days: 7, invitationType: 'invitation_cz_7d' },
+    { days: 14, invitationType: 'invitation_cz_14d' },
+  ],
+
+  [INVITATION_STATUS_ID_RU]: [
+    { days: 2, invitationType: 'invitation_ru_2d' },
+    { days: 7, invitationType: 'invitation_ru_7d' },
+    { days: 14, invitationType: 'invitation_ru_14d' },
   ],
 }
 

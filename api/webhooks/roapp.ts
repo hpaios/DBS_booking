@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { supabase } from '../../lib/supabase.js'
 import { RoappOrderResponse, RoappWebhookPayload } from '../types.js'
-import { LEAD_FOLLOWUP_CANCEL_STATUS_IDS, LEAD_FOLLOWUP_SCHEDULES, LEAD_FOLLOWUP_TRIGGER_STATUS_IDS, STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
+import { LEAD_FOLLOWUP_CANCEL_STATUS_IDS, LEAD_FOLLOWUP_SCHEDULES, LEAD_FOLLOWUP_TRIGGER_STATUS_IDS, LEAD_INVITATION_CANCEL_STATUS_IDS, LEAD_INVITATION_SCHEDULES, LEAD_INVITATION_TRIGGER_STATUS_IDS, STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
 import { getPragueFollowupSendAt, mapLeadClientDetails } from '../utils.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
@@ -503,6 +503,174 @@ async function getLeadById(leadId: number) {
   return response.data?.data || response.data
 }
 
+// async function handleLeadStatusChanged(
+//   payload: RoappWebhookPayload,
+//   res: VercelResponse
+// ) {
+//   const leadId = payload?.metadata?.lead?.id || payload?.context?.object_id
+//   const newStatusId = payload?.metadata?.new?.id
+//   const oldStatusId = payload?.metadata?.old?.id
+
+//   console.log('🟡 Lead.Status.Changed:', {
+//     leadId,
+//     newStatusId,
+//     oldStatusId,
+//   })
+
+//   if (!leadId) {
+//     return res.status(400).json({
+//       ok: false,
+//       error: 'Missing lead id',
+//     })
+//   }
+
+//   if (LEAD_FOLLOWUP_CANCEL_STATUS_IDS.includes(Number(newStatusId))) {
+//     const { error } = await supabase
+//       .from('lead_followups')
+//       .delete()
+//       .eq('lead_id', leadId)
+//       .eq('message_sent', false)
+
+//     if (error) {
+//       console.error('Failed to delete lead followups:', error)
+
+//       return res.status(500).json({
+//         ok: false,
+//         error: 'Failed to delete lead followups',
+//       })
+//     }
+
+//     return res.status(200).json({
+//       ok: true,
+//       deleted: true,
+//       reason: 'lead converted or reminders disabled',
+//       leadId,
+//       newStatusId,
+//     })
+//   }
+
+//   if (!LEAD_FOLLOWUP_TRIGGER_STATUS_IDS.includes(Number(newStatusId))) {
+//     return res.status(200).json({
+//       ok: true,
+//       ignored: true,
+//       reason: 'status is not a followup trigger',
+//       leadId,
+//       newStatusId,
+//     })
+//   }
+
+//   try {
+//     const { error: deleteOldFollowupsError } = await supabase
+//     .from('lead_followups')
+//     .delete()
+//     .eq('lead_id', leadId)
+//     .eq('message_sent', false)
+
+//     if (deleteOldFollowupsError) {
+//       throw deleteOldFollowupsError
+//     }
+
+//     console.log('🟡 Old unsent lead followups deleted:', {
+//       leadId,
+//       newStatusId,
+//     })
+
+//     const leadResponse = await getLeadById(leadId)
+//     const lead = Array.isArray(leadResponse) ? leadResponse[0] : leadResponse
+
+//     console.log('🟡 Lead details summary:', {
+//       leadId,
+//       clientName: lead?.client?.name,
+//       clientId: lead?.client?.id,
+//       phone: lead?.client?.phone?.[0],
+//       statusId: lead?.status?.id,
+//       statusName: lead?.status?.name,
+//     })
+
+//     const { clientId, fullName, phone } = mapLeadClientDetails(lead)
+
+//     if (!phone) {
+//       return res.status(200).json({
+//         ok: true,
+//         ignored: true,
+//         reason: 'Phone not found in lead details',
+//         leadId,
+//         clientId,
+//       })
+//     }
+
+//     const schedule = LEAD_FOLLOWUP_SCHEDULES[Number(newStatusId)] || []
+//     const now = Date.now()
+
+//     const followupsToSave = schedule
+//       .map(item => ({
+//         lead_id: leadId,
+//         client_id: clientId,
+//         phone,
+//         client_name: fullName,
+//         trigger_status_id: Number(newStatusId),
+//         reminder_type: item.reminderType,
+//         send_at: getPragueFollowupSendAt({
+//           baseDateString: payload.created_at,
+//           daysToAdd: item.days,
+//         }),
+//         message_sent: false,
+//         canceled: false,
+//       }))
+//       .filter(item => new Date(item.send_at).getTime() > now)
+
+//     console.log('🟡 followupsToSave:', followupsToSave)
+
+//     if (!followupsToSave.length) {
+//       return res.status(200).json({
+//         ok: true,
+//         ignored: true,
+//         reason: 'All followup times are already in the past',
+//         leadId,
+//       })
+//     }
+
+//     const { error } = await supabase
+//     .from('lead_followups')
+//     .insert(followupsToSave)
+
+//     if (error) {
+//       console.error('Failed to save lead followups:', error)
+
+//       return res.status(500).json({
+//         ok: false,
+//         error: 'Failed to save lead followups',
+//       })
+//     }
+
+//     return res.status(200).json({
+//       ok: true,
+//       event: payload.event_name,
+//       leadId,
+//       clientId,
+//       statusId: newStatusId,
+//       scheduled: true,
+//       followups: followupsToSave,
+//     })
+//   } catch (error) {
+//     if (axios.isAxiosError(error)) {
+//       console.error('Lead.Status.Changed axios error:', {
+//         message: error.message,
+//         url: error.config?.url,
+//         status: error.response?.status,
+//         data: error.response?.data,
+//       })
+//     } else {
+//       console.error('Lead.Status.Changed unexpected error:', error)
+//     }
+
+//     return res.status(500).json({
+//       ok: false,
+//       error: 'Lead.Status.Changed processing failed',
+//     })
+//   }
+// }
+
 async function handleLeadStatusChanged(
   payload: RoappWebhookPayload,
   res: VercelResponse
@@ -524,56 +692,66 @@ async function handleLeadStatusChanged(
     })
   }
 
-  if (LEAD_FOLLOWUP_CANCEL_STATUS_IDS.includes(Number(newStatusId))) {
-    const { error } = await supabase
-      .from('lead_followups')
-      .delete()
-      .eq('lead_id', leadId)
-      .eq('message_sent', false)
+  const numericStatusId = Number(newStatusId)
 
-    if (error) {
-      console.error('Failed to delete lead followups:', error)
+  try {
+    if (LEAD_FOLLOWUP_CANCEL_STATUS_IDS.includes(numericStatusId)) {
+      const { error } = await supabase
+        .from('lead_followups')
+        .delete()
+        .eq('lead_id', leadId)
+        .eq('message_sent', false)
 
-      return res.status(500).json({
-        ok: false,
-        error: 'Failed to delete lead followups',
+      if (error) {
+        throw error
+      }
+
+      return res.status(200).json({
+        ok: true,
+        deleted: true,
+        table: 'lead_followups',
+        reason: 'lead converted or reminders disabled',
+        leadId,
+        newStatusId,
       })
     }
 
-    return res.status(200).json({
-      ok: true,
-      deleted: true,
-      reason: 'lead converted or reminders disabled',
-      leadId,
-      newStatusId,
-    })
-  }
+    if (LEAD_INVITATION_CANCEL_STATUS_IDS.includes(numericStatusId)) {
+      const { error } = await supabase
+        .from('lead_invitations')
+        .delete()
+        .eq('lead_id', leadId)
+        .eq('message_sent', false)
 
-  if (!LEAD_FOLLOWUP_TRIGGER_STATUS_IDS.includes(Number(newStatusId))) {
-    return res.status(200).json({
-      ok: true,
-      ignored: true,
-      reason: 'status is not a followup trigger',
-      leadId,
-      newStatusId,
-    })
-  }
+      if (error) {
+        throw error
+      }
 
-  try {
-    const { error: deleteOldFollowupsError } = await supabase
-    .from('lead_followups')
-    .delete()
-    .eq('lead_id', leadId)
-    .eq('message_sent', false)
-
-    if (deleteOldFollowupsError) {
-      throw deleteOldFollowupsError
+      return res.status(200).json({
+        ok: true,
+        deleted: true,
+        table: 'lead_invitations',
+        reason: 'lead converted or invitations disabled',
+        leadId,
+        newStatusId,
+      })
     }
 
-    console.log('🟡 Old unsent lead followups deleted:', {
-      leadId,
-      newStatusId,
-    })
+    const isFollowupStatus =
+      LEAD_FOLLOWUP_TRIGGER_STATUS_IDS.includes(numericStatusId)
+
+    const isInvitationStatus =
+      LEAD_INVITATION_TRIGGER_STATUS_IDS.includes(numericStatusId)
+
+    if (!isFollowupStatus && !isInvitationStatus) {
+      return res.status(200).json({
+        ok: true,
+        ignored: true,
+        reason: 'status is not a followup or invitation trigger',
+        leadId,
+        newStatusId,
+      })
+    }
 
     const leadResponse = await getLeadById(leadId)
     const lead = Array.isArray(leadResponse) ? leadResponse[0] : leadResponse
@@ -599,58 +777,136 @@ async function handleLeadStatusChanged(
       })
     }
 
-    const schedule = LEAD_FOLLOWUP_SCHEDULES[Number(newStatusId)] || []
     const now = Date.now()
 
-    const followupsToSave = schedule
-      .map(item => ({
-        lead_id: leadId,
-        client_id: clientId,
-        phone,
-        client_name: fullName,
-        trigger_status_id: Number(newStatusId),
-        reminder_type: item.reminderType,
-        send_at: getPragueFollowupSendAt({
-          baseDateString: payload.created_at,
-          daysToAdd: item.days,
-        }),
-        message_sent: false,
-        canceled: false,
-      }))
-      .filter(item => new Date(item.send_at).getTime() > now)
+    if (isFollowupStatus) {
+      const { error: deleteOldFollowupsError } = await supabase
+        .from('lead_followups')
+        .delete()
+        .eq('lead_id', leadId)
+        .eq('message_sent', false)
 
-    console.log('🟡 followupsToSave:', followupsToSave)
+      if (deleteOldFollowupsError) {
+        throw deleteOldFollowupsError
+      }
 
-    if (!followupsToSave.length) {
+      const schedule = LEAD_FOLLOWUP_SCHEDULES[numericStatusId] || []
+
+      const followupsToSave = schedule
+        .map(item => ({
+          lead_id: leadId,
+          client_id: clientId,
+          phone,
+          client_name: fullName,
+          trigger_status_id: numericStatusId,
+          reminder_type: item.reminderType,
+          send_at: getPragueFollowupSendAt({
+            baseDateString: payload.created_at,
+            daysToAdd: item.days,
+          }),
+          message_sent: false,
+          canceled: false,
+        }))
+        .filter(item => new Date(item.send_at).getTime() > now)
+
+      console.log('🟡 followupsToSave:', followupsToSave)
+
+      if (!followupsToSave.length) {
+        return res.status(200).json({
+          ok: true,
+          ignored: true,
+          reason: 'All followup times are already in the past',
+          leadId,
+        })
+      }
+
+      const { error } = await supabase
+        .from('lead_followups')
+        .insert(followupsToSave)
+
+      if (error) {
+        throw error
+      }
+
       return res.status(200).json({
         ok: true,
-        ignored: true,
-        reason: 'All followup times are already in the past',
+        event: payload.event_name,
+        type: 'followup',
         leadId,
+        clientId,
+        statusId: numericStatusId,
+        scheduled: true,
+        followups: followupsToSave,
       })
     }
 
-    const { error } = await supabase
-    .from('lead_followups')
-    .insert(followupsToSave)
+    if (isInvitationStatus) {
+      const { error: deleteOldInvitationsError } = await supabase
+        .from('lead_invitations')
+        .delete()
+        .eq('lead_id', leadId)
+        .eq('message_sent', false)
 
-    if (error) {
-      console.error('Failed to save lead followups:', error)
+      if (deleteOldInvitationsError) {
+        throw deleteOldInvitationsError
+      }
 
-      return res.status(500).json({
-        ok: false,
-        error: 'Failed to save lead followups',
+      const schedule = LEAD_INVITATION_SCHEDULES[numericStatusId] || []
+
+      const invitationsToSave = schedule
+        .map(item => ({
+          lead_id: leadId,
+          client_id: clientId,
+          phone,
+          client_name: fullName,
+          trigger_status_id: numericStatusId,
+          invitation_type: item.invitationType,
+          send_at: getPragueFollowupSendAt({
+            baseDateString: payload.created_at,
+            daysToAdd: item.days,
+          }),
+          message_sent: false,
+          canceled: false,
+        }))
+        .filter(item => new Date(item.send_at).getTime() > now)
+
+      console.log('🟡 invitationsToSave:', invitationsToSave)
+
+      if (!invitationsToSave.length) {
+        return res.status(200).json({
+          ok: true,
+          ignored: true,
+          reason: 'All invitation times are already in the past',
+          leadId,
+        })
+      }
+
+      const { error } = await supabase
+        .from('lead_invitations')
+        .insert(invitationsToSave)
+
+      if (error) {
+        throw error
+      }
+
+      return res.status(200).json({
+        ok: true,
+        event: payload.event_name,
+        type: 'invitation',
+        leadId,
+        clientId,
+        statusId: numericStatusId,
+        scheduled: true,
+        invitations: invitationsToSave,
       })
     }
 
     return res.status(200).json({
       ok: true,
-      event: payload.event_name,
+      ignored: true,
+      reason: 'No matching handler',
       leadId,
-      clientId,
-      statusId: newStatusId,
-      scheduled: true,
-      followups: followupsToSave,
+      newStatusId,
     })
   } catch (error) {
     if (axios.isAxiosError(error)) {
