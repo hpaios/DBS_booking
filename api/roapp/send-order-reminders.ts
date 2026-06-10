@@ -96,6 +96,7 @@ export default async function handler(
           reminderType: reminder.reminder_type,
           bookingAt: reminder.booking_at,
           clientName: reminder.client_name,
+          statusId: Number(reminder.status_id) || null,
         })
 
         await sendWazzupMessage(

@@ -1,11 +1,15 @@
+import { CAR_PICKED_UP_STATUS_ID_RU } from '../constants'
+
 export function buildReminderMessage({
   reminderType,
   bookingAt,
   clientName,
+  statusId,
 }: {
   reminderType: string
   bookingAt: string
   clientName?: string | null
+  statusId?: number | null
 }): string {
   const formattedName = clientName
     ?.trim()
@@ -86,6 +90,35 @@ export function buildReminderMessage({
         `Pokud se Vaše plány změnily, informujte nás prosím na telefonním čísle +420 720 773 201.`,
         `Těšíme se na Vaši návštěvu!`,
       ].join('\n')
+
+      case 'car_picked_up_2d':
+        if (statusId === CAR_PICKED_UP_STATUS_ID_RU) {
+          return [
+            `Добрый день, ${formattedName}.`,
+            ``,
+            `Спасибо, что воспользовались услугами DBS.`,
+            `Хотел уточнить, всё ли в порядке с автомобилем после посещения сервиса и остались ли Вы довольны нашей работой?`,
+            ``,
+            `Если возникнут любые вопросы, я с удовольствием помогу.`,
+            ``,
+            `С уважением,`,
+            `Илья`,
+            `DBS`,
+          ].join('\n')
+        }
+      
+        return [
+          `Dobrý den, ${formattedName}.`,
+          ``,
+          `Děkujeme, že jste využil služeb DBS.`,
+          `Jen se chci zeptat, zda je po návštěvě vše v pořádku a zda jste byl spokojený s naší prací.`,
+          ``,
+          `Pokud budete mít jakýkoliv dotaz, rád Vám pomohu.`,
+          ``,
+          `S pozdravem,`,
+          `Ilja`,
+          `DBS`,
+        ].join('\n')
   
     default:
       return [

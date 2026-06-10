@@ -2,6 +2,9 @@ const STATUS_WAITING_FOR_PARTS_ORDER = 4317344 // Ждем приезда (за�
 const STATUS_WAITING_FOR_CLIENT_ARRIVAL = 4287767 // Ждем приезда клиента (все есть)
 const STATUS_WAITING_FOR_PARTS_DELIVERY = 4317345 // Ждем приезда (детали заказаны)
 
+const CAR_PICKED_UP_STATUS_ID_CZ = 4280182 // Авто забрали CZ
+export const CAR_PICKED_UP_STATUS_ID_RU = 5569527 // Авто забрали RU
+
 export const STATUS_NOT_RELEVANT = 3543295 // Не актуально
 
 const FREQUENT_REMINDERS_STATUS_ID = 4324903 // частые напоминалки CZ
@@ -18,6 +21,11 @@ const INVITATION_STATUS_ID_RU = 4356503 // приглашение RU
 const CLIENT_CONVERTED_STATUS_ID = 4324936 // конвертнулся в клиента (отключить напоминалки)
 const DISABLE_REMINDERS_STATUS_ID = 4324967 // выключить напоминалки (отключить напоминалки)
 const DISABLE_INVITATION_STATUS_ID = 4356504 // выключить приглашение (отключить приглашение)
+
+export const CAR_PICKED_UP_STATUS_IDS = [
+  CAR_PICKED_UP_STATUS_ID_CZ,
+  CAR_PICKED_UP_STATUS_ID_RU,
+]
 
 export const TARGET_STATUS_IDS = [STATUS_WAITING_FOR_PARTS_ORDER, STATUS_WAITING_FOR_CLIENT_ARRIVAL, STATUS_WAITING_FOR_PARTS_DELIVERY]
 
