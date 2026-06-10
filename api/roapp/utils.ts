@@ -1,4 +1,4 @@
-import { CAR_PICKED_UP_STATUS_ID_RU } from '../constants'
+import { CAR_PICKED_UP_STATUS_ID_RU } from '../constants.js'
 
 export function buildReminderMessage({
   reminderType,
