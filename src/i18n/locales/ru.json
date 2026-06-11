@@ -1,0 +1,30 @@
+{
+  "select_categories": {
+    "title": "Выберите категорию",
+    "subtitle": "Вы можете выбрать несколько категорий"
+  },
+  "select_services": {
+    "title": "Выберите услуги",
+    "subtitle": "Вы можете выбрать несколько услуг"
+  },
+  "select_slots": {
+    "title": "Выберите дату и время"
+  },
+  "booking_confirmation": {
+    "title": "Подтверждение бронирования"
+  },
+  "success_page": {
+    "title": "Успешная страница"
+  },
+  "error_page": {
+    "title": "Ошибка страницы"
+  },
+  "common": {
+    "next": "Далее",
+    "total": "Итого",
+    "time_zone": "Время отображается для часового пояса: Europe/Prague",
+    "afternoon": "День",
+    "morning": "Утро",
+    "send": "Отправить"
+  }
+}

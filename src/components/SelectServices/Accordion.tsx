@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   useEffect,
   useRef,
@@ -22,6 +23,7 @@ type AccordionProps = {
 const TOP_OFFSET = 0;
 
 const Accordion = ({ items, defaultOpenIds = '' }: AccordionProps) => {
+  const { t } = useTranslation()
   const [openId, setOpenId] = useState<string | null>(defaultOpenIds);
   const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -49,7 +51,7 @@ const Accordion = ({ items, defaultOpenIds = '' }: AccordionProps) => {
 
   return (
     <>
-    <div className='text-[var(--color-icon)] text-[14px] mb-[var(--space-md)]'>👉 Můžete vybrat více služeb</div>
+    <div className='text-[var(--color-icon)] text-[14px] mb-[var(--space-md)]'>👉 {t('select_services.subtitle')}</div>
       {items.map((item) => (
         <AccordionItem
           key={item.id}

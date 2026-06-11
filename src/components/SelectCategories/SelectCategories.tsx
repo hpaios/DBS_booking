@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useCategory } from '../../api/hooks/useCategory'
 import ErrorIcon from '../../icons/Error'
 import Loader from '../Loader'
@@ -11,6 +12,7 @@ const SelectCategories = ({
   selectCategory: (id: number) => void
 }) => {
   const { data, isLoading, error } = useCategory();
+  const { t } = useTranslation()
 
   if (isLoading) return <Loader />
   if (error) return <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-red-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[300px] my-[var(--space-lg)] mx-auto font-sans'>
@@ -20,7 +22,7 @@ const SelectCategories = ({
   
   return (
     <div className={`${selectedCategoriesIds.length ? 'pb-[100px]' : 'pb-1'}`}>
-      <p className='text-[var(--color-icon)] text-[14px]'>👉 Můžete vybrat více kategorií</p>
+      <p className='text-[var(--color-icon)] text-[14px]'>👉 {t('select_categories.subtitle')}</p>
       {data.map((employee: {id: number, firstName: string, avatar: string, position: string }) => (
 
         <div

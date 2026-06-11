@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import ProgressBar from '../components/ProgressBar/ProgressBar'
 import SelectServices from '../components/SelectServices/SelectServices'
 import SelectCategories from '../components/SelectCategories/SelectCategories'
@@ -12,10 +13,13 @@ import { steps } from '../config'
 import SuccessPage from '../components/SuccessPage/SuccessPage'
 import LocationIcon from '../icons/LocationIcon'
 import ErrorPage from '../components/ErrorPage/ErrorPage'
+import { LanguageSwitcher } from '../i18n/LanguageSwitcher'
+import { BookingStyle } from './Booking.style'
 
 const Booking = ({handleIsErrorSubmit}: {
   handleIsErrorSubmit: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedCategoriesIds, setSelectedCategoriesIds] = useState<number[]>([])
   const { groupedServices, isLoading, error } = useGroupedServices(selectedCategoriesIds)
@@ -101,11 +105,12 @@ const Booking = ({handleIsErrorSubmit}: {
         <LocationIcon width={"16"} height={"16"}/>
         <div>Františka Kadlece 2441, 180 00 Praha 8-Libeň</div>
       </h3>
+      <LanguageSwitcher />
         {
           steps[currentStep]?.key !==  'success_page' &&
           steps[currentStep]?.key !==  'error_page' &&
           <ProgressBar
-            label={steps[currentStep]?.label}
+            label={t(`${steps[currentStep]?.key}.title`)}
             currentStep={currentStep}
             handleNextStep={setNextStep}
             handlePrevStep={setPrevStep}
@@ -119,8 +124,8 @@ const Booking = ({handleIsErrorSubmit}: {
         <div className="fixed bottom-[2rem] left-1/2 -translate-x-1/2 w-full max-w-[660px] px-4 z-50">
           <div className='p-4 rounded-[var(--radius-lg)] bg-[var(--color-bg-secondary)]'>
             <button onClick={setNextStep}
-              className='bg-[var(--color-icon)] block text-center text-[var(--color-bg-secondary)] w-full cursor-pointer text-[18px] font-semibold p-2 rounded-[var(--radius-lg)] font-sans'>
-                Další
+              className={BookingStyle.nextButton}>
+                {t('common.next')}
             </button>
           </div>
         </div>

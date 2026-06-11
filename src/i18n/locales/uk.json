@@ -1,0 +1,30 @@
+{
+  "select_categories": {
+    "title": "Виберіть категорію",
+    "subtitle": "Ви можете вибрати кілька категорій"
+  },
+  "select_services": {
+    "title": "Виберіть послуги",
+    "subtitle": "Ви можете вибрати кілька послуг"
+  },
+  "select_slots": {
+    "title": "Виберіть дату і час"
+  },
+  "booking_confirmation": {
+    "title": "Підтвердження бронювання"
+  },
+  "success_page": {
+    "title": "Успішна сторінка"
+  },
+  "error_page": {
+    "title": "Сторінка помилки"
+  },
+  "common": {
+    "next": "Далі",
+    "total": "Разом",
+    "time_zone": "Час відображається для часового пояса: Europe/Prague",
+    "afternoon": "День",
+    "morning": "Ранок",
+    "send": "Відправити"
+  }
+}

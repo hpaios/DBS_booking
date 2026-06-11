@@ -1,0 +1,30 @@
+{
+  "select_categories": {
+    "title": "Select category",
+    "subtitle": "You can select multiple categories"
+  },
+  "select_services": {
+    "title": "Select services",
+    "subtitle": "You can select multiple services"
+  },
+  "select_slots": {
+    "title": "Select date and time"
+  },
+  "booking_confirmation": {
+    "title": "Booking confirmation"
+  },
+  "success_page": {
+    "title": "Success page"
+  },
+  "error_page": {
+    "title": "Error page"
+  },
+  "common": {
+    "next": "Next",
+    "total": "Total",
+    "time_zone": "Time is displayed for the time zone: Europe/Prague",
+    "afternoon": "Afternoon",
+    "morning": "Morning",
+    "send": "Send"
+  }
+}

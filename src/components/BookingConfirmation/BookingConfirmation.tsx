@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTranslation } from 'react-i18next'
 import ReCAPTCHA from "react-google-recaptcha";
 import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
@@ -21,7 +22,7 @@ const BookingConfirmation = ({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>
   handleIsErrorSubmit: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-
+  const { t } = useTranslation()
   const [phoneNumber, setNumber] = useState<string | null>(null)
   const [isValidPhone, setIsValidPhone] = useState(false)
 
@@ -244,7 +245,7 @@ const BookingConfirmation = ({
         disabled={!isFormValid || !isRecaptcaValid}
         className={btnSubmitStyle}
       >
-        Odeslat
+        {t('common.send')}
       </button>
     </div>
   )

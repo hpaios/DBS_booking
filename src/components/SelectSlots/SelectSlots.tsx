@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useTimeSlots } from '../../api/hooks/useTimeslots'
 import ErrorIcon from '../../icons/Error'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
@@ -30,6 +31,7 @@ const SelectSlots = ({
   selectedDates,
   onSelectedDate
 }: SelectSlotProps) => {
+  const { t } = useTranslation()
   const uniqueParentCategoryIds = getUniqueParentCategoryIds(selectedServices)
   const { timeSlots, isLoading, isError } = useTimeSlots(uniqueParentCategoryIds)
 
@@ -136,7 +138,7 @@ const SelectSlots = ({
               ))}
 
               <div className="flex justify-between mb-[var(--space-xl)] font-sans">
-                <span>Celkem: </span>
+                <span>{t('common.total')}: </span>
                 <span>{totalPrice} Kč</span>
               </div>
 

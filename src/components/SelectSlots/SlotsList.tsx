@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import type { ApiTimeSlot } from '../../interfaces'
 import { getOccupiedSlotStarts } from '../../utils'
 import { slotStyle } from './SelectSlot.style'
@@ -35,7 +36,7 @@ const SlotsList = ({
       {slots.morning.length > 0 && (
         <div>
           <div className="mb-[var(--space-sm)] text-[var(--color-icon)] font-semibold">
-            Ráno
+            {t('common.morning')}
           </div>
           <div className="grid grid-cols-3 gap-[10px]">
             {slots.morning.map((slot) => {
@@ -63,7 +64,7 @@ const SlotsList = ({
       {slots.afternoon.length > 0 && (
         <div>
           <div className="mb-[var(--space-sm)] text-[var(--color-icon)] font-semibold">
-            Odpoledne
+            {t('common.afternoon')}
           </div>
           <div className="grid grid-cols-3 gap-[10px]">
             {slots.afternoon.map((slot) => {

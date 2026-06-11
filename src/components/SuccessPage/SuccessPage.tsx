@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import InfoIcon from '../../icons/Info'
 import Success from '../../icons/Success'
 import Time from '../../icons/Time'
@@ -9,6 +10,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
     selectedServices: Service[]
     selectedSlots: Record<number, SelectedSlot | null>
 }) => {
+  const { t } = useTranslation()
   const services = groupServicesToArray(selectedServices)
 
   const getFirstSlotInfo = (
@@ -70,7 +72,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
       {/* TOTAL */}
       <div className="flex justify-between pt-[var(--space-md)]">
         <span className="text-[var(--color-icon)] text-[16px] font-semibold font-sans">
-          Celkem:
+          {t('common.total')}:
         </span>
         <span className="text-[var(--color-icon)] text-[16px] font-semibold font-sans">
           {totalPrice} Kč

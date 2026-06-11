@@ -1,0 +1,30 @@
+{
+  "select_categories": {
+    "title": "Vyberte kategorii",
+    "subtitle": "Můžete vybrat více kategorií"
+  },
+  "select_services": {
+    "title": "Vyberte služby",
+    "subtitle": "Můžete vybrat více služeb"
+  },
+  "select_slots": {
+    "title": "Vyberte datum a čas"
+  },
+  "booking_confirmation": {
+    "title": "Podrobnosti schůzky"
+  },
+  "success_page": {
+    "title": "Schůzka potvrzena"
+  },
+  "error_page": {
+    "title": "Rezervace nebyla vytvořena"
+  },
+  "common": {
+    "next": "Další",
+    "total": "Celkem",
+    "time_zone": "Čas je zobrazen pro časové pásmo: Europe/Prague",
+    "afternoon": "Odpoledne",
+    "morning": "Ráno",
+    "send": "Odeslat"
+  }
+}

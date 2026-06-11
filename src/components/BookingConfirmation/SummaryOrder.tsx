@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Time from '../../icons/Time'
 import type { GroupedArray } from '../../interfaces'
 import { formatDurationCsShort } from '../../utils'
@@ -7,6 +8,7 @@ interface SummaryOrderProps {
 }
 
 const SummaryOrder = ({ services }: SummaryOrderProps) => {
+  const { t } = useTranslation()
 
   const totalPrice = services
     .flatMap(group => group.services)
@@ -46,7 +48,7 @@ const SummaryOrder = ({ services }: SummaryOrderProps) => {
       {/* TOTAL */}
       <div className="flex justify-between pt-[var(--space-md)]">
         <span className="text-[var(--color-icon)] text-[16px] font-semibold">
-          Celkem:
+          {t('common.total')}:
         </span>
         <span className="text-[var(--color-icon)] text-[16px] font-semibold">
           {totalPrice} Kč
