@@ -164,14 +164,14 @@ const BookingConfirmation = ({
       <div className={wrapperClass}>
         <input
           type="text"
-          placeholder="Jméno"
+          placeholder={t('booking_confirmation.name')}
           value={name}
           onChange={(e) => setName(e.target.value)}
           onBlur={() => setTouched(true)}
           className={inputClass}
         />
         {touched && !isValidName && (
-          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">Zadejte své jméno</p>
+          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">{t('booking_confirmation.name_error')}</p>
         )}
       </div>
 
@@ -187,45 +187,45 @@ const BookingConfirmation = ({
           inputProps={{
             className: inputClass,
             onBlur: () => setTouched(true),
-            placeholder: "Telefon"
+            placeholder: t('booking_confirmation.phone')
           }}
         />
         {touched && !isValidPhone && (
-          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">Neplatné telefonní číslo</p>
+          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">{t('booking_confirmation.phone_error')}</p>
         )}
       </div>
 
       <div className={wrapperClass}>
         <input
           type="email"
-          placeholder="Email"
+          placeholder={t('booking_confirmation.email')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           onBlur={() => setTouched(true)}
           className={inputClass}
         />
         {touched && !isValidEmail && (
-          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">Neplatný e-mail</p>
+          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">{t('booking_confirmation.email_error')}</p>
         )}
       </div>
 
       <div className={wrapperClass}>
         <input
           type="text"
-          placeholder="Číslo VIN"
+          placeholder={t('booking_confirmation.vin')}
           value={vin}
           onChange={(e) => setVin(e.target.value)}
           onBlur={() => setTouched(true)}
           className={inputClass}
         />
         {touched && !isValidVin && (
-          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">Zadejte číslo VIN</p>
+          <p className="text-[var(--color-red)] absolute text-[10px] left-[10px] -bottom-[1rem]">{t('booking_confirmation.vin_error')}</p>
         )}
       </div>
 
       <div className={wrapperClass}>
         <textarea
-          placeholder="Comment"
+          placeholder={t('booking_confirmation.message')}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           className={`${inputClass} resize-none h-[60px]`}

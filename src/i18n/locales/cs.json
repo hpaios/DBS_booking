@@ -11,7 +11,16 @@
     "title": "Vyberte datum a čas"
   },
   "booking_confirmation": {
-    "title": "Podrobnosti schůzky"
+    "title": "Podrobnosti schůzky",
+    "name": "Jméno",
+    "phone": "Telefon",
+    "email": "Email",
+    "message": "Zpráva",
+    "vin": "Číslo VIN",
+    "name_error": "Zadejte své jméno",
+    "phone_error": "Neplatné telefonní číslo",
+    "email_error": "Neplatný email",
+    "vin_error": "Zadejte číslo VIN"
   },
   "success_page": {
     "title": "Schůzka potvrzena"

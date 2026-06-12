@@ -11,7 +11,16 @@
     "title": "Select date and time"
   },
   "booking_confirmation": {
-    "title": "Booking confirmation"
+    "title": "Booking confirmation",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "message": "Message",
+    "vin": "VIN number",
+    "name_error": "Enter your name",
+    "phone_error": "Invalid phone number",
+    "email_error": "Invalid email",
+    "vin_error": "Enter VIN number"
   },
   "success_page": {
     "title": "Success page"

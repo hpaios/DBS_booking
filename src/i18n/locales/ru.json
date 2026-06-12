@@ -11,7 +11,16 @@
     "title": "Выберите дату и время"
   },
   "booking_confirmation": {
-    "title": "Подтверждение бронирования"
+    "title": "Подтверждение бронирования",
+    "name": "Имя",
+    "phone": "Телефон",
+    "email": "Email",
+    "message": "Сообщение",
+    "vin": "VIN номер",
+    "name_error": "Введите ваше имя",
+    "phone_error": "Неверный номер телефона",
+    "email_error": "Неверный email",
+    "vin_error": "Введите VIN номер"
   },
   "success_page": {
     "title": "Успешная страница"
