@@ -206,19 +206,48 @@ export const normalizeSlotsBySchedule = (
   return result.sort((a, b) => a.dateStart.localeCompare(b.dateStart));
 };
 
-export const formatIsoDateCs = (iso: string): FormattedDate => {
-  const date = new Date(iso);
+// TODO: remove this function
+// export const formatIsoDateCs = (iso: string): FormattedDate => {
+//   const date = new Date(iso);
 
-  const weekdayRaw = date.toLocaleDateString("cs-CZ", { weekday: "short" });
-  const weekday = weekdayRaw.charAt(0).toUpperCase() + weekdayRaw.slice(1);
+//   const weekdayRaw = date.toLocaleDateString("cs-CZ", { weekday: "short" });
+//   const weekday = weekdayRaw.charAt(0).toUpperCase() + weekdayRaw.slice(1);
 
-  const day = date.toLocaleDateString("cs-CZ", { day: "numeric" }).replace(/\.$/, "")
-  const month = date.toLocaleDateString("cs-CZ", { month: "short" });
+//   const day = date.toLocaleDateString("cs-CZ", { day: "numeric" }).replace(/\.$/, "")
+//   const month = date.toLocaleDateString("cs-CZ", { month: "short" });
 
-  const label = `${weekday} ${day}. ${month}`;
+//   const label = `${weekday} ${day}. ${month}`;
 
-  return { weekday, day, month, label };
-};
+//   return { weekday, day, month, label };
+// };
+
+export const formatIsoDate = (
+  iso: string,
+  locale: string
+): FormattedDate => {
+  const date = new Date(iso)
+
+  const weekdayRaw = date.toLocaleDateString(locale, {
+    weekday: 'short',
+  })
+
+  const weekday =
+    weekdayRaw.charAt(0).toUpperCase() + weekdayRaw.slice(1)
+
+  const day = date
+    .toLocaleDateString(locale, {
+      day: 'numeric',
+    })
+    .replace(/\.$/, '')
+
+  const month = date.toLocaleDateString(locale, {
+    month: 'short',
+  })
+
+  const label = `${weekday} ${day}. ${month}`
+
+  return { weekday, day, month, label }
+}
 
 export const formatDurationCsShort = (minutes: number) => {
   const hours = Math.floor(minutes / 60);

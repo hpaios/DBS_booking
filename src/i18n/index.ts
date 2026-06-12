@@ -7,6 +7,13 @@ import ru from './locales/ru.json'
 import en from './locales/en.json'
 import uk from './locales/uk.json'
 
+export const LOCALES: Record<string, string> = {
+  cs: 'cs-CZ',
+  ru: 'ru-RU',
+  uk: 'uk-UA',
+  en: 'en-US',
+}
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)

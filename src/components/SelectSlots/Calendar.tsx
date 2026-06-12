@@ -1,5 +1,7 @@
+import { useTranslation } from 'react-i18next'
 import type { DaySlots } from '../../interfaces'
-import { formatIsoDateCs } from '../../utils'
+import { formatIsoDate } from '../../utils'
+import { LOCALES } from '../../i18n'
 
 const Calendar = ({
   calendar,
@@ -11,11 +13,17 @@ const Calendar = ({
   onSelect: (date: string) => void;
 }) => {
   const days = Object.keys(calendar)
+
+  const { i18n } = useTranslation()
+  
+  const locale = LOCALES[i18n.language] || 'cs-CZ'
+  
   return (
     <div className="flex gap-[1rem] overflow-x-auto">
       {days.map((day) => {
 
-        const formatted = formatIsoDateCs(day);
+        const formatted = formatIsoDate(day, locale);
+
         const isDisabled = calendar[day].afternoon.length === 0 && calendar[day].morning.length === 0
 
         const getDateClass = (isSelected: boolean, isDisabled: boolean) => {
