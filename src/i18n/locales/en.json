@@ -93,6 +93,10 @@
     "58042544": {
       "title": "#03 Power Steering / Differential / Transfer Case Oil Change",
       "description": "We replace the fluid in the power steering system, differential, and transfer case according to the manufacturer’s specifications. Prices start from 2999 CZK (valid for most vehicles). For an exact quote, please contact our service advisor."
+    },
+    "58042631": {
+      "title": "#04 Changing the oil in the manual transmission",
+      "description": "The listed price does not include transmission fluid, filters, or other spare parts and is valid when parts are purchased through DBS Service."
     }
   },
   "select_slots": {

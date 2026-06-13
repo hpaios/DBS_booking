@@ -93,6 +93,10 @@
     "58042544": {
       "title": "#03 Výměna oleje – servořízení / diferenciál / rozvodovka",
       "description": "Vyměníme olej v servořízení, diferenciálu i rozvodovce podle doporučení výrobce. Cena od 2999 Kč (platí pro většinu vozidel). Pro jistotu se prosím informujte u přijímacího technika."
+    },
+    "58042631": {
+      "title": "#04 Výměna oleje v manuální převodovce",
+      "description": "Výše uvedená cena nezahrnuje převodový olej, filtry a další náhradní díly a platí v případě zakoupení dílů v servisu DBS."
     }
   },
   "select_slots": {
