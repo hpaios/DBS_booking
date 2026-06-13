@@ -49,6 +49,10 @@
     "58010123": {
       "title": "#09 Třífázové leštění karoserie (Premium Correction)",
       "description": "Nejvyšší úroveň renovace laku. Třífázová korekce odstraní i hlubší škrábance a dodá karoserii dokonalý zrcadlový efekt."
+    },
+    "58010450": {
+      "title": "#10 Kompletní leštění a Keramická ochrana",
+      "description": "Prémiová procedura kompletní renovace a ošetření laku. Kombinace třífázového leštění s aplikací keramické ochrany poskytuje dokonalý lesk a dlouhodobý efekt."
     }
   },
   "select_slots": {

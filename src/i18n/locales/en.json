@@ -49,6 +49,10 @@
     "58010123": {
       "title": "#09 Three-Step Paint Correction (Premium Correction)",
       "description": "The highest level of paint restoration. Three-step correction removes deeper scratches and gives the bodywork a flawless mirror finish."
+    },
+    "58010450": {
+      "title": "#10 Full Paint Correction & Ceramic Protection",
+      "description": "Premium treatment for complete paint restoration and protection. The combination of three-step polishing and ceramic coating application delivers exceptional gloss and long-lasting protection."
     }
   },
   "select_slots": {
