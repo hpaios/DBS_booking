@@ -21,6 +21,10 @@
     "58009452": { 
       "title": "#02 Dvoufázové mytí",
       "description": "Dvoufázové ruční mytí s aktivní pěnou, ručním čištěním karoserie a ošetřením pneumatik. Vhodné pro vozy se silnějším znečištěním."
+    },
+    "58009540": {
+      "title": "#03 Třífázové Mytí",
+      "description": "Prémiové ruční mytí ve třech fázích s důkladným čištěním kol a nanesením nano vosku. \n Služba kombinuje dvojí pěnu, ruční mytí karoserie a finální ošetření laku pro perfektní vzhled."
     }
   },
   "select_slots": {

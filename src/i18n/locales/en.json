@@ -17,6 +17,10 @@
     "58009452": {
       "title": "#02 Two-Phase Wash",
       "description": "Two-phase hand wash with active foam, thorough body cleaning, and tire treatment. \n Ideal for vehicles with a higher level of dirt contamination."
+    },
+    "58009540": {
+      "title": "03 Three-Phase Washing",
+      "description": "Premium three-stage hand wash with detailed wheel cleaning and nano wax application. \n This service combines double foam application, manual body washing, and final paintwork treatment for a flawless appearance."
     }
   },
   "select_services": {
