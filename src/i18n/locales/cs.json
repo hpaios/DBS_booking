@@ -1,11 +1,23 @@
 {
   "select_categories": {
     "title": "Vyberte kategorii",
-    "subtitle": "Můžete vybrat více kategorií"
+    "subtitle": "Můžete vybrat více kategorií",
+    "308291": "Olej, brzdy, diagnostika, klima, opravy ,STK, motory, atd. ➡️",
+    "310673": "Zvolte službu detailingu dále ➡️",
+    "akce": "🔥 Akce",
+    "pravidelna_udrzba": "Pravidelná údržba",
+    "zjisteni_zavad_a_opravy": "Zjištění závad a opravy",
+    "techcentrum": "Techcentrum",
+    "detailing": "Detailing",
+    "autoservis": "Autoservis"
   },
   "select_services": {
     "title": "Vyberte služby",
-    "subtitle": "Můžete vybrat více služeb"
+    "subtitle": "Můžete vybrat více služeb",
+    "58009290": {
+      "title": "#01 Standard Mytí",
+      "description": "Ruční mytí karoserie neutrální pěnou s důrazem na bezpečnost laku. \n Po nanesení pěny se vyčistí podběhy, vůz se opláchne, osuší mikrovláknem a pneumatiky se ošetří černidlem."
+    }
   },
   "select_slots": {
     "title": "Vyberte datum a čas"

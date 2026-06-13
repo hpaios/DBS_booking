@@ -1,3 +1,4 @@
+import { type TFunction } from 'i18next'
 import { afternoonSlots, morningSlots } from './config'
 import type { ApiTimeSlot, Category, DaySlots, FormattedDate, GroupedArray, GroupedServices, GroupedServicesByCategory, MappedCategory, Service, WeekScheduleItem } from './interfaces'
 
@@ -17,14 +18,15 @@ export const toggleObjectById = <T extends { id: number | string }>(
 
 export const mapServicesByCategory = (
   categories: Category[],
-  services: Service[]
+  services: Service[],
+  t: TFunction
 ): MappedCategory[] => {
   const servicesMap = new Map<number, Service>(
     services.map((service) => [service.id, service])
   );
 
   return categories.map((category) => ({
-    label: category.label,
+    label: t(`select_categories.${category.label}`),
     parentCategoryId: category.parentCategoryId,
     services: category.servicesIds
       .map((id) => servicesMap.get(id))

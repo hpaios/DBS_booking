@@ -5,6 +5,7 @@ import Time from '../../icons/Time'
 import { formatDurationCsShort } from '../../utils'
 import Loader from '../Loader'
 import ErrorIcon from '../../icons/Error'
+import { useTranslation } from 'react-i18next'
 
 const SelectServices = ({
   servicesList,
@@ -19,7 +20,7 @@ const SelectServices = ({
   isLoading: boolean
   error: Error | null | undefined
 }) => {
-
+  const { t } = useTranslation()
   const selectedIds = new Set(selectedServices.map((s) => s.id));
 
   const accordionItems = () => {
@@ -42,6 +43,7 @@ const SelectServices = ({
         content: (
           <div className="flex flex-col gap-2">
             {category.services.map((service) => {
+              console.log('service', service)
               const isSelected = selectedIds.has(service.id);
 
               return (
@@ -55,8 +57,8 @@ const SelectServices = ({
                       : "border-[var(--color-gray)]"
                   }`}
                 >
-                  <h5 className=''>{service.title}</h5>
-                  <ExpandableText text={service.description} />
+                  <h5 className=''>{t(`select_services.${service.id}.title`)}</h5>
+                  <ExpandableText text={t(`select_services.${service.id}.description`)} />
                   <div className='flex justify-between'>
                     <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1'><Time/>{formatDurationCsShort(service.durationMinutes as unknown as number)}</div>
                     <span className='text-[var(--color-icon)] text-[14px] font-semibold'>{service.price} Kč</span>

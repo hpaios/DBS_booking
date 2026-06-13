@@ -1,7 +1,19 @@
 {
   "select_categories": {
     "title": "Select category",
-    "subtitle": "You can select multiple categories"
+    "subtitle": "You can select multiple categories",
+    "308291": "Oil service, brakes, diagnostics, air conditioning, repairs, MOT, engines, etc. ➡️",
+    "310673": "Choose a detailing service below ➡️",
+    "akce": "🔥 Special Offers",
+    "pravidelna_udrzba": "Regular Maintenance",
+    "zjisteni_zavad_a_opravy": "Fault Diagnosis & Repairs",
+    "techcentrum": "Automotive Technical Center",
+    "detailing": "Detailing",
+    "autoservis": "Automotive Service",
+    "58009290": {
+      "title": "#01 Classic Wash",
+      "description": "Hand washing of the bodywork with pH-neutral foam, with a focus on paintwork safety. \n After the foam is applied, the wheel arches are cleaned, the vehicle is rinsed, dried with microfiber towels, and the tires are treated with tire dressing for a deep black finish."
+    }
   },
   "select_services": {
     "title": "Select services",

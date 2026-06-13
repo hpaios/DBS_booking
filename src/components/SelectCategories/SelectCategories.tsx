@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useCategory } from '../../api/hooks/useCategory'
 import ErrorIcon from '../../icons/Error'
 import Loader from '../Loader'
-import { categoryStyle } from './SelectCategories.style'
+import { categoryStyle, errorStyle } from './SelectCategories.style'
 
 const SelectCategories = ({
   selectCategory,
@@ -15,7 +15,7 @@ const SelectCategories = ({
   const { t } = useTranslation()
 
   if (isLoading) return <Loader />
-  if (error) return <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-red-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[300px] my-[var(--space-lg)] mx-auto font-sans'>
+  if (error) return <div className={errorStyle}>
     <ErrorIcon />
     <span>Error</span>
   </div>
@@ -33,7 +33,7 @@ const SelectCategories = ({
           <img src={employee.avatar} alt={employee?.firstName} className='w-[60px] h-[60px] rounded-full'/>
           <div>
             <h4 className='text-[length:var(--font-size)] text-[color:var(--color-icon)] font-sans'>{employee?.firstName}</h4>
-            <p className='text-[color:var(--color-disabled-text)] m-0 font-sans'>{employee?.position}</p>
+            <p className='text-[color:var(--color-disabled-text)] m-0 font-sans'>{t(`select_categories.${employee?.id}`)}</p>
           </div>
         </div>
       ))}
