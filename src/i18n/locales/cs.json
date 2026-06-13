@@ -17,6 +17,10 @@
     "58009290": {
       "title": "#01 Standard Mytí",
       "description": "Ruční mytí karoserie neutrální pěnou s důrazem na bezpečnost laku. \n Po nanesení pěny se vyčistí podběhy, vůz se opláchne, osuší mikrovláknem a pneumatiky se ošetří černidlem."
+    },
+    "58009452": { 
+      "title": "#02 Dvoufázové mytí",
+      "description": "Dvoufázové ruční mytí s aktivní pěnou, ručním čištěním karoserie a ošetřením pneumatik. Vhodné pro vozy se silnějším znečištěním."
     }
   },
   "select_slots": {
