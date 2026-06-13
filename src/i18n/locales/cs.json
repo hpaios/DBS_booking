@@ -37,6 +37,14 @@
     "58009984": {
       "title": "#18 Čištění motorového prostoru",
       "description": "Profesionální čištění a ošetření motorového prostoru s maximální péčí o elektroniku."
+    },
+    "58010022": {
+      "title": "#07 Jednostupňové leštění karoserie",
+      "description": "Leštění, které obnovuje hloubku barvy a lesk laku, odstraňuje jemné škrábance a oxidaci."
+    },
+    "58010077": {
+      "title": "#08 Dvoufázové leštění karoserie",
+      "description": "Komplexní leštění pro hloubkovou obnovu laku a dosažení zrcadlového lesku."
     }
   },
   "select_slots": {

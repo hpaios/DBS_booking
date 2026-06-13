@@ -23,7 +23,7 @@
       "description": "Two-phase hand wash with active foam, thorough body cleaning, and tire treatment. \n Ideal for vehicles with a higher level of dirt contamination."
     },
     "58009540": {
-      "title": "03 Three-Phase Washing",
+      "title": "#03 Three-Phase Washing",
       "description": "Premium three-stage hand wash with detailed wheel cleaning and nano wax application. \n This service combines double foam application, manual body washing, and final paintwork treatment for a flawless appearance."
     },
     "58009762": {
@@ -37,6 +37,14 @@
     "58009984": {
       "title": "#18 Engine Bay Cleaning",
       "description": "Professional cleaning and treatment of the engine bay with maximum care for electronic components."
+    },
+    "58010022": {
+      "title": "#07 One-Step Paint Correction",
+      "description": "Paint correction designed to restore paint depth and gloss while removing minor scratches and oxidation."
+    },
+    "58010077": {
+      "title": "#08 Two-Step Paint Correction",
+      "description": "Comprehensive paint correction for deep restoration of the paintwork and a mirror-like shine."
     }
   },
   "select_slots": {
