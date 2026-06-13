@@ -73,6 +73,10 @@
     "58011788": {
       "title": "#15 Vytahování promáčklin bez lakování (PDR)",
       "description": "Profesionální oprava karoserie bez poškození originálního laku. Technologie PDR (Paintless Dent Repair) umožňuje odstranit promáčkliny bez tmelení a lakování – rychle, šetrně a s dokonalým výsledkem."
+    },
+    "58012150": {
+      "title": "#16 Odstranění škrábanců bez lakování (Smart Repair)",
+      "description": "Moderní technologie lokální opravy laku bez nutnosti lakovat celý díl. \n Metoda Smart Repair umožňuje odstranit i hlubší škrábance až na kov s dokonalým výsledkem a zachováním originální barvy."
     }
   },
   "select_slots": {

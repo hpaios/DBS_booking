@@ -73,6 +73,10 @@
     "58011788": {
       "title": "#15 Paintless Dent Repair (PDR)",
       "description": "Professional dent repair without damaging the original paintwork. \n Paintless Dent Repair (PDR) technology allows dents to be removed quickly and precisely without filler or repainting."
+    },
+    "58012150": {
+      "title": "#16 Scratch Removal Without Repainting (Smart Repair)",
+      "description": "Modern localized paint repair technology without the need to repaint the entire panel. \n Smart Repair allows even deeper scratches reaching the metal surface to be removed while preserving the original paint color."
     }
   },
   "select_slots": {
