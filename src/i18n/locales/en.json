@@ -45,6 +45,10 @@
     "58010077": {
       "title": "#08 Two-Step Paint Correction",
       "description": "Comprehensive paint correction for deep restoration of the paintwork and a mirror-like shine."
+    },
+    "58010123": {
+      "title": "#09 Three-Step Paint Correction (Premium Correction)",
+      "description": "The highest level of paint restoration. Three-step correction removes deeper scratches and gives the bodywork a flawless mirror finish."
     }
   },
   "select_slots": {

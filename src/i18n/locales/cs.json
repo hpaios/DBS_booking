@@ -45,6 +45,10 @@
     "58010077": {
       "title": "#08 Dvoufázové leštění karoserie",
       "description": "Komplexní leštění pro hloubkovou obnovu laku a dosažení zrcadlového lesku."
+    },
+    "58010123": {
+      "title": "#09 Třífázové leštění karoserie (Premium Correction)",
+      "description": "Nejvyšší úroveň renovace laku. Třífázová korekce odstraní i hlubší škrábance a dodá karoserii dokonalý zrcadlový efekt."
     }
   },
   "select_slots": {
