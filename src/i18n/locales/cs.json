@@ -33,6 +33,10 @@
     "58009942": {
       "title": "#05 Chemické čištění interiéru vozu + Standard Mytí",
       "description": "Vše co je součastí standartního mytí + kompletní hloubkové čištění interiéru s demontáží sedadel pro dosažení dokonalé čistoty."
+    },
+    "58009984": {
+      "title": "#18 Čištění motorového prostoru",
+      "description": "Profesionální čištění a ošetření motorového prostoru s maximální péčí o elektroniku."
     }
   },
   "select_slots": {
