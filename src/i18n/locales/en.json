@@ -9,7 +9,11 @@
     "zjisteni_zavad_a_opravy": "Fault Diagnosis & Repairs",
     "techcentrum": "Automotive Technical Center",
     "detailing": "Detailing",
-    "autoservis": "Automotive Service",
+    "autoservis": "Automotive Service"
+  },
+  "select_services": {
+    "title": "Select services",
+    "subtitle": "You can select multiple services",
     "58009290": {
       "title": "#01 Classic Wash",
       "description": "Hand washing of the bodywork with pH-neutral foam, with a focus on paintwork safety. \n After the foam is applied, the wheel arches are cleaned, the vehicle is rinsed, dried with microfiber towels, and the tires are treated with tire dressing for a deep black finish."
@@ -21,11 +25,15 @@
     "58009540": {
       "title": "03 Three-Phase Washing",
       "description": "Premium three-stage hand wash with detailed wheel cleaning and nano wax application. \n This service combines double foam application, manual body washing, and final paintwork treatment for a flawless appearance."
+    },
+    "58009762": {
+      "title": "#04 Detailing Wash",
+      "description": "Comprehensive detailing wash with professional interior and exterior care, focused on every detail. The result is a refreshed, spotless vehicle with a premium finish and a showroom-like appearance."
+    },
+    "58009942": {
+      "title": "#05 Interior Deep Cleaning + Standard Wash",
+      "description": "Includes everything from the standard wash plus a complete deep interior cleaning with seat removal for maximum cleanliness and attention to detail."
     }
-  },
-  "select_services": {
-    "title": "Select services",
-    "subtitle": "You can select multiple services"
   },
   "select_slots": {
     "title": "Select date and time"
