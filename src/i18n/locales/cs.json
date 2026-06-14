@@ -133,6 +133,10 @@
     "58043702": {
       "title": "#13 Demontáž / montáž motoru",
       "description": "Pokud je služba objednána společně s další opravou, může být cena nižší.Ceny jsou individuální podle konkrétního vozidla – pro přesnou kalkulaci se prosím poraďte s přijímacím technikem."
+    },
+    "58043784": {
+      "title": "#14 Výměna chladicí kapaliny",
+      "description": "Před výměnou zkontrolujeme, zda je ve vašem voze použita chladicí kapalina správného typu a specifikace dle doporučení výrobce.Pokud je zjištěna nesprávná kapalina, doporučíme vhodný typ a v takovém případě se cena stanoví individuálně.Ve všech ostatních případech platí pevná cena za práci – bez započtení materiálu."
     }
   },
   "select_slots": {

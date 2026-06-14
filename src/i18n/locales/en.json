@@ -133,6 +133,10 @@
     "58043702": {
       "title": "#13 Engine Removal / Installation",
       "description": "The price may be lower if the service is combined with additional repair work. Final pricing is calculated individually depending on the vehicle model and scope of work. For an exact quotation, please contact our service advisor."
+    },
+    "58043784": {
+      "title": "#14 Coolant replacement",
+      "description": "Before replacement, we check whether the correct type of coolant is used in your vehicle according to the manufacturer’s specifications. If an incorrect coolant is detected, we will recommend the appropriate type and provide an individual quotation. In all other cases, a fixed labor price applies, excluding materials."
     }
   },
   "select_slots": {
