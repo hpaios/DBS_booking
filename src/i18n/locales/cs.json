@@ -137,6 +137,10 @@
     "58043784": {
       "title": "#14 Výměna chladicí kapaliny",
       "description": "Před výměnou zkontrolujeme, zda je ve vašem voze použita chladicí kapalina správného typu a specifikace dle doporučení výrobce.Pokud je zjištěna nesprávná kapalina, doporučíme vhodný typ a v takovém případě se cena stanoví individuálně.Ve všech ostatních případech platí pevná cena za práci – bez započtení materiálu."
+    },
+    "58043901": {
+      "title": "#15 Demontáž a montáž převodovky, výměna spojkové sady",
+      "description": "Provádíme kompletní demontáž a montáž převodovky spojenou s výměnou spojkové sady podle specifikací výrobce. Práce je provedena precizně, s kontrolou všech souvisejících komponent.Výše uvedená cena nezahrnuje novou spojkovou sadu a další náhradní díly a platí v případě zakoupení dílů v servisu DBS."
     }
   },
   "select_slots": {
