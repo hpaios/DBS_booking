@@ -109,6 +109,10 @@
     "58042986": {
       "title": "#07 Výměna brzdových destiček (1 osa)",
       "description": "Vyměníme brzdové destičky na jedné nápravě podle doporučení výrobce, zkontrolujeme stav kotoučů a brzdového systému. Výše uvedené ceny zahrnují náhradní díly a platí v případě zakoupení materiálu a dílů v servisu DBS."
+    },
+    "58043237": {
+      "title": "#08 Výměna brzdových kotoučů a destiček (1 osa)",
+      "description": "Vyměníme brzdové kotouče a destičky na jedné nápravě podle specifikací výrobce a zkontrolujeme brzdový systém.Výše uvedené ceny zahrnují náhradní díly a platí v případě zakoupení materiálu a dílů v servisu DBS."
     }
   },
   "select_slots": {
