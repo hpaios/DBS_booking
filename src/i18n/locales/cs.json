@@ -97,6 +97,10 @@
     "58042631": {
       "title": "#04 Výměna oleje v manuální převodovce",
       "description": "Výše uvedená cena nezahrnuje převodový olej, filtry a další náhradní díly a platí v případě zakoupení dílů v servisu DBS."
+    },
+    "58042708": {
+      "title": "#05 Výměna oleje v automatické převodovce",
+      "description": "Uvedené ceny zahrnují náhradní díly a platí v případě zakoupení materiálu a dílů v servisu DBS.Pro přesný výpočet ceny se poraďte s přijímacím technikem – cena je individuální pro každé vozidlo (od 4 999 Kč až po 29 999 Kč u některých luxusních vozů)."
     }
   },
   "select_slots": {

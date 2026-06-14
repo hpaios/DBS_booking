@@ -97,6 +97,10 @@
     "58042631": {
       "title": "#04 Changing the oil in the manual transmission",
       "description": "The listed price does not include transmission fluid, filters, or other spare parts and is valid when parts are purchased through DBS Service."
+    },
+    "58042708": {
+      "title": "#05 Changing the oil in the automatic transmission",
+      "description": "The listed prices include spare parts and apply when materials and components are purchased through DBS Service. For a precise quotation, please contact our service advisor — the final price is calculated individually depending on the vehicle model and scope of work (from 4 999 CZK up to 29 999 CZK for selected premium vehicles)."
     }
   },
   "select_slots": {
