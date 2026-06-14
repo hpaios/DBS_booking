@@ -117,6 +117,10 @@
     "58043315": {
       "title": "#09 Výměna brzdových kotoučů / destiček (1 osa | vlastní díly)",
       "description": "Pokud si přivezete vlastní díly, provedeme výměnu brzdových kotoučů nebo destiček na jedné nápravě."
+    },
+    "58043394": {
+      "title": "#10 Výměna brzdové kapaliny (bez materiálu)",
+      "description": "Výrobce doporučuje měnit brzdovou kapalinu každé 2 roky. Pokud si nejste jisti, kdy byla naposledy měněna, můžeme zdarma zkontrolovat její technický stav – zda neobsahuje vlhkost a zda je výměna opravdu nutná.Cena se vztahuje pouze na práci, kapalina není zahrnuta v ceně."
     }
   },
   "select_slots": {
