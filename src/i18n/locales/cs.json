@@ -105,6 +105,10 @@
     "58042772": {
       "title": "#06 Částečná výměna oleje v automatické převodovce",
       "description": "Vhodné, pokud si nejste jisti, kdy byla výměna provedena naposledy, nebo když převodovka začala jemně cukat.Cena od 2 999 Kč až po 14 999 Kč (u některých vozidel dle typu převodovky). Pro přesný výpočet ceny se poraďte s přijímacím technikem."
+    },
+    "58042986": {
+      "title": "#07 Výměna brzdových destiček (1 osa)",
+      "description": "Vyměníme brzdové destičky na jedné nápravě podle doporučení výrobce, zkontrolujeme stav kotoučů a brzdového systému. Výše uvedené ceny zahrnují náhradní díly a platí v případě zakoupení materiálu a dílů v servisu DBS."
     }
   },
   "select_slots": {
