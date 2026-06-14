@@ -129,6 +129,10 @@
     "58043650": {
       "title": "#12 Výměna rozvodové sady (řetěz) bez demontáže motoru",
       "description": "Zajistíme výměnu rozvodové sady s řetězem.Výše uvedená cena nezahrnuje rozvodový řetěz a další náhradní díly a platí v případě zakoupení dílů v servisu DBS.Cena od 5 999 Kč. Pro jistotu se prosím informujte u přijímacího technika."
+    },
+    "58043702": {
+      "title": "#13 Demontáž / montáž motoru",
+      "description": "Pokud je služba objednána společně s další opravou, může být cena nižší.Ceny jsou individuální podle konkrétního vozidla – pro přesnou kalkulaci se prosím poraďte s přijímacím technikem."
     }
   },
   "select_slots": {
