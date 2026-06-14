@@ -113,6 +113,10 @@
     "58043237": {
       "title": "#08 Brake Pad Replacement (1 Axle)",
       "description": "We replace brake discs and pads on one axle according to the manufacturer’s specifications and inspect the braking system. The listed prices include spare parts and are valid when materials and parts are purchased through DBS Service."
+    },
+    "58043315": {
+      "title": "#09 Brake Disc / Pad Replacement (1 Axle | Your Parts)",
+      "description": "If you bring your own parts, we will replace the brake discs or pads on one axle."
     }
   },
   "select_slots": {
