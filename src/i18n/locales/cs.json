@@ -121,6 +121,10 @@
     "58043394": {
       "title": "#10 Výměna brzdové kapaliny (bez materiálu)",
       "description": "Výrobce doporučuje měnit brzdovou kapalinu každé 2 roky. Pokud si nejste jisti, kdy byla naposledy měněna, můžeme zdarma zkontrolovat její technický stav – zda neobsahuje vlhkost a zda je výměna opravdu nutná.Cena se vztahuje pouze na práci, kapalina není zahrnuta v ceně."
+    },
+    "58043585": {
+      "title": "#11 Výměna rozvodové sady (řemen)",
+      "description": "Provádíme odbornou výměnu rozvodové sady s řemenem podle specifikací výrobce.Výše uvedená cena nezahrnuje rozvodový řemen a další náhradní díly a platí v případě zakoupení dílů v servisu DBS.Cena od 4999 Kč. Pro jistotu se prosím informujte u přijímacího technika."
     }
   },
   "select_slots": {
