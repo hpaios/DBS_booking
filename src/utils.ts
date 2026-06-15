@@ -1,6 +1,7 @@
 import { type TFunction } from 'i18next'
 import { afternoonSlots, morningSlots } from './config'
 import type { ApiTimeSlot, Category, DaySlots, FormattedDate, GroupedArray, GroupedServices, GroupedServicesByCategory, MappedCategory, Service, WeekScheduleItem } from './interfaces'
+import { AT_WORD, LOCALES, type SupportedLanguage } from './i18n'
 
 export const isObjectEmpty = (obj: Record<string, unknown>) =>
   obj && Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -482,21 +483,6 @@ export const getOccupiedSlotStarts = (startIso: string, slotsCount: number) => {
   });
 };
 
-type SupportedLanguage = 'cs' | 'ru' | 'uk' | 'en'
-
-const LOCALES: Record<SupportedLanguage, string> = {
-  cs: 'cs-CZ',
-  ru: 'ru-RU',
-  uk: 'uk-UA',
-  en: 'en-US',
-}
-
-const AT_WORD: Record<SupportedLanguage, string> = {
-  cs: 'v',
-  ru: 'в',
-  uk: 'о',
-  en: 'at',
-}
 
 export const formatBookingDateTime = (
   date: string,
