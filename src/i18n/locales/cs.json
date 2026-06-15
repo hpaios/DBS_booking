@@ -177,6 +177,18 @@
     "58015267": {
       "title": "#00 Akce | #3 Výměna brzdových destiček a kotoučů",
       "description": "Pokud si u nás zakoupíte přední i zadní brzdové destičky a kotouče, získáte nejen kvalitní díly od prověřených výrobců za skvělou cenu, ale také kompletní výměnu zcela zdarma!"
+    },
+    "58015985": {
+      "title": "#00 Akce | #4 Výměna zapalovacích svíček",
+      "description": "Při kompletní výměně rozvodové sady u nás získáte prace na výměnu zapalovacích svíček zdarma."
+    },
+    "58015870": {
+      "title": "#00 Akce | #5 Výměna spojky",
+      "description": "Sleva 10 % na olej při výměně kompletní sady spojky a oleje v převodovce."
+    },
+    "58015700": {
+      "title": "#00 Akce | #6 Výměna tlumičů + geometrie",
+      "description": "Při výměně všech tlumičů (př. i zad.) a horních uložení sleva 50 % na seřízení geometrie kol. (Uvedena cena na geometrie (osobní) se slevou, ne vč. ceny prací na podvozku.)"
     }
   },
   "select_slots": {
