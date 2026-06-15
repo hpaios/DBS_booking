@@ -191,6 +191,10 @@
     "58015700": {
       "title": "#00 Akce | #6 Výměna tlumičů + geometrie",
       "description": "Při výměně všech tlumičů (př. i zad.) a horních uložení sleva 50 % na seřízení geometrie kol. (Uvedena cena na geometrie (osobní) se slevou, ne vč. ceny prací na podvozku.)"
+    },
+    "58048440": {
+      "title": "#23 Komplexní diagnostika (včetně počítačové)",
+      "description": "Profesionálně zjistíme skutečný stav vašeho vozu.Součástí diagnostiky je počítačová kontrola řídicích jednotek, kontrola podvozku, brzdového systému, všech provozních kapalin, těsnosti motoru i převodovky, kontrola světel a dalších elektrických prvků.Zahrnuta je také fotodokumentace zjištěného stavu a přehledné doporučení, na co je potřeba se zaměřit ihned a co může ještě bez obav počkat."
     }
   },
   "select_slots": {

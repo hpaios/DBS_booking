@@ -36,7 +36,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
 
     return (
         <div key={group.label} className='mb-[var(--font-size-lg)]'>
-          <h3 className='text-[18px] text-[var(--color-icon)] font-semibold font-sans'>{t(`select_services.${group.services[0].parentCategoryId}`)}</h3>
+          <h3 className='text-[18px] text-[var(--color-icon)] font-semibold font-sans'>{t(`select_services.${group.services[0].parentCategoryId}`)}:</h3>
           <div className='text-[var(--color-border)] font-sans mb-[var(--font-size-lg)]'> {t('success_page.date')} <span className='font-semibold text-[var(--color-icon)] font-sans'>
           {formatBookingDateTime(slotInfo.date, slotInfo.startTime, i18n.language as SupportedLanguage)}</span></div>
 
@@ -64,7 +64,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
 
   return (
     <div>
-      <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-green-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[200px] my-[var(--space-lg)] mx-auto font-sans'>
+      <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-green-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[280px] my-[var(--space-lg)] mx-auto font-sans'>
         <Success />
         <span>{t('success_page.title')}</span>
       </div>
