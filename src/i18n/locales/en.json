@@ -211,6 +211,10 @@
     "58049569": {
       "title": "#27 Free Body Repair Inspection & Consultation",
       "description": "We offer a free consultation and initial inspection of body damage — from small parking dents to hail damage or accident-related repairs. Our specialists will assess the extent of the damage, recommend the most suitable repair method, and provide an estimated cost and repair timeframe. Our goal is to help you find the most effective and cost-efficient solution so you clearly understand the best next steps for your vehicle."
+    },
+    "58049726": {
+      "title": "#28 Free Inspection & Consultation for Engine Overhaul",
+      "description": "We provide a free initial engine inspection and expert consultation regarding the possibility of a complete engine overhaul. Our goal is to help you clearly understand whether the repair is worthwhile and which solution will be the most effective for your vehicle."
     }
   },
   "select_slots": {

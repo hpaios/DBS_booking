@@ -211,6 +211,10 @@
     "58049569": {
       "title": "#27 Bezplatná kontrola a konzultace k generální opravě motoru",
       "description": "Nabízíme bezplatnou konzultaci a vstupní kontrolu poškození karoserie – ať už jde o drobnou promáčklinu z parkování, škodu po kroupách nebo následky nehody.Naši odborníci posoudí rozsah poškození, navrhnou nejvhodnější způsob opravy a odhadnou náklady i časovou náročnost.Cílem je najít pro vás efektivní a cenově rozumné řešení, abyste přesně věděli, co má smysl opravovat a jak postupovat dál."
+    },
+    "58049726": {
+      "title": "#28 Bezplatná kontrola a konzultace k klempířským a karosářským opravám",
+      "description": "Provedeme bezplatnou vstupní kontrolu motoru a odbornou konzultaci ohledně možnosti jeho generální opravy. Cílem je, abyste přesně věděli, zda má oprava smysl a jaký postup bude pro váš vůz nejvýhodnější."
     }
   },
   "select_slots": {
