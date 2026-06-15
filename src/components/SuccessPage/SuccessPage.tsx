@@ -3,14 +3,14 @@ import InfoIcon from '../../icons/Info'
 import Success from '../../icons/Success'
 import Time from '../../icons/Time'
 import type { GroupedArray, SelectedSlot, Service } from '../../interfaces'
-import { formatBookingDateTimeCs, formatDurationCsShort, groupServicesToArray } from '../../utils'
+import { formatBookingDateTimeCs, formatDurationShort, groupServicesToArray } from '../../utils'
 
 const SuccessPage = ({ selectedServices, selectedSlots }:
   {
     selectedServices: Service[]
     selectedSlots: Record<number, SelectedSlot | null>
 }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const services = groupServicesToArray(selectedServices)
 
   const getFirstSlotInfo = (
@@ -47,7 +47,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
                 <div className='flex justify-between'>
                   <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1 font-sans'>
                     <Time />
-                    {formatDurationCsShort(service.durationMinutes as number)}
+                    {formatDurationShort(service.durationMinutes as unknown as number, i18n.language)}
                   </div>
 
                   <span className='text-[var(--color-icon)] text-[14px] font-semibold font-sans'>
@@ -64,7 +64,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
     <div>
       <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-green-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[200px] my-[var(--space-lg)] mx-auto font-sans'>
         <Success />
-        <span>Schůzka potvrzena</span>
+        <span>{t('success_page.title')}</span>
       </div>
 
       
@@ -80,8 +80,8 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
       </div>
       <div className='flex items-center gap-2 text-[var(--color-border)] text-[12px] font-sans mt-[var(--space-md)]'>
         <InfoIcon width="40" height="40" />
-        Cena zahrnuje pouze práci a nezahrnuje cenu náhradních dílů.
-        Pokud je nutné díly vyměnit, bude vás kontaktovat zaměstnanec DBS a předem s vámi dohodne cenu.</div>
+        <span>{t('success_page.description')}</span>
+      </div>
     </div>
   )
 }

@@ -250,16 +250,53 @@ export const formatIsoDate = (
 
   return { weekday, day, month, label }
 }
+// TODO: remove this function
+// export const formatDurationCsShort = (minutes: number) => {
+//   const hours = Math.floor(minutes / 60);
+//   const mins = minutes % 60;
 
-export const formatDurationCsShort = (minutes: number) => {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
+//   const hourStr = hours > 0 ? `${hours} hod` : "";
+//   const minStr = mins > 0 ? `${mins} min` : "";
 
-  const hourStr = hours > 0 ? `${hours} hod` : "";
-  const minStr = mins > 0 ? `${mins} min` : "";
+//   return [hourStr, minStr].filter(Boolean).join(" ");
+// };
 
-  return [hourStr, minStr].filter(Boolean).join(" ");
-};
+export const formatDurationShort = (
+  minutes: number,
+  language: string
+) => {
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+
+  const labels: Record<
+    string,
+    { hour: string; minute: string }
+  > = {
+    cs: {
+      hour: 'hod',
+      minute: 'min',
+    },
+    ru: {
+      hour: 'ч',
+      minute: 'мин',
+    },
+    uk: {
+      hour: 'год',
+      minute: 'хв',
+    },
+    en: {
+      hour: 'h',
+      minute: 'min',
+    },
+  }
+
+  const locale = labels[language] || labels.cs
+
+  const hourStr = hours > 0 ? `${hours} ${locale.hour}` : ''
+  const minStr = mins > 0 ? `${mins} ${locale.minute}` : ''
+
+  return [hourStr, minStr].filter(Boolean).join(' ')
+}
 
 export const shiftSlotsByHour = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
 

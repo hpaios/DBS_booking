@@ -12,6 +12,8 @@
     "autoservis": "Autoservis"
   },
   "select_services": {
+    "308291": "Autoservis",
+    "310673": "Detailing",
     "title": "Vyberte služby",
     "subtitle": "Můžete vybrat více služeb",
     "58009290": {
@@ -207,10 +209,12 @@
     "vin_error": "Zadejte číslo VIN"
   },
   "success_page": {
-    "title": "Schůzka potvrzena"
+    "title": "Schůzka potvrzena",
+    "description": "Cena zahrnuje pouze práci a nezahrnuje cenu náhradních dílů. Pokud je nutné díly vyměnit, bude vás kontaktovat zaměstnanec DBS a předem s vámi dohodne cenu."
   },
   "error_page": {
-    "title": "Rezervace nebyla vytvořena"
+    "title": "Rezervace nebyla vytvořena",
+    "description": "Zkuste to prosím znovu nebo nás kontaktujte telefonicky"
   },
   "common": {
     "next": "Další",

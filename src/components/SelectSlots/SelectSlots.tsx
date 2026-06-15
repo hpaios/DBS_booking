@@ -3,7 +3,7 @@ import { useTimeSlots } from '../../api/hooks/useTimeslots'
 import ErrorIcon from '../../icons/Error'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
 import {
-  formatDurationCsShort,
+  formatDurationShort,
   getUniqueParentCategoryIds,
   normalizeSlotsBySchedule,
   mapSlotsByDays,
@@ -31,7 +31,7 @@ const SelectSlots = ({
   selectedDates,
   onSelectedDate
 }: SelectSlotProps) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const uniqueParentCategoryIds = getUniqueParentCategoryIds(selectedServices)
   const { timeSlots, isLoading, isError } = useTimeSlots(uniqueParentCategoryIds)
 
@@ -115,20 +115,22 @@ const SelectSlots = ({
             (time) => !currentEmployeeOccupiedTimes.includes(time)
           )
 
+          console.log('employeeServices', employeeServices)
+
           return (
             <div key={employeeId}>
               <h2 className="text-[var(--color-icon)] text-[16px] font-semibold font-sans">
-                {employeeServices[0].parentCategoryLabel} služby:
+                {t(`select_services.${employeeServices[0].parentCategoryId}`)}:
               </h2>
 
               {employeeServices.map((service) => (
                 <div key={service.id}>
                   <div className="text-[var(--color-icon)] text-[16px] font-sans">
-                    {service.title}
+                    {t(`select_services.${service.id}.title`)}
                   </div>
                   <div className="flex justify-between mb-[var(--space-sm)]">
                     <span className="text-[var(--color-border)] font-sans">
-                      {formatDurationCsShort(service.durationMinutes)}
+                      {formatDurationShort(service.durationMinutes as unknown as number, i18n.language)}
                     </span>
                     <span className="text-[var(--color-icon)] text-[16px] font-sans">
                       {service.price} Kč

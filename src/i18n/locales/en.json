@@ -12,6 +12,8 @@
     "autoservis": "Automotive Service"
   },
   "select_services": {
+    "308291": "Automotive Service",
+    "310673": "Detailing",
     "title": "Select services",
     "subtitle": "You can select multiple services",
     "58009290": {
@@ -207,10 +209,12 @@
     "vin_error": "Enter VIN number"
   },
   "success_page": {
-    "title": "Success page"
+    "title": "Booking confirmed",
+    "description": "The price includes only labor and does not include the price of replacement parts. If replacement parts are needed, the employee will contact you and agree on the price in advance."
   },
   "error_page": {
-    "title": "Error page"
+    "title": "Booking not created",
+    "description": "Please try again or contact us by phone"
   },
   "common": {
     "next": "Next",

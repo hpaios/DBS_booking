@@ -2,7 +2,7 @@ import Accordion from "./Accordion";
 import type { MappedCategory, Service } from "../../interfaces";
 import { ExpandableText } from '../ExpandableText'
 import Time from '../../icons/Time'
-import { formatDurationCsShort } from '../../utils'
+import { formatDurationShort } from '../../utils'
 import Loader from '../Loader'
 import ErrorIcon from '../../icons/Error'
 import { useTranslation } from 'react-i18next'
@@ -20,7 +20,7 @@ const SelectServices = ({
   isLoading: boolean
   error: Error | null | undefined
 }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const selectedIds = new Set(selectedServices.map((s) => s.id));
 
   const accordionItems = () => {
@@ -60,7 +60,7 @@ const SelectServices = ({
                   <h5 className=''>{t(`select_services.${service.id}.title`)}</h5>
                   <ExpandableText text={t(`select_services.${service.id}.description`)} />
                   <div className='flex justify-between'>
-                    <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1'><Time/>{formatDurationCsShort(service.durationMinutes as unknown as number)}</div>
+                    <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1'><Time/>{formatDurationShort(service.durationMinutes as unknown as number, i18n.language)}</div>
                     <span className='text-[var(--color-icon)] text-[14px] font-semibold'>{service.price} Kč</span>
                   </div>
                 </div>
