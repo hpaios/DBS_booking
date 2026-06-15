@@ -195,6 +195,18 @@
     "58048440": {
       "title": "#23 Komplexní diagnostika (včetně počítačové)",
       "description": "Profesionálně zjistíme skutečný stav vašeho vozu.Součástí diagnostiky je počítačová kontrola řídicích jednotek, kontrola podvozku, brzdového systému, všech provozních kapalin, těsnosti motoru i převodovky, kontrola světel a dalších elektrických prvků.Zahrnuta je také fotodokumentace zjištěného stavu a přehledné doporučení, na co je potřeba se zaměřit ihned a co může ještě bez obav počkat."
+    },
+    "58048471": {
+      "title": "#24 Hodina prací autoelektrikáře",
+      "description": "Touto položkou se účtuje čas strávený na všech typech elektro-prací – od diagnostiky závad až po opravy elektrických systémů a instalaci nových komponentů.Práce je vždy individuální podle konkrétního vozidla a zjištěného problému.Na faktuře uvidíte přesně, kolik hodin nebo minut bylo účtováno a za jaké konkrétní úkony."
+    },
+    "58048748": {
+      "title": "#25 Endoskopie benzínového motoru",
+      "description": "Pomocí endoskopu zkontrolujeme stav válců a vnitřních částí vašeho motoru, abyste přesně věděli, v jakém je technickém stavu.Tato služba je velmi užitečná například před koupí ojetého vozu nebo při podezření na opotřebení motoru. Cena uvedená od 1 499 Kč v závislosti na počtu válců v motoru."
+    },
+    "58048773": {
+      "title": "#26 Zátěžový test baterie",
+      "description": "Ověříme skutečný stav vašeho akumulátoru pomocí zátěžového testu.Zjistíme, jak dobře baterie drží napětí a kolik energie je ještě schopna dodat, abyste měli jistotu spolehlivého startu za všech podmínek."
     }
   },
   "select_slots": {

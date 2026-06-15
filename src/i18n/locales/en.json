@@ -195,6 +195,18 @@
     "58048440": {
       "title": "#23 Comprehensive Vehicle Diagnostics (Including Computer Diagnostics)",
       "description": "We professionally assess the actual condition of your vehicle. The diagnostics include a computer scan of control units, inspection of the suspension, braking system, all operating fluids, engine and transmission sealing, headlights, and other electrical components. You will also receive photo documentation of the detected issues along with clear recommendations on what requires immediate attention and what can safely wait."
+    },
+    "58048471": {
+      "title": "#24 Auto Electrician Labor Hour",
+      "description": "This service covers the time spent on all types of electrical work — from diagnostics and troubleshooting to electrical system repairs and installation of new components. The scope of work is always determined individually depending on the vehicle and the detected issue. \n Your invoice will clearly show the exact labor time and a detailed list of completed services."
+    },
+    "58048748": {
+      "title": "#25 Gasoline Engine Endoscopy",
+      "description": "Using an endoscope, we inspect the condition of the cylinders and internal engine components to accurately assess the technical condition of your engine. This service is especially useful before purchasing a used vehicle or when engine wear is suspected. Prices start from 1,499 CZK depending on the number of cylinders."
+    },
+    "58048773": {
+      "title": "#26 Battery Load Test",
+      "description": "We test the actual condition of your battery using a professional load test. This helps determine how well the battery performs under load and how much starting power it can still deliver to ensure reliable starts in all conditions."
     }
   },
   "select_slots": {
