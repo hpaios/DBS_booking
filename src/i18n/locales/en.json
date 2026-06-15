@@ -145,6 +145,18 @@
     "58046282": {
       "title": "#16 Wheel Alignment (Passenger Vehicle)",
       "description": "We approach every vehicle individually and find the most efficient way to perform wheel alignment with minimal unnecessary costs. If worn or damaged suspension components are detected, we provide a free consultation and repair cost estimate. We perform wheel alignment for all types of vehicles — accurately, professionally, and reliably."
+    },
+    "58046323": {
+      "title": "#17 Wheel Alignment (Commercial Vehicles & SUVs)",
+      "description": "We approach every vehicle individually and find the most efficient way to perform wheel alignment with minimal unnecessary costs. If worn or damaged suspension components are detected, we provide a free consultation and repair cost estimate. We perform wheel alignment for commercial vehicles and SUVs with precision, professionalism, and reliability."
+    },
+    "58046978": {
+      "title": "#18 Mechanic Labor Hour",
+      "description": "This item reflects the actual time spent on various repair works — such as shock absorber replacement, exhaust system repair or replacement, and other vehicle-specific services. Your invoice will include the exact number of labor hours and a detailed list of completed work. If needed, our service advisor will gladly explain the scope of the repairs."
+    },
+    "58047192": {
+      "title": "#19 Mechanic Labor Hour (With Your Own Parts)",
+      "description": "Labor costs are calculated according to the actual time spent by the mechanic. Your own parts are used for the repair or service. The invoice will include the exact number of labor hours and a detailed list of completed work."
     }
   },
   "select_slots": {

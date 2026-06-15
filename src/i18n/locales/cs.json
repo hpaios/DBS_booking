@@ -145,6 +145,18 @@
     "58046282": {
       "title": "#16 Měření a seřízení geometrie (osobní)",
       "description": "Ke každému zákazníkovi přistupujeme individuálně a hledáme způsob, jak provést geometrii s co nejnižšími náklady. Pokud je nutná výměna poškozených dílů podvozku, poskytneme vám zdarma konzultaci i cenovou kalkulaci.Geometrii provádíme na všech typech vozidel, vždy precizně a spolehlivě."
+    },
+    "58046323": {
+      "title": "#17 Měření a seřízení geometrie (užitkové a SUV)",
+      "description": "Ke každému zákazníkovi přistupujeme individuálně a hledáme způsob, jak provést geometrii s co nejnižšími náklady. Pokud je nutná výměna poškozených dílů podvozku, poskytneme vám zdarma konzultaci i cenovou kalkulaci.Geometrii provádíme na všech typech vozidel, vždy precizně a spolehlivě."
+    },
+    "58046978": {
+      "title": "#18 Hodina mechanických prací",
+      "description": "Touto položkou se účtuje čas strávený na různých typech oprav – například výměna tlumičů, oprava nebo výměna výfuku a další práce, jejichž rozsah závisí na konkrétním vozidle.Na faktuře uvidíte počet účtovaných hodin mechanických prací a přijímací technik vám přesně vysvětlí, za jaké úkony a v jakém rozsahu byly započítány."
+    },
+    "58047192": {
+      "title": "#19 Hodina mechanických prací (vlastní náhradní díly)",
+      "description": "Stejně jako u bodu výše, pouze s tím rozdílem, že při této službě si přivážíte vlastní náhradní díly."
     }
   },
   "select_slots": {
