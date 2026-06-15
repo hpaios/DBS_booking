@@ -207,6 +207,10 @@
     "58048773": {
       "title": "#26 Zátěžový test baterie",
       "description": "Ověříme skutečný stav vašeho akumulátoru pomocí zátěžového testu.Zjistíme, jak dobře baterie drží napětí a kolik energie je ještě schopna dodat, abyste měli jistotu spolehlivého startu za všech podmínek."
+    },
+    "58049569": {
+      "title": "#27 Bezplatná kontrola a konzultace k generální opravě motoru",
+      "description": "Nabízíme bezplatnou konzultaci a vstupní kontrolu poškození karoserie – ať už jde o drobnou promáčklinu z parkování, škodu po kroupách nebo následky nehody.Naši odborníci posoudí rozsah poškození, navrhnou nejvhodnější způsob opravy a odhadnou náklady i časovou náročnost.Cílem je najít pro vás efektivní a cenově rozumné řešení, abyste přesně věděli, co má smysl opravovat a jak postupovat dál."
     }
   },
   "select_slots": {

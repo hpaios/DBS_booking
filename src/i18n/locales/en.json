@@ -207,6 +207,10 @@
     "58048773": {
       "title": "#26 Battery Load Test",
       "description": "We test the actual condition of your battery using a professional load test. This helps determine how well the battery performs under load and how much starting power it can still deliver to ensure reliable starts in all conditions."
+    },
+    "58049569": {
+      "title": "#27 Free Body Repair Inspection & Consultation",
+      "description": "We offer a free consultation and initial inspection of body damage — from small parking dents to hail damage or accident-related repairs. Our specialists will assess the extent of the damage, recommend the most suitable repair method, and provide an estimated cost and repair timeframe. Our goal is to help you find the most effective and cost-efficient solution so you clearly understand the best next steps for your vehicle."
     }
   },
   "select_slots": {
