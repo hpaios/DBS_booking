@@ -3,7 +3,8 @@ import InfoIcon from '../../icons/Info'
 import Success from '../../icons/Success'
 import Time from '../../icons/Time'
 import type { GroupedArray, SelectedSlot, Service } from '../../interfaces'
-import { formatBookingDateTimeCs, formatDurationShort, groupServicesToArray } from '../../utils'
+import { formatBookingDateTime, formatDurationShort, groupServicesToArray } from '../../utils'
+import type { SupportedLanguage } from '../../i18n'
 
 const SuccessPage = ({ selectedServices, selectedSlots }:
   {
@@ -35,13 +36,14 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
 
     return (
         <div key={group.label} className='mb-[var(--font-size-lg)]'>
-          <h3 className='text-[18px] text-[var(--color-icon)] font-semibold font-sans'>{group.label}</h3>
-          <div className='text-[var(--color-border)] font-sans mb-[var(--font-size-lg)]'>Datum: <span className='font-semibold text-[var(--color-icon)] font-sans'>{formatBookingDateTimeCs(slotInfo.date, slotInfo.startTime)}</span></div>
+          <h3 className='text-[18px] text-[var(--color-icon)] font-semibold font-sans'>{t(`select_services.${group.services[0].parentCategoryId}`)}</h3>
+          <div className='text-[var(--color-border)] font-sans mb-[var(--font-size-lg)]'> {t('success_page.date')} <span className='font-semibold text-[var(--color-icon)] font-sans'>
+          {formatBookingDateTime(slotInfo.date, slotInfo.startTime, i18n.language as SupportedLanguage)}</span></div>
 
           {group.services.map((service) => (
             <div key={service.id} className="flex flex-col gap-2">
                 <div className='text-[var(--color-icon)] text-[16px] font-sans'>
-                  {service.title}
+                  {t(`select_services.${service.id}.title`)}
                 </div>
 
                 <div className='flex justify-between'>

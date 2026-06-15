@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import type { DaySlots } from '../../interfaces'
 import { formatIsoDate } from '../../utils'
-import { LOCALES } from '../../i18n'
+import { LOCALES, type SupportedLanguage } from '../../i18n'
 
 const Calendar = ({
   calendar,
@@ -16,7 +16,7 @@ const Calendar = ({
 
   const { i18n } = useTranslation()
   
-  const locale = LOCALES[i18n.language] || 'cs-CZ'
+  const locale = LOCALES[i18n.language as SupportedLanguage] || 'cs-CZ'
   
   return (
     <div className="flex gap-[1rem] overflow-x-auto">

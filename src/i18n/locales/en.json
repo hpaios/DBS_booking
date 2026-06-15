@@ -210,7 +210,8 @@
   },
   "success_page": {
     "title": "Booking confirmed",
-    "description": "The price includes only labor and does not include the price of replacement parts. If replacement parts are needed, the employee will contact you and agree on the price in advance."
+    "description": "The price includes only labor and does not include the price of replacement parts. If replacement parts are needed, the employee will contact you and agree on the price in advance.",
+    "date": "Date: "
   },
   "error_page": {
     "title": "Booking not created",

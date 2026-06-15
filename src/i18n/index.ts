@@ -7,11 +7,20 @@ import ru from './locales/ru.json'
 import en from './locales/en.json'
 import uk from './locales/uk.json'
 
-export const LOCALES: Record<string, string> = {
+export type SupportedLanguage = 'cs' | 'ru' | 'uk' | 'en'
+
+export const LOCALES: Record<SupportedLanguage, string> = {
   cs: 'cs-CZ',
   ru: 'ru-RU',
   uk: 'uk-UA',
   en: 'en-US',
+}
+
+export const AT_WORD: Record<SupportedLanguage, string> = {
+  cs: 'v',
+  ru: 'в',
+  uk: 'о',
+  en: 'at',
 }
 
 i18n

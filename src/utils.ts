@@ -450,29 +450,29 @@ export const groupServicesToArray = (services: Service[]): GroupedArray[] => {
   }));
 };
 
-export const formatBookingDateTimeCs = (
-  date: string,
-  time: string
-) => {
-  const d = new Date(`${date}T${time}:00`)
+// export const formatBookingDateTimeCs = (
+//   date: string,
+//   time: string
+// ) => {
+//   const d = new Date(`${date}T${time}:00`)
 
-  const parts = new Intl.DateTimeFormat("cs-CZ", {
-    weekday: "long",
-    day: "numeric",
-    month: "long"
-  }).formatToParts(d)
+//   const parts = new Intl.DateTimeFormat("cs-CZ", {
+//     weekday: "long",
+//     day: "numeric",
+//     month: "long"
+//   }).formatToParts(d)
 
-  const weekday = parts.find(p => p.type === "weekday")?.value ?? ""
-  const day = parts.find(p => p.type === "day")?.value ?? ""
-  const month = parts.find(p => p.type === "month")?.value ?? ""
+//   const weekday = parts.find(p => p.type === "weekday")?.value ?? ""
+//   const day = parts.find(p => p.type === "day")?.value ?? ""
+//   const month = parts.find(p => p.type === "month")?.value ?? ""
 
-  const formattedTime = new Intl.DateTimeFormat("cs-CZ", {
-    hour: "2-digit",
-    minute: "2-digit"
-  }).format(d)
+//   const formattedTime = new Intl.DateTimeFormat("cs-CZ", {
+//     hour: "2-digit",
+//     minute: "2-digit"
+//   }).format(d)
 
-  return `${weekday}, ${day} ${month} v ${formattedTime}`
-}
+//   return `${weekday}, ${day} ${month} v ${formattedTime}`
+// }
 
 export const getOccupiedSlotStarts = (startIso: string, slotsCount: number) => {
   return Array.from({ length: slotsCount }, (_, index) => {
@@ -481,3 +481,46 @@ export const getOccupiedSlotStarts = (startIso: string, slotsCount: number) => {
     return date.toISOString().slice(0, 19) + 'Z';
   });
 };
+
+type SupportedLanguage = 'cs' | 'ru' | 'uk' | 'en'
+
+const LOCALES: Record<SupportedLanguage, string> = {
+  cs: 'cs-CZ',
+  ru: 'ru-RU',
+  uk: 'uk-UA',
+  en: 'en-US',
+}
+
+const AT_WORD: Record<SupportedLanguage, string> = {
+  cs: 'v',
+  ru: 'в',
+  uk: 'о',
+  en: 'at',
+}
+
+export const formatBookingDateTime = (
+  date: string,
+  time: string,
+  language: SupportedLanguage
+) => {
+  const locale = LOCALES[language]
+
+  const d = new Date(`${date}T${time}:00`)
+
+  const parts = new Intl.DateTimeFormat(locale, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  }).formatToParts(d)
+
+  const weekday = parts.find(p => p.type === 'weekday')?.value ?? ''
+  const day = parts.find(p => p.type === 'day')?.value ?? ''
+  const month = parts.find(p => p.type === 'month')?.value ?? ''
+
+  const formattedTime = new Intl.DateTimeFormat(locale, {
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(d)
+
+  return `${weekday}, ${day} ${month} ${AT_WORD[language]} ${formattedTime}`
+}

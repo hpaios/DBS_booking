@@ -210,7 +210,8 @@
   },
   "success_page": {
     "title": "Schůzka potvrzena",
-    "description": "Cena zahrnuje pouze práci a nezahrnuje cenu náhradních dílů. Pokud je nutné díly vyměnit, bude vás kontaktovat zaměstnanec DBS a předem s vámi dohodne cenu."
+    "description": "Cena zahrnuje pouze práci a nezahrnuje cenu náhradních dílů. Pokud je nutné díly vyměnit, bude vás kontaktovat zaměstnanec DBS a předem s vámi dohodne cenu.",
+    "date": "Datum: "
   },
   "error_page": {
     "title": "Rezervace nebyla vytvořena",
