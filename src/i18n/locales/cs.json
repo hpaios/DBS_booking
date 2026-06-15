@@ -157,6 +157,18 @@
     "58047192": {
       "title": "#19 Hodina mechanických prací (vlastní náhradní díly)",
       "description": "Stejně jako u bodu výše, pouze s tím rozdílem, že při této službě si přivážíte vlastní náhradní díly."
+    },
+    "58047390": {
+      "title": "#20 Diagnostika klimatizace",
+      "description": "Přijeďte k nám, pokud vám klimatizace nefunguje správně nebo nechladí tak, jak by měla.Provedeme kompletní diagnostiku systému, zjistíme příčinu problému a doporučíme nejvhodnější a zároveň nejvýhodnější řešení podle našeho odborného posouzení."
+    },
+    "58047448": {
+      "title": "#21 Běžný servis klimatizace",
+      "description": "Přijeďte k nám na doplnění funkčního systému klimatizace.Cena se vztahuje pouze na práci a nezahrnuje chladivo, které se účtuje podle skutečně doplněného množství."
+    },
+    "58047593": {
+      "title": "#22 Antibakteriální ošetření interiéru a systému klimatizace",
+      "description": "Provádíme kompletní a důkladné antibakteriální ošetření, které odstraní bakterie a plísně usazené na výparníku klimatizace.Zároveň pomáhá odstranit nepříjemné pachy z ventilačního systému a zajistit svěží a zdravé prostředí ve vašem voze."
     }
   },
   "select_slots": {

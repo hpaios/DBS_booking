@@ -157,6 +157,18 @@
     "58047192": {
       "title": "#19 Mechanic Labor Hour (With Your Own Parts)",
       "description": "Labor costs are calculated according to the actual time spent by the mechanic. Your own parts are used for the repair or service. The invoice will include the exact number of labor hours and a detailed list of completed work."
+    },
+    "58047390": {
+      "title": "#20 Air Conditioning Diagnostics",
+      "description": "Contact us if your air conditioning system is not working properly or is not cooling efficiently. We will perform a complete system diagnostic, identify the cause of the issue, and recommend the most suitable and cost-effective solution based on our expert assessment."
+    },
+    "58047448": {
+      "title": "#21 Regular Air Conditioning Service",
+      "description": "Visit us for regular maintenance of your air conditioning system. The listed price covers labor only and does not include refrigerant, which is charged separately according to the actual amount refilled."
+    },
+    "58047593": {
+      "title": "#22 Antibacterial Interior & Air Conditioning Treatment",
+      "description": "We provide a complete antibacterial treatment of the vehicle interior and air conditioning system, effectively removing bacteria and mold accumulated on the A/C evaporator. The treatment also helps eliminate unpleasant odors from the ventilation system and ensures a fresh and healthy environment inside your vehicle."
     }
   },
   "select_slots": {
