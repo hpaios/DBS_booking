@@ -235,6 +235,18 @@
     "58049845": {
       "title": "#33 STK & Emissions Inspection Arrangement",
       "description": "We provide complete handling of the technical inspection (STK) and emissions testing process. We prepare your vehicle, deliver it to the inspection station, and return it after successful completion. We save your time — everything is handled professionally, reliably, and without hassle."
+    },
+    "58049862": {
+      "title": "#34 Pre-Purchase Vehicle Inspection",
+      "description": "We provide a thorough inspection of a used vehicle before purchase. We check the technical condition of the engine, suspension, braking system, electronics, and bodywork, and assess whether the actual condition matches the seller’s claims. You will receive an objective evaluation of the vehicle along with recommendations on whether the purchase is worthwhile."
+    },
+    "58014321": {
+      "title": "#41 Seasonal Tire Storage",
+      "description": "Storage of tires in a temperature-controlled facility, including treatment with a special preservative product to ensure long-term quality preservation. The price is stated per season."
+    },
+    "58013892": {
+      "title": "#35 Complete Tire Change Including Wheel Balancing (4 Wheels) | r13–r15",
+      "description": "Prices are valid for passenger cars. The price for SUVs and vans may be higher, as may the price for RunFlat tires."
     }
   },
   "select_slots": {

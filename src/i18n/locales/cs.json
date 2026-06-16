@@ -235,6 +235,18 @@
     "58049845": {
       "title": "#33 Zprostředkování technické kontroly a emise",
       "description": "Zajistíme za vás kompletní proces technické kontroly (STK) i měření emisí.Váš vůz připravíme, odvezeme na stanici technické kontroly a po úspěšném absolvování vám ho vrátíme zpět.Šetříme váš čas – vše vyřídíme spolehlivě a bez starostí."
+    },
+    "58049862": {
+      "title": "#34 Prohlídka vozu před koupí",
+      "description": "Nabízíme důkladnou kontrolu ojetého vozidla před jeho koupí.Prověříme technický stav motoru, podvozku, brzd, elektroniky i karoserie a posoudíme, zda odpovídá skutečnému stavu udávanému prodávajícím.Získáte objektivní hodnocení a doporučení, zda se nákup vozu vyplatí."
+    },
+    "58014321": {
+      "title": "#41 Sezónní uskladnění pneumatik",
+      "description": "Uskladnění pneumatik v temperovaném skladu, včetně ošetření speciálním konzervačním přípravkem pro dlouhodobé zachování kvality. Cena je uvedena za jednu sezónu."
+    },
+    "58013892": {
+      "title": "#35 Komplet přezutí vč. vyvážení (4 kola) | r13–r15",
+      "description": "Ceny jsou uvedeny pro osobní vozy. Cena pro SUV nebo dodávky může být vyšší, stejně jako v případě pneumatik typu RunFlat."
     }
   },
   "select_slots": {
