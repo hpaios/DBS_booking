@@ -223,6 +223,14 @@
     "58049765": {
       "title": "#30 Windshield Replacement & Installation",
       "description": "We provide professional windshield replacement and installation according to manufacturer specifications and safety standards. We use high-quality adhesive materials and ensure precise installation for maximum safety and durability. The final price depends on the vehicle type and windshield specification — an exact quotation will be provided by our service advisor."
+    },
+    "58049782": {
+      "title": "#31 Auto Painter Labor Hour",
+      "description": "This service includes paintwork such as surface preparation, painting of individual body parts or the entire vehicle, and final polishing. The cost is calculated according to the actual time spent. Your invoice will include the exact scope and type of completed work."
+    },
+    "58049829": {
+      "title": "#32 Comprehensive Vehicle Inspection & STK Preparation",
+      "description": "We provide a complete vehicle inspection before the technical inspection (STK). We check the braking system, suspension, lighting, tires, fluids, and other key components to help avoid potential issues during the inspection process. After the inspection, you will receive clear recommendations for any necessary repairs or adjustments."
     }
   },
   "select_slots": {

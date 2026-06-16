@@ -223,6 +223,14 @@
     "58049765": {
       "title": "#30 Výměna (lepení) čelního autoskla",
       "description": "Provádíme profesionální výměnu a lepení čelních skel podle technologických postupů výrobců vozidel.Používáme kvalitní lepidla a zaručujeme správnou montáž s dodržením bezpečnostních standardů.Cena se může lišit podle typu vozu a skla – přesnou kalkulaci vám sdělí přijímací technik."
+    },
+    "58049782": {
+      "title": "#31 Hodina práce autolakýrníka",
+      "description": "Tato služba zahrnuje lakýrnické práce, jako je příprava povrchu, lakování jednotlivých dílů nebo celého vozu a finální leštění.Cena se účtuje podle skutečně odpracovaného času, přičemž ve faktuře uvidíte přesný rozsah a druh provedených prací."
+    },
+    "58049829": {
+      "title": "#32 Kompletní prohlídka a příprava vozu na STK",
+      "description": "Provedeme kompletní kontrolu vašeho vozidla před technickou prohlídkou (STK).Zkontrolujeme brzdový systém, podvozek, světla, pneumatiky, kapaliny i další klíčové části vozu, abychom předešli zbytečnému neúspěchu při kontrole.Na závěr vám poskytneme přehled doporučení k případným úpravám nebo opravám."
     }
   },
   "select_slots": {
