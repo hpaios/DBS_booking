@@ -259,6 +259,18 @@
     "58014126": {
       "title": "#38 Demontáž + montáž celých kol vč. vyvážení (4 kola) Osobní | r13–r15",
       "description": "Ceny jsou uvedeny pro všechny typy vozů"
+    },
+    "58014262": {
+      "title": "#39 Demontáž + montáž celých kol vč. vyvážení (4 kola) Osobní | r16–r18",
+      "description": "Ceny jsou uvedeny pro všechny typy vozů"
+    },
+    "58014297": {
+      "title": "#40 Demontáž + montáž celých kol vč. vyvážení (4 kola) | r19-r23",
+      "description": "Ceny jsou uvedeny pro všechny typy vozů"
+    },
+    "58014349": {
+      "title": "#42 Oprava defektu pneu",
+      "description": "Oprava defektu pneumatiky v případě propíchnutí, poškození bočnice neopravujeme."
     }
   },
   "select_slots": {
