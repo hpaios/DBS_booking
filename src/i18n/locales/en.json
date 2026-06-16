@@ -247,6 +247,18 @@
     "58013892": {
       "title": "#35 Complete Tire Change Including Wheel Balancing (4 Wheels) | r13–r15",
       "description": "Prices are valid for passenger cars. The price for SUVs and vans may be higher, as may the price for RunFlat tires."
+    },
+    "58014028": {
+      "title": "#36 Complete Tire Change Including Wheel Balancing (4 Wheels) | r16–r18",
+      "description": "Prices are valid for passenger cars. The price for SUVs and vans may be higher, as may the price for RunFlat tires."
+    },
+    "58014073": {
+      "title": "#37 Complete Tire Change Including Wheel Balancing (4 Wheels) | r19–r23",
+      "description": "Prices are valid for passenger cars. The price for SUVs and vans may be higher, as may the price for RunFlat tires."
+    },
+    "58014126": {
+      "title": "#38 Removal and Installation of Complete Wheels Including Balancing (4 Wheels) Passenger Cars | r13–r15",
+      "description": "Prices are valid for all vehicle types."
     }
   },
   "select_slots": {

@@ -247,6 +247,18 @@
     "58013892": {
       "title": "#35 Komplet přezutí vč. vyvážení (4 kola) | r13–r15",
       "description": "Ceny jsou uvedeny pro osobní vozy. Cena pro SUV nebo dodávky může být vyšší, stejně jako v případě pneumatik typu RunFlat."
+    },
+    "58014028": {
+      "title": "#36 Komplet přezutí vč. vyvážení (4 kola) | r16–r18",
+      "description": "Ceny jsou uvedeny pro osobní vozy. Cena pro SUV nebo dodávky může být vyšší, stejně jako v případě pneumatik typu RunFlat."
+    },
+    "58014073": {
+      "title": "#37 Komplet přezutí vč. vyvážení (4 kola) | r19–r23",
+      "description": "Ceny jsou uvedeny pro osobní vozy. Cena pro SUV nebo dodávky může být vyšší, stejně jako v případě pneumatik typu RunFlat."
+    },
+    "58014126": {
+      "title": "#38 Demontáž + montáž celých kol vč. vyvážení (4 kola) Osobní | r13–r15",
+      "description": "Ceny jsou uvedeny pro všechny typy vozů"
     }
   },
   "select_slots": {
