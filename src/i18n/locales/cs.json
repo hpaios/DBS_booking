@@ -215,6 +215,14 @@
     "58049726": {
       "title": "#28 Bezplatná kontrola a konzultace k klempířským a karosářským opravám",
       "description": "Provedeme bezplatnou vstupní kontrolu motoru a odbornou konzultaci ohledně možnosti jeho generální opravy. Cílem je, abyste přesně věděli, zda má oprava smysl a jaký postup bude pro váš vůz nejvýhodnější."
+    },
+    "58049739": {
+      "title": "#29 Hodina práce autoklempíře",
+      "description": "Výše uvedené ceny zahrnují náhradní díly a platí v případě zakoupení materiálu a dílů v servisu DBS."
+    },
+    "58049765": {
+      "title": "#30 Výměna (lepení) čelního autoskla",
+      "description": "Provádíme profesionální výměnu a lepení čelních skel podle technologických postupů výrobců vozidel.Používáme kvalitní lepidla a zaručujeme správnou montáž s dodržením bezpečnostních standardů.Cena se může lišit podle typu vozu a skla – přesnou kalkulaci vám sdělí přijímací technik."
     }
   },
   "select_slots": {
