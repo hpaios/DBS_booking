@@ -115,8 +115,6 @@ const SelectSlots = ({
             (time) => !currentEmployeeOccupiedTimes.includes(time)
           )
 
-          console.log('employeeServices', employeeServices)
-
           return (
             <div key={employeeId}>
               <h2 className="text-[var(--color-icon)] text-[16px] font-semibold font-sans">
