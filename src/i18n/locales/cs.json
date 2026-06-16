@@ -231,6 +231,10 @@
     "58049829": {
       "title": "#32 Kompletní prohlídka a příprava vozu na STK",
       "description": "Provedeme kompletní kontrolu vašeho vozidla před technickou prohlídkou (STK).Zkontrolujeme brzdový systém, podvozek, světla, pneumatiky, kapaliny i další klíčové části vozu, abychom předešli zbytečnému neúspěchu při kontrole.Na závěr vám poskytneme přehled doporučení k případným úpravám nebo opravám."
+    },
+    "58049845": {
+      "title": "#33 Zprostředkování technické kontroly a emise",
+      "description": "Zajistíme za vás kompletní proces technické kontroly (STK) i měření emisí.Váš vůz připravíme, odvezeme na stanici technické kontroly a po úspěšném absolvování vám ho vrátíme zpět.Šetříme váš čas – vše vyřídíme spolehlivě a bez starostí."
     }
   },
   "select_slots": {
