@@ -94,26 +94,24 @@ export function buildReminderMessage({
       case 'car_picked_up_2d':
         if (statusId === CAR_PICKED_UP_STATUS_ID_RU) {
           return [
-            `Добрый день, ${formattedName}.`,
-            ``,
-            `Спасибо, что воспользовались услугами DBS.`,
-            `Хотел уточнить, всё ли в порядке с автомобилем после посещения сервиса и остались ли Вы довольны нашей работой?`,
-            ``,
-            `Если возникнут любые вопросы, я с удовольствием помогу.`,
-            ``,
-            `С уважением,`,
-            `Илья`,
-            `DBS`,
+          `Добрый день, ${formattedName}.`,
+          ``,
+          `Спасибо, что выбрали DBS.`,
+          `Хотел узнать, всё ли прошло так, как Вы ожидали, и остались ли Вы довольны нашим сервисом?`,
+          `Если появятся какие-либо вопросы или потребуется наша помощь, всегда буду рад помочь.`,
+          ``,
+          `С уважением,`,
+          `Илья`,
+          `DBS`,
           ].join('\n')
         }
       
         return [
           `Dobrý den, ${formattedName}.`,
           ``,
-          `Děkujeme, že jste využil služeb DBS.`,
-          `Jen se chci zeptat, zda je po návštěvě vše v pořádku a zda jste byl spokojený s naší prací.`,
-          ``,
-          `Pokud budete mít jakýkoliv dotaz, rád Vám pomohu.`,
+          `Děkujeme, že jste si vybral DBS.`,
+          `Jen jsem se chtěl zeptat, zda vše proběhlo podle Vašich očekávání a zda jste byl s našimi službami spokojený.`,
+          `Pokud budete mít jakékoliv dotazy nebo budete potřebovat naši pomoc, rád Vám budu k dispozici.`,
           ``,
           `S pozdravem,`,
           `Ilja`,
