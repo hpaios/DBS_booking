@@ -117,11 +117,11 @@ function buildLeadFollowupMessage({
     case 'frequent_1d':
       return `Dobrý den, ${name},
 
-včera jsem Vám posílal naši nabídku. Chci se jen ujistit, že vše v pořádku dorazilo. 
+včera Vám byla zaslána naše nabídka. Chceme se jen ujistit, že vše v pořádku dorazilo.
 
-Pokud máte jakékoliv dotazy k postupu práce, materiálům nebo detailům rozpočtu, dejte mi vědět – rád Vám vše vysvětlím.
+Pokud máte jakékoliv dotazy k postupu práce, materiálům nebo detailům rozpočtu, dejte nám vědět – vše Vám rádi vysvětlíme.
 
-S úctou,
+S pozdravem,
 Ilja
 DBS`
 
@@ -141,9 +141,10 @@ DBS`
     case 'frequent_7d':
       return `Dobrý den, ${name},
 
-nechci na Vás nijak tlačit, jen posílám poslední slíbené připomenutí. 
+nechceme na Vás nijak tlačit, jen zasíláme poslední slíbené připomenutí.
 
-Pokud se rozhodnete využít naše služby nyní nebo kdykoliv v budoucnu, dveře u nás máte otevřené. Mezitím se můžete podívat na ukázky našich reálných prací na Instagramu: https://www.instagram.com/dbspraha.
+Pokud se rozhodnete využít naše služby nyní nebo kdykoliv v budoucnu, dveře u nás máte vždy otevřené. Mezitím se můžete podívat na ukázky našich reálných prací na Instagramu:
+https://www.instagram.com/dbspraha.
 
 Kdykoliv budete naši pomoc potřebovat, jsme tu pro Vás.
 
@@ -154,9 +155,9 @@ DBS`
     case 'medium_2d':
       return `Dobrý den, ${name},
 
-před pár dny jsme spolu řešili péči o Váš vůz. Chci se jen krátce připomenout a zeptat se, zda máte k zaslanému návrhu nějaké doplňující dotazy?
+před pár dny jsme spolu řešili péči o Váš vůz. Jen se chceme krátce připomenout a zeptat se, zda máte k zaslanému návrhu nějaké doplňující dotazy.
 
-Rád Vám vše upřesním.
+Pokud budete potřebovat cokoliv upřesnit, neváhejte se na nás obrátit.
 
 S úctou,
 Ilja
@@ -165,11 +166,11 @@ DBS`
     case 'medium_7d':
       return `Dobrý den, ${name},
 
-jen zpráva pro doplnění: uvědomujeme si, že údržba a péče o vůz je vždy investicí. Kdyby Vám náš původní návrh nevyhovoval, rádi s Vámi probereme i jiné dostupné možnosti, aby výsledek odpovídal Vaší představě.
+jen zpráva pro doplnění: uvědomujeme si, že údržba a péče o vůz je vždy investicí. Kdyby Vám náš původní návrh nevyhovoval, můžeme s Vámi probrat i jiné dostupné možnosti, aby výsledek odpovídal Vašim představám.
 
-Naší prioritou je vždy spokojený klient – podívejte se na naše recenze na Google Maps (⭐ 5.0, 25+ hodnocení).
+Naší prioritou je vždy Vaše spokojenost – podívejte se na naše recenze na Google Maps (⭐ 5.0, 25+ hodnocení).
 
-Dejte mi vědět, jaké řešení by pro Vás bylo nejlepší.
+Dejte nám vědět, jaké řešení by pro Vás bylo nejlepší.
 
 Hezký den,
 Ilja
@@ -178,22 +179,25 @@ DBS`
     case 'medium_14d':
       return `Dobrý den, ${name},
 
-jen se v krátkosti připomínám, jak jsme se domluvili.
+jen krátké připomenutí, jak jsme se domluvili.
 
-Výsledky naší pečlivé práce a projekty, na kterých zrovna děláme, můžete sledovat na našem Instagramu: https://www.instagram.com/dbspraha.
+Výsledky naší pečlivé práce a projekty, na kterých zrovna pracujeme, můžete sledovat na našem Instagramu:
+https://www.instagram.com/dbspraha.
 
 Až bude Váš vůz potřebovat naši péči, stačí se ozvat. Jsme připraveni pomoci.
 
-Přeji vše dobré,
+Přejeme Vám vše dobré.
+
+S pozdravem,
 Ilja
 DBS`
 
     case 'rare_7d':
       return `Dobrý den, ${name},
 
-před týdnem jsem Vám posílal cenovou nabídku na péči o Váš vůz. Vím, že toho můžete mít přes týden hodně, tak se chci jen nezávazně zeptat, zda se Vám podařilo si návrh v klidu projít. 
+před týdnem Vám byla zaslána cenová nabídka na péči o Váš vůz. Uvědomujeme si, že během týdne můžete mít mnoho povinností, a proto se jen chceme nezávazně zeptat, zda jste měl možnost se s návrhem v klidu seznámit.
 
-Pokud by Vás k tomu cokoliv zajímalo, jsem Vám plně k dispozici.
+Pokud by Vás cokoliv zajímalo, neváhejte se na nás obrátit.
 
 S úctou,
 Ilja
@@ -202,11 +206,11 @@ DBS`
     case 'rare_14d':
       return `Dobrý den, ${name},
 
-jen se v krátkosti připomínám. V DBS si zakládáme na individuálním a férovém přístupu – pokud by Vám zaslaný rozpočet z jakéhokoliv důvodu nevyhovoval, stačí říct. Rád s Vámi proberu i jiné alternativy údržby, které Vám lépe sednou. 
+jen krátké připomenutí. V DBS si zakládáme na individuálním a férovém přístupu – pokud by Vám zaslaný rozpočet z jakéhokoliv důvodu nevyhovoval, stačí říct. Můžeme s Vámi probrat i jiné alternativy údržby, které budou lépe odpovídat Vašim potřebám.
 
-Za naši kvalitu mluví především spokojení klienti (máme hodnocení ⭐ 5.0 a 25+ recenzí na Google Maps). 
+Za naši kvalitu mluví především spokojení klienti (máme hodnocení ⭐ 5.0 a 25+ recenzí na Google Maps).
 
-Budu rád, když mi dáte vědět, jak to vidíte.
+Uvítáme, když nám dáte vědět, jak to vidíte.
 
 Hezký den,
 Ilja
@@ -215,11 +219,12 @@ DBS`
     case 'rare_28d':
       return `Dobrý den, ${name},
 
-nechci Vás nijak rušit dalšími zprávami, proto Vám píšu ohledně naší nabídky naposledy. 
+nechceme Vás nijak zatěžovat dalšími zprávami, proto je toto poslední připomenutí ohledně naší nabídky.
 
-Dveře u nás máte kdykoliv otevřené – až se v budoucnu rozhodnete dopřát Vašemu vozu péči, stačí se nám ozvat. Do té doby můžete sledovat naše aktuální projekty a práci na Instagramu: https://www.instagram.com/dbspraha.
+Dveře u nás máte kdykoliv otevřené – až se v budoucnu rozhodnete dopřát Vašemu vozu péči, stačí se nám ozvat. Do té doby můžete sledovat naše aktuální projekty a práci na Instagramu:
+https://www.instagram.com/dbspraha.
 
-Přeji Vám vše dobré a ať Vám auto dělá jen radost.
+Přejeme Vám vše dobré a ať Vám auto dělá jen radost.
 
 S pozdravem,
 Ilja

@@ -127,25 +127,24 @@ DBS`
     case 'invitation_cz_7d':
       return `Dobrý den, ${name},
 
-rád bych Vás znovu pozval na konzultaci do DBS Autoservis & Detailing.
+rádi bychom Vás znovu pozvali na konzultaci do DBS Autoservis & Detailing.
 
 Osobní setkání často pomůže rychleji projít všechny možnosti a vybrat nejvhodnější řešení pro Váš vůz.
 
 Naše aktuální projekty si můžete prohlédnout zde:
 https://www.instagram.com/dbspraha.
 
-Pokud budete mít jakékoliv dotazy, rád Vám poradím.
+Pokud budete mít jakékoliv dotazy, neváhejte se na nás obrátit.
 
 S pozdravem,
 Ilja
 DBS`
-
     case 'invitation_cz_14d':
       return `Dobrý den, ${name},
 
 toto je poslední připomenutí možnosti objednat se na konzultaci v DBS Autoservis & Detailing.
 
-Pokud pro Vás nyní péče o vůz není aktuální, budeme rádi, když se na nás obrátíte kdykoliv v budoucnu.
+Pokud pro Vás nyní péče o vůz není aktuální, můžete se na nás kdykoliv v budoucnu obrátit.
 
 Naše nové projekty a realizace najdete zde:
 https://www.instagram.com/dbspraha.
