@@ -90,27 +90,66 @@ export default async function handler(
       })
     }
 
+    // TODO: delete after text it
+
+    // for (const reminder of reminders) {
+    //   try {
+    //     const text = buildReminderMessage({
+    //       reminderType: reminder.reminder_type,
+    //       bookingAt: reminder.booking_at,
+    //       clientName: reminder.client_name,
+    //       statusId: Number(reminder.status_id) || null,
+    //     })
+
+    //     await sendWazzupMessage(
+    //       reminder.phone,
+    //       text,
+    //       String(reminder.order_id)
+    //     )
+
+    //     await supabase
+    //       .from('order_reminders')
+    //       .update({ message_sent: true })
+    //       .eq('id', reminder.id)
+
+    //     console.log(`✅ Sent reminder for order ${reminder.order_id}`)
+    //   } catch (err) {
+    //     console.error(`❌ Failed for order ${reminder.order_id}`, err)
+    //   }
+    // }
+
     for (const reminder of reminders) {
       try {
-        const text = buildReminderMessage({
-          reminderType: reminder.reminder_type,
-          bookingAt: reminder.booking_at,
-          clientName: reminder.client_name,
-          statusId: Number(reminder.status_id) || null,
-        })
-
-        await sendWazzupMessage(
-          reminder.phone,
-          text,
-          String(reminder.order_id)
-        )
-
-        await supabase
+        const { data: lockedReminder, error: lockError } = await supabase
           .from('order_reminders')
-          .update({ message_sent: true })
+          .update({
+            message_sent: true,
+            sent_at: new Date().toISOString(),
+          })
           .eq('id', reminder.id)
-
-        console.log(`✅ Sent reminder for order ${reminder.order_id}`)
+          .eq('message_sent', false)
+          .select()
+          .single()
+    
+        if (lockError || !lockedReminder) {
+          console.log(`⏭️ Reminder already processed: ${reminder.id}`)
+          continue
+        }
+    
+        const text = buildReminderMessage({
+          reminderType: lockedReminder.reminder_type,
+          bookingAt: lockedReminder.booking_at,
+          clientName: lockedReminder.client_name,
+          statusId: Number(lockedReminder.status_id) || null,
+        })
+    
+        await sendWazzupMessage(
+          lockedReminder.phone,
+          text,
+          `${lockedReminder.order_id}-${lockedReminder.reminder_type}`
+        )
+    
+        console.log(`✅ Sent reminder for order ${lockedReminder.order_id}`)
       } catch (err) {
         console.error(`❌ Failed for order ${reminder.order_id}`, err)
       }
