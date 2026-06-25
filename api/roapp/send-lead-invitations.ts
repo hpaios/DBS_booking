@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { createClient } from '@supabase/supabase-js'
-import { LEAD_INVITATION_CANCEL_STATUS_IDS } from '../constants'
+import { LEAD_INVITATION_CANCEL_STATUS_IDS } from '../constants.js'
 
 const ROAPP_API_KEY = process.env.ROAPP_API_KEY
 
