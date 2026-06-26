@@ -118,6 +118,43 @@ export default async function handler(
     //   }
     // }
 
+    // for (const reminder of reminders) {
+    //   try {
+    //     const { data: lockedReminder, error: lockError } = await supabase
+    //       .from('order_reminders')
+    //       .update({
+    //         message_sent: true,
+    //         sent_at: new Date().toISOString(),
+    //       })
+    //       .eq('id', reminder.id)
+    //       .eq('message_sent', false)
+    //       .select()
+    //       .single()
+    
+    //     if (lockError || !lockedReminder) {
+    //       console.log(`⏭️ Reminder already processed: ${reminder.id}`)
+    //       continue
+    //     }
+    
+    //     const text = buildReminderMessage({
+    //       reminderType: lockedReminder.reminder_type,
+    //       bookingAt: lockedReminder.booking_at,
+    //       clientName: lockedReminder.client_name,
+    //       statusId: Number(lockedReminder.status_id) || null,
+    //     })
+    
+    //     await sendWazzupMessage(
+    //       lockedReminder.phone,
+    //       text,
+    //       `${lockedReminder.order_id}-${lockedReminder.reminder_type}`
+    //     )
+    
+    //     console.log(`✅ Sent reminder for order ${lockedReminder.order_id}`)
+    //   } catch (err) {
+    //     console.error(`❌ Failed for order ${reminder.order_id}`, err)
+    //   }
+    // }
+
     for (const reminder of reminders) {
       try {
         const { data: lockedReminder, error: lockError } = await supabase
@@ -129,10 +166,18 @@ export default async function handler(
           .eq('id', reminder.id)
           .eq('message_sent', false)
           .select()
-          .single()
+          .maybeSingle()
     
-        if (lockError || !lockedReminder) {
-          console.log(`⏭️ Reminder already processed: ${reminder.id}`)
+        if (lockError) {
+          console.error('❌ Failed to lock reminder:', {
+            reminderId: reminder.id,
+            orderId: reminder.order_id,
+            error: lockError,
+          })
+          continue
+        }
+    
+        if (!lockedReminder) {
           continue
         }
     
