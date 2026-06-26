@@ -98,6 +98,7 @@ const BookingConfirmation = ({
             serviceIds: employeeServices.map(s => s.id),
             dateStart,
             dateEnd,
+            email,
             bookingSource,
           })
         })
@@ -138,6 +139,8 @@ const BookingConfirmation = ({
             phone: phoneNumber,
             bookingDate,
             bookingTime,
+            email,
+            bookingSource,
           })
         }
       } catch (error) {
