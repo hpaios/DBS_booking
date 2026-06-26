@@ -286,17 +286,23 @@ export const sendBookingConfirmation = async ({
   phone,
   bookingDate,
   bookingTime,
+  email,
+  bookingSource,
 }: {
   clientFirstName: string
   phone: string
   bookingDate: string
   bookingTime: string
+  email: string
+  bookingSource: BookingSource
 }) => {
   const { data } = await axios.post('/api/roapp/send-booking-confirmation', {
     clientFirstName,
     phone,
     bookingDate,
     bookingTime,
+    email,
+    bookingSource,
   })
 
   return data
@@ -321,6 +327,7 @@ export const createAppointment = async ({
   serviceIds,
   dateStart,
   dateEnd,
+  email,
   bookingSource    
 }: {
   client: {
@@ -334,6 +341,7 @@ export const createAppointment = async ({
   serviceIds: number[]
   dateStart: string
   dateEnd: string
+  email: string
   bookingSource: BookingSource
 }) => {
   const { data } = await dbsClient.post(
@@ -346,6 +354,7 @@ export const createAppointment = async ({
       service_ids: serviceIds,
       date_start: dateStart,
       date_end: dateEnd,
+      email: email,
       bookingSource: bookingSource
     }
   )
