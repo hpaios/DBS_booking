@@ -123,6 +123,9 @@ export default async function handler(
     const { clientFirstName, phone, bookingDate, bookingTime, email, bookingSource } =
       req.body as BookingConfirmationBody
 
+      console.log('🟡 booking confirmation body:', JSON.stringify(req.body, null, 2))
+      console.log('🟡 bookingSource:', bookingSource)
+
     if (!clientFirstName || !phone || !bookingDate || !bookingTime) {
       return res.status(400).json({
         ok: false,
