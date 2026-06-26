@@ -4,8 +4,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
-import { createAppointment, getOrCreateClient, sendBookingConfirmation } from '../../api/api/requests'
-import { addMinutes, groupServicesToArray, subtractTwoHours } from '../../utils'
+import { createAppointment, getOrCreateClient, sendBookingConfirmation, type BookingSource } from '../../api/api/requests'
+import { addMinutes, getBookingSource, groupServicesToArray, subtractTwoHours } from '../../utils'
 import { RECAPTCHA_PROD } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
 import SummaryOrder from './SummaryOrder'
@@ -48,6 +48,7 @@ const BookingConfirmation = ({
     isValidName &&
     isValidVin
 
+  const bookingSource: BookingSource = getBookingSource()
   const handleSubmit = async () => {
     setTouched(true)
   
@@ -97,6 +98,7 @@ const BookingConfirmation = ({
             serviceIds: employeeServices.map(s => s.id),
             dateStart,
             dateEnd,
+            bookingSource,
           })
         })
   

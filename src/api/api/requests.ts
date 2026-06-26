@@ -300,6 +300,17 @@ export const sendBookingConfirmation = async ({
   })
 
   return data
+}   
+export type BookingSource = {
+  utm_source: string | null
+  utm_medium: string | null
+  utm_campaign: string | null
+  utm_content: string | null
+  utm_term: string | null
+  gclid: string | null
+  fbclid: string | null
+  landing_url: string
+  referrer: string | null
 }
 
 export const createAppointment = async ({
@@ -310,6 +321,7 @@ export const createAppointment = async ({
   serviceIds,
   dateStart,
   dateEnd,
+  bookingSource    
 }: {
   client: {
     name: string
@@ -322,6 +334,7 @@ export const createAppointment = async ({
   serviceIds: number[]
   dateStart: string
   dateEnd: string
+  bookingSource: BookingSource
 }) => {
   const { data } = await dbsClient.post(
     '/api/booking/locations/186414/appointment',
@@ -333,6 +346,7 @@ export const createAppointment = async ({
       service_ids: serviceIds,
       date_start: dateStart,
       date_end: dateEnd,
+      bookingSource: bookingSource
     }
   )
 

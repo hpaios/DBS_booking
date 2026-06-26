@@ -510,3 +510,19 @@ export const formatBookingDateTime = (
 
   return `${weekday}, ${day} ${month} ${AT_WORD[language]} ${formattedTime}`
 }
+
+export const getBookingSource = () => {
+  const params = new URLSearchParams(window.location.search)
+
+  return {
+    utm_source: params.get('utm_source'),
+    utm_medium: params.get('utm_medium'),
+    utm_campaign: params.get('utm_campaign'),
+    utm_content: params.get('utm_content'),
+    utm_term: params.get('utm_term'),
+    gclid: params.get('gclid'),
+    fbclid: params.get('fbclid'),
+    landing_url: window.location.href,
+    referrer: document.referrer || null,
+  }
+}

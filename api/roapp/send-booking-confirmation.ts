@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
+import { supabase } from '../../lib/supabase'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
 const WAZZUP_API_BASE_URL =
@@ -10,11 +11,25 @@ const WAZZUP_CHAT_TYPE = process.env.WAZZUP_CHAT_TYPE || 'whatsapp'
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
 
+type BookingSource = {
+  utm_source?: string | null
+  utm_medium?: string | null
+  utm_campaign?: string | null
+  utm_content?: string | null
+  utm_term?: string | null
+  gclid?: string | null
+  fbclid?: string | null
+  landing_url?: string | null
+  referrer?: string | null
+}
+
 type BookingConfirmationBody = {
   clientFirstName: string
   phone: string
   bookingDate: string
   bookingTime: string
+  email?: string
+  bookingSource?: BookingSource
 }
 
 async function sendTelegramMessage(text: string) {
@@ -105,7 +120,7 @@ export default async function handler(
   }
 
   try {
-    const { clientFirstName, phone, bookingDate, bookingTime } =
+    const { clientFirstName, phone, bookingDate, bookingTime, email, bookingSource } =
       req.body as BookingConfirmationBody
 
     if (!clientFirstName || !phone || !bookingDate || !bookingTime) {
@@ -157,6 +172,38 @@ export default async function handler(
       await sendTelegramMessage(telegramText)
     } catch (error) {
       console.error('Telegram send failed:', error)
+    }
+
+    try {
+      if (bookingSource) {
+        const { error: sourceError } = await supabase
+          .from('booking_sources')
+          .insert({
+            client_name: clientFirstName,
+            phone,
+            email: email || null,
+    
+            booking_date: bookingDate,
+            booking_time: bookingTime,
+    
+            utm_source: bookingSource.utm_source || null,
+            utm_medium: bookingSource.utm_medium || null,
+            utm_campaign: bookingSource.utm_campaign || null,
+            utm_content: bookingSource.utm_content || null,
+            utm_term: bookingSource.utm_term || null,
+            gclid: bookingSource.gclid || null,
+            fbclid: bookingSource.fbclid || null,
+    
+            landing_url: bookingSource.landing_url || null,
+            referrer: bookingSource.referrer || null,
+          })
+    
+        if (sourceError) {
+          console.error('Failed to save booking source:', sourceError)
+        }
+      }
+    } catch (error) {
+      console.error('Unexpected booking source save error:', error)
     }
 
     return res.status(200).json({
