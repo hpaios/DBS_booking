@@ -269,7 +269,10 @@ export const getOrCreateClient = async ({
   const existingClientId = await findClientByPhone(phone)
 
   if (existingClientId) {
-    return existingClientId
+    return {
+      clientId: existingClientId,
+      isNewClient: false,
+    }
   }
 
   const createdClientId = await createClient({
@@ -278,7 +281,10 @@ export const getOrCreateClient = async ({
     email,
   })
 
-  return createdClientId || null
+  return {
+    clientId: createdClientId || null,
+    isNewClient: true,
+  }
 }
 
 export const sendBookingConfirmation = async ({

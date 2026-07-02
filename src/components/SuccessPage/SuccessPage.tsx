@@ -64,7 +64,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
 
   return (
     <div>
-      <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-green-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[280px] my-[var(--space-lg)] mx-auto font-sans'>
+      <div className='flex items-center justify-center gap-2 text-center text-[var(--color-icon)] border border-green-500 p-[var(--space-sm)] rounded-[var(--radius-sm)] w-[290px] my-[var(--space-lg)] mx-auto font-sans'>
         <Success />
         <span>{t('success_page.title')}</span>
       </div>

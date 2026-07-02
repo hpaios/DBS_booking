@@ -95,6 +95,26 @@ function getReminderDates(scheduledFor: string) {
   return reminders
 }
 
+function getReturningClientReminderDates(scheduledFor: string) {
+  const bookingDate = new Date(scheduledFor)
+
+  const bookingHourPrague = getPragueHour(bookingDate)
+
+  const finalReminderType = bookingHourPrague >= 10 ? '2h' : '12h'
+
+  const finalReminder = addHours(
+    bookingDate,
+    bookingHourPrague >= 10 ? -2 : -12
+  )
+
+  return [
+    {
+      reminder_type: finalReminderType,
+      send_at: finalReminder.toISOString(),
+    },
+  ]
+}
+
 function buildLeadCreatedMessage(clientFirstName: string): string {
   return `Dobrý den, ${clientFirstName}. Děkujeme za váš zájem o DBS Autoservis & Detailing! Vaši poptávku jsme v pořádku přijali a brzy se s vámi spojíme.`
 }
@@ -406,21 +426,18 @@ async function handleOrderStatusChanged(
     const clientId = order?.client?.id
     const fullName = order?.client?.first_name || order?.client?.name || 'zákazníku'
 
-    // Test client +390988990758
-    // if (clientId !== TARGET_CLIENT_ID) {
-    //   return res.status(200).json({
-    //     ok: true,
-    //     ignored: true,
-    //     reason: 'client mismatch',
-    //     orderId,
-    //     clientId,
-    //   })
-    // }
-
     const clientFirstName = getFirstName(fullName)
     console.log('DEBUG client first name:', clientFirstName)
     const phone = normalizePhone(order?.client?.phone?.[0])
     const orderScheduledFor = order?.scheduled_for
+
+    const orderComment =
+      order?.comment ||
+      order?.comments ||
+      order?.note ||
+      ''
+
+    const isNewClient = String(orderComment).includes('[CLIENT_TYPE=new]')
 
     if (!TARGET_STATUS_IDS.includes(Number(statusId))) {
       return res.status(200).json({
@@ -455,7 +472,12 @@ async function handleOrderStatusChanged(
       })
     }
     
-    const reminders = getReminderDates(orderScheduledFor)
+    // const reminders = getReminderDates(orderScheduledFor)
+
+    const reminders = isNewClient
+    ? getReminderDates(orderScheduledFor)
+    : getReturningClientReminderDates(orderScheduledFor)
+
     const now = new Date()
     
     const remindersToSave = reminders

@@ -55,12 +55,15 @@ const BookingConfirmation = ({
     if (!isFormValid || !phoneNumber) return
   
     try {
-      const clientId = await getOrCreateClient({
+      const clientResult = await getOrCreateClient({
         first_name: name,
         phone: phoneNumber,
         email,
       })
-  
+
+      const clientId = clientResult?.clientId
+      const isNewClient = clientResult?.isNewClient
+        
       if (!clientId) {
         handleIsErrorSubmit(true)
         return
@@ -82,9 +85,15 @@ const BookingConfirmation = ({
   
           const dateEnd = addMinutes(dateStart, employeeTotalDuration)
   
-          const commentWithVin = vin.length
-            ? `VIN: ${vin}\ncomment: ${comment}`
-            : comment
+          const clientTypeTag = `[CLIENT_TYPE=${isNewClient ? 'new' : 'returning'}]`
+
+          const commentWithVin = [
+            vin ? `VIN: ${vin}` : null,
+            comment ? `comment: ${comment}` : null,
+            clientTypeTag,
+          ]
+            .filter(Boolean)
+            .join('\n')
   
           return createAppointment({
             client: {

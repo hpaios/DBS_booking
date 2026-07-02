@@ -51,4 +51,7 @@ export type RoappOrderResponse = {
   }
   scheduled_for?: string | null
   scheduled_to?: string | null
+  comment?: string | null
+  comments?: string | null
+  note?: string | null
 }
