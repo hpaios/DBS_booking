@@ -437,7 +437,19 @@ async function handleOrderStatusChanged(
       order?.note ||
       ''
 
+
+  console.log('comment:', order?.comment)
+  console.log('comments:', order?.comments)
+  console.log('note:', order?.note)
+
     const isNewClient = String(orderComment).includes('[CLIENT_TYPE=new]')
+
+    console.log('🟡 Order details summary:', {
+      comment: order?.comment, 
+      comments: order?.comments,
+      note: order?.note,
+      isNewClient: isNewClient,
+    })
 
     if (!TARGET_STATUS_IDS.includes(Number(statusId))) {
       return res.status(200).json({
