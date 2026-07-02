@@ -110,9 +110,6 @@ const BookingConfirmation = ({
             email,
             bookingSource,
           })
-
-          console.log('🔥 Appointment Request:', appointmentRequest)
-
           return appointmentRequest
         })
   

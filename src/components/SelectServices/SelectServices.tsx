@@ -43,7 +43,6 @@ const SelectServices = ({
         content: (
           <div className="flex flex-col gap-2">
             {category.services.map((service) => {
-              console.log('service', service)
               const isSelected = selectedIds.has(service.id);
 
               return (
