@@ -294,7 +294,13 @@ async function handleOrderStatusChanged(
     }
   
     try {
+
+      console.log('🔥 ENTERED TRY')
+
       const order = await getOrderById(orderId)
+
+      console.log('🔥 ORDER LOADED')
+      console.log(JSON.stringify(order, null, 2))
   
       const clientId = order?.client?.id
       const fullName =
