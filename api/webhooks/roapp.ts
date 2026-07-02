@@ -401,24 +401,24 @@ async function handleOrderStatusChanged(
   }
 
   try {
-    const { data: existingReminders, error: existingError } = await supabase
-    .from('order_reminders')
-    .select('id, order_id, reminder_type, message_sent')
-    .eq('order_id', orderId)
-    .limit(1)
+    // const { data: existingReminders, error: existingError } = await supabase
+    // .from('order_reminders')
+    // .select('id, order_id, reminder_type, message_sent')
+    // .eq('order_id', orderId)
+    // .limit(1)
 
-    if (existingError) {
-      throw existingError
-    }
+    // if (existingError) {
+    //   throw existingError
+    // }
 
-    if (existingReminders && existingReminders.length > 0) {
-      return res.status(200).json({
-        ok: true,
-        ignored: true,
-        reason: 'reminders already scheduled for this order',
-        orderId,
-      })
-    }
+    // if (existingReminders && existingReminders.length > 0) {
+    //   return res.status(200).json({
+    //     ok: true,
+    //     ignored: true,
+    //     reason: 'reminders already scheduled for this order',
+    //     orderId,
+    //   })
+    // }
 
     const order = await getOrderById(orderId)
 
