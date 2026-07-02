@@ -95,7 +95,7 @@ const BookingConfirmation = ({
             .filter(Boolean)
             .join('\n')
   
-          return createAppointment({
+          const appointmentRequest = createAppointment({
             client: {
               name,
               phone: phoneNumber,
@@ -110,6 +110,10 @@ const BookingConfirmation = ({
             email,
             bookingSource,
           })
+
+          console.log('🔥 Appointment Request:', appointmentRequest)
+
+          return appointmentRequest
         })
   
       const responses = await Promise.allSettled(requests)
