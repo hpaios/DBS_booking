@@ -4,6 +4,7 @@ const STATUS_WAITING_FOR_PARTS_DELIVERY = 4317345 // Ждем приезда (д
 
 const CAR_PICKED_UP_STATUS_ID_CZ = 4280182 // Авто забрали CZ
 export const CAR_PICKED_UP_STATUS_ID_RU = 5569527 // Авто забрали RU
+export const CAR_PICKED_UP_NO_MESSAGE_STATUS_ID = 5596551 // Авто забрали, сообщение не отправляем
 
 export const STATUS_NOT_RELEVANT = 3543295 // Не актуально
 

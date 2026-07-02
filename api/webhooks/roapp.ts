@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { supabase } from '../../lib/supabase.js'
 import { RoappOrderResponse, RoappWebhookPayload } from '../types.js'
-import { CAR_PICKED_UP_STATUS_IDS, LEAD_FOLLOWUP_CANCEL_STATUS_IDS, LEAD_FOLLOWUP_SCHEDULES, LEAD_FOLLOWUP_TRIGGER_STATUS_IDS, LEAD_INVITATION_CANCEL_STATUS_IDS, LEAD_INVITATION_SCHEDULES, LEAD_INVITATION_TRIGGER_STATUS_IDS, STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
+import { CAR_PICKED_UP_NO_MESSAGE_STATUS_ID, CAR_PICKED_UP_STATUS_IDS, LEAD_FOLLOWUP_CANCEL_STATUS_IDS, LEAD_FOLLOWUP_SCHEDULES, LEAD_FOLLOWUP_TRIGGER_STATUS_IDS, LEAD_INVITATION_CANCEL_STATUS_IDS, LEAD_INVITATION_SCHEDULES, LEAD_INVITATION_TRIGGER_STATUS_IDS, STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
 import { getPragueFollowupSendAt, mapLeadClientDetails } from '../utils.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
@@ -252,6 +252,16 @@ async function handleOrderStatusChanged(
       ok: true,
       deleted: true,
       orderId,
+    })
+  }
+
+  if (Number(webhookNewStatusId) === CAR_PICKED_UP_NO_MESSAGE_STATUS_ID) {
+    return res.status(200).json({
+      ok: true,
+      ignored: true,
+      reason: 'car picked up without followup message',
+      orderId,
+      statusId: webhookNewStatusId,
     })
   }
 
