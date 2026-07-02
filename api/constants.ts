@@ -2,6 +2,10 @@ const STATUS_WAITING_FOR_PARTS_ORDER = 4317344 // Ждем приезда (за�
 const STATUS_WAITING_FOR_CLIENT_ARRIVAL = 4287767 // Ждем приезда клиента (все есть)
 const STATUS_WAITING_FOR_PARTS_DELIVERY = 4317345 // Ждем приезда (детали заказаны)
 
+const STATUS_WAITING_NEW_FOR_PARTS_ORDER = 5596962 // Ждем NEW (заказать детали)
+const STATUS_WAITING_NEW_FOR_PARTS_DELIVERY = 5596963 // Ждем NEW (детали заказаны)
+const STATUS_WAITING_NEW_FOR_CLIENT_ARRIVAL = 5596961 // Ждем NEW клиента (все есть)
+
 const CAR_PICKED_UP_STATUS_ID_CZ = 4280182 // Авто забрали CZ
 export const CAR_PICKED_UP_STATUS_ID_RU = 5569527 // Авто забрали RU
 export const CAR_PICKED_UP_NO_MESSAGE_STATUS_ID = 5596551 // Авто забрали, сообщение не отправляем
@@ -53,6 +57,12 @@ export const LEAD_INVITATION_TRIGGER_STATUS_IDS = [
 export const LEAD_INVITATION_CANCEL_STATUS_IDS = [
   CLIENT_CONVERTED_STATUS_ID,
   DISABLE_INVITATION_STATUS_ID,
+]
+
+export const NEW_CLIENT_STATUS_IDS = [
+  STATUS_WAITING_NEW_FOR_PARTS_ORDER,
+  STATUS_WAITING_NEW_FOR_PARTS_DELIVERY,
+  STATUS_WAITING_NEW_FOR_CLIENT_ARRIVAL,
 ]
 
 export const LEAD_FOLLOWUP_SCHEDULES: Record<number, { days: number; reminderType: string }[]> = {

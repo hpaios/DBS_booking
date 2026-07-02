@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { supabase } from '../../lib/supabase.js'
 import { RoappOrderResponse, RoappWebhookPayload } from '../types.js'
-import { CAR_PICKED_UP_NO_MESSAGE_STATUS_ID, CAR_PICKED_UP_STATUS_IDS, LEAD_FOLLOWUP_CANCEL_STATUS_IDS, LEAD_FOLLOWUP_SCHEDULES, LEAD_FOLLOWUP_TRIGGER_STATUS_IDS, LEAD_INVITATION_CANCEL_STATUS_IDS, LEAD_INVITATION_SCHEDULES, LEAD_INVITATION_TRIGGER_STATUS_IDS, STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
+import { CAR_PICKED_UP_NO_MESSAGE_STATUS_ID, CAR_PICKED_UP_STATUS_IDS, LEAD_FOLLOWUP_CANCEL_STATUS_IDS, LEAD_FOLLOWUP_SCHEDULES, LEAD_FOLLOWUP_TRIGGER_STATUS_IDS, LEAD_INVITATION_CANCEL_STATUS_IDS, LEAD_INVITATION_SCHEDULES, LEAD_INVITATION_TRIGGER_STATUS_IDS, NEW_CLIENT_STATUS_IDS, STATUS_NOT_RELEVANT, TARGET_STATUS_IDS } from '../constants.js'
 import { getPragueFollowupSendAt, mapLeadClientDetails } from '../utils.js'
 
 const WAZZUP_API_KEY = process.env.WAZZUP_API_KEY
@@ -421,12 +421,7 @@ async function handleOrderStatusChanged(
     //   })
     // }
 
-    console.log('🔥 ENTERED TRY')
     const order = await getOrderById(orderId)
-
-    console.log('🔥 ORDER LOADED')
-    console.log(JSON.stringify(order, null, 2))
-  
 
     const statusId = order?.status?.id
     const clientId = order?.client?.id
@@ -436,26 +431,6 @@ async function handleOrderStatusChanged(
     console.log('DEBUG client first name:', clientFirstName)
     const phone = normalizePhone(order?.client?.phone?.[0])
     const orderScheduledFor = order?.scheduled_for
-
-    const orderComment =
-      order?.comment ||
-      order?.comments ||
-      order?.note ||
-      ''
-
-
-  console.log('comment:', order?.comment)
-  console.log('comments:', order?.comments)
-  console.log('note:', order?.note)
-
-    const isNewClient = String(orderComment).includes('[CLIENT_TYPE=new]')
-
-    console.log('🟡 Order details summary:', {
-      comment: order?.comment, 
-      comments: order?.comments,
-      note: order?.note,
-      isNewClient: isNewClient,
-    })
 
     if (!TARGET_STATUS_IDS.includes(Number(statusId))) {
       return res.status(200).json({
@@ -492,6 +467,8 @@ async function handleOrderStatusChanged(
     
     // const reminders = getReminderDates(orderScheduledFor)
 
+    const isNewClient = NEW_CLIENT_STATUS_IDS.includes(Number(statusId))
+    
     const reminders = isNewClient
     ? getReminderDates(orderScheduledFor)
     : getReturningClientReminderDates(orderScheduledFor)

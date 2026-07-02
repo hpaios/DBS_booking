@@ -85,7 +85,7 @@ const BookingConfirmation = ({
   
           const dateEnd = addMinutes(dateStart, employeeTotalDuration)
   
-          const clientTypeTag = `[CLIENT_TYPE=${isNewClient ? 'new' : 'returning'}]`
+          const clientTypeTag = `--- CLIENT_TYPE=${isNewClient ? 'NEW' : 'OLD'} ---`
 
           const commentWithVin = [
             vin ? `VIN: ${vin}` : null,
