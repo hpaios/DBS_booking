@@ -38,6 +38,14 @@ async function sendTelegramMessage(text: string) {
     return null
   }
 
+  // TODO: Remove this debug log in production
+  const res = await axios.get(
+  `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`
+)
+
+  console.log(JSON.stringify(res.data, null, 2))
+  // TODO: Remove this debug log in production
+
   const response = await axios.post(
     `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
     {
