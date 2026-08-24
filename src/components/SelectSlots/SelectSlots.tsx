@@ -3,7 +3,7 @@ import { useTimeSlots } from '../../api/hooks/useTimeslots'
 import ErrorIcon from '../../icons/Error'
 import type { ApiTimeSlot, SelectedSlot, Service, WeekScheduleItem } from '../../interfaces'
 import {
-  formatDurationShort,
+  // formatDurationShort,
   getUniqueParentCategoryIds,
   normalizeSlotsBySchedule,
   mapSlotsByDays,
@@ -31,7 +31,7 @@ const SelectSlots = ({
   selectedDates,
   onSelectedDate
 }: SelectSlotProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const uniqueParentCategoryIds = getUniqueParentCategoryIds(selectedServices)
   const { timeSlots, isLoading, isError } = useTimeSlots(uniqueParentCategoryIds)
 
@@ -95,10 +95,10 @@ const SelectSlots = ({
 
           const employeeRequiredSlots = Math.ceil(employeeTotalDuration / 60)
 
-          const totalPrice = employeeServices.reduce(
-            (sum, service) => sum + service.price,
-            0
-          )
+          // const totalPrice = employeeServices.reduce(
+          //   (sum, service) => sum + service.price,
+          //   0
+          // )
 
           const calendarSlots = shiftSlotsByTwoHours(
             timeSlots[employeeIdNum] as unknown as ApiTimeSlot[]
@@ -121,7 +121,7 @@ const SelectSlots = ({
                 {t(`select_services.${employeeServices[0].parentCategoryId}`)}:
               </h2>
 
-              {employeeServices.map((service) => (
+              {/* {employeeServices.map((service) => (
                 <div key={service.id}>
                   <div className="text-[var(--color-icon)] text-[16px] font-sans">
                     {t(`select_services.${service.id}.title`)}
@@ -135,12 +135,12 @@ const SelectSlots = ({
                     </span>
                   </div>
                 </div>
-              ))}
+              ))} */}
 
-              <div className="flex justify-between mb-[var(--space-xl)] font-sans">
+              {/* <div className="flex justify-between mb-[var(--space-xl)] font-sans">
                 <span>{t('common.total')}: </span>
                 <span>{totalPrice} Kč</span>
-              </div>
+              </div> */}
 
               <ServicesCalendar
                 selectedTimes={occupiedTimesFromOtherEmployees}

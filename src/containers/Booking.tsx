@@ -6,7 +6,7 @@ import SelectCategories from '../components/SelectCategories/SelectCategories'
 import BookingConfirmation from '../components/BookingConfirmation/BookingConfirmation'
 import type { SelectedSlot, Service, StepKey } from '../interfaces'
 import { useGroupedServices } from '../hooks/useGroupedServices'
-import { isObjectEmpty, toggleId, toggleObjectById } from '../utils'
+import { isObjectEmpty, toggleId } from '../utils'
 import { useLocation } from '../api/hooks/useLocations'
 import SelectSlots from '../components/SelectSlots/SelectSlots'
 import { steps } from '../config'
@@ -27,6 +27,7 @@ const Booking = ({handleIsErrorSubmit}: {
   const [selectedServices, setSelectedServices] = useState<Service[]>([])
   const [selectedSlots, setSelectedSlots] = useState<Record<number, SelectedSlot | null>>({})
   const [selectedDates, setSelectedDates] = useState<Record<number, string>>({})
+  const [notes, setNotes] = useState<string>('')
 
   const handleSelectCategory = (id: number) => {
     setSelectedCategoriesIds(prev => {
@@ -38,16 +39,53 @@ const Booking = ({handleIsErrorSubmit}: {
     })
   }
 
-  const handleSelectServices = (service: Service) => {
-    if (!isObjectEmpty(selectedSlots)) {
-      setSelectedSlots({})
+  // const handleSelectServices = (service: Service) => {
+  //   if (!isObjectEmpty(selectedSlots)) {
+  //     setSelectedSlots({})
+  //   }
+
+  //   if (!isObjectEmpty(selectedDates)) {
+  //     setSelectedDates({})
+  //   }
+
+  //   setSelectedServices(prev => toggleObjectById(prev, service))
+  // }
+
+  const onSetNotes = (value: string) => {
+    setNotes(value)
+    setSelectedServices([])
+  }
+
+  console.log('selectedCategoriesIds', selectedCategoriesIds)
+
+  const getDefaultSelectedServices = () => {
+    const defaultSelectedServices: Service[] = [];
+
+    if (selectedCategoriesIds.includes(308291)) {
+      defaultSelectedServices.push({
+        id: 308291,
+        title: 'Autoservis',
+        description: 'Autoservis description',
+        durationMinutes: 60,
+        price: 100,
+        parentCategoryId: 308291,
+        parentCategoryLabel: 'Autoservis'
+      });
+    }
+   
+    if (selectedCategoriesIds.includes(310673)) {
+      defaultSelectedServices.push({
+        id: 310673,
+        title: 'Detailing',
+        description: 'Detailing description',
+        durationMinutes: 60,
+        price: 150,
+        parentCategoryId: 310673,
+        parentCategoryLabel: 'Detailing'
+      });
     }
 
-    if (!isObjectEmpty(selectedDates)) {
-      setSelectedDates({})
-    }
-
-    setSelectedServices(prev => toggleObjectById(prev, service))
+    return defaultSelectedServices;
   }
 
   const stepComponentMap: Record<StepKey, React.ReactNode> = {
@@ -57,14 +95,16 @@ const Booking = ({handleIsErrorSubmit}: {
     />,
     select_services: <SelectServices
       servicesList={groupedServices}
-      handleSelectedService={handleSelectServices}
+      // handleSelectedService={handleSelectServices}
+      notes={notes}
+      setNotes={onSetNotes}
       selectedServices={selectedServices}
       isLoading={isLoading}
       error={error}
-
     />,
     select_slots: <SelectSlots
-      selectedServices={selectedServices}
+      // selectedServices={selectedServices}
+      selectedServices={getDefaultSelectedServices()}
       weekSchedule={location?.[0].weekSchedule ?? []}
       selectedSlots={selectedSlots}
       onSelectSlot={(employeeId, slot) =>
@@ -79,7 +119,7 @@ const Booking = ({handleIsErrorSubmit}: {
       selectedDates={selectedDates}
       setCurrentStep={setCurrentStep}
       handleIsErrorSubmit={handleIsErrorSubmit}
-      
+      notes={notes}  
     />,
     success_page: <SuccessPage selectedServices={selectedServices}  selectedSlots={selectedSlots}/>,
     error_page: <ErrorPage />
@@ -94,7 +134,7 @@ const Booking = ({handleIsErrorSubmit}: {
   }
 
   const isNextButtonDisabled = (currentStep === 0 && !selectedCategoriesIds.length)
-  || (currentStep === 1 && !selectedServices.length)
+  || (currentStep === 1 && notes.trim().length < 3)
   || (currentStep === 2 && isObjectEmpty(selectedSlots))
   || (currentStep === 3)
 

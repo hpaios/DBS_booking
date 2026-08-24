@@ -10,9 +10,9 @@ interface SummaryOrderProps {
 const SummaryOrder = ({ services }: SummaryOrderProps) => {
   const { t, i18n } = useTranslation()
 
-  const totalPrice = services
-    .flatMap(group => group.services)
-    .reduce((sum, service) => sum + service.price, 0)
+  // const totalPrice = services
+  //   .flatMap(group => group.services)
+  //   .reduce((sum, service) => sum + service.price, 0)
 
   return (
     <>
@@ -35,9 +35,9 @@ const SummaryOrder = ({ services }: SummaryOrderProps) => {
                     {formatDurationShort(service.durationMinutes as number, i18n.language)}
                   </div>
 
-                  <span className='text-[var(--color-icon)] text-[14px] font-semibold'>
+                  {/* <span className='text-[var(--color-icon)] text-[14px] font-semibold'>
                     {service.price} Kč
-                  </span>
+                  </span> */}
                 </div>
               </div>
             ))}
@@ -45,7 +45,7 @@ const SummaryOrder = ({ services }: SummaryOrderProps) => {
         </div>
       ))}
 
-      {/* TOTAL */}
+      {/* TOTAL
       <div className="flex justify-between pt-[var(--space-md)]">
         <span className="text-[var(--color-icon)] text-[16px] font-semibold">
           {t('common.total')}:
@@ -53,7 +53,7 @@ const SummaryOrder = ({ services }: SummaryOrderProps) => {
         <span className="text-[var(--color-icon)] text-[16px] font-semibold">
           {totalPrice} Kč
         </span>
-      </div>
+      </div> */}
     </>
   )
 }

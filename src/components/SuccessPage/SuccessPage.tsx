@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import InfoIcon from '../../icons/Info'
 import Success from '../../icons/Success'
 import Time from '../../icons/Time'
 import type { GroupedArray, SelectedSlot, Service } from '../../interfaces'
-import { formatBookingDateTime, formatDurationShort, groupServicesToArray } from '../../utils'
+import { formatBookingDateTime, groupServicesToArray } from '../../utils'
 import type { SupportedLanguage } from '../../i18n'
 
 const SuccessPage = ({ selectedServices, selectedSlots }:
@@ -27,9 +26,9 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
     }
   }
 
-  const totalPrice = services
-    .flatMap(group => group.services)
-    .reduce((sum, service) => sum + service.price, 0)
+  // const totalPrice = services
+  //   .flatMap(group => group.services)
+  //   .reduce((sum, service) => sum + service.price, 0)
 
   const slots = services.map((group) => {
   const slotInfo = getFirstSlotInfo(group, selectedSlots)
@@ -49,12 +48,12 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
                 <div className='flex justify-between'>
                   <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1 font-sans'>
                     <Time />
-                    {formatDurationShort(service.durationMinutes as unknown as number, i18n.language)}
+                    {/* {formatDurationShort(service.durationMinutes as unknown as number, i18n.language)} */}
                   </div>
 
-                  <span className='text-[var(--color-icon)] text-[14px] font-semibold font-sans'>
+                  {/* <span className='text-[var(--color-icon)] text-[14px] font-semibold font-sans'>
                     {service.price} Kč
-                  </span>
+                  </span> */}
                 </div>
               </div>
           ))}
@@ -72,7 +71,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
       
       {slots}
       {/* TOTAL */}
-      <div className="flex justify-between pt-[var(--space-md)]">
+      {/* <div className="flex justify-between pt-[var(--space-md)]">
         <span className="text-[var(--color-icon)] text-[16px] font-semibold font-sans">
           {t('common.total')}:
         </span>
@@ -83,7 +82,7 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
       <div className='flex items-center gap-2 text-[var(--color-border)] text-[12px] font-sans mt-[var(--space-md)]'>
         <InfoIcon width="40" height="40" />
         <span>{t('success_page.description')}</span>
-      </div>
+      </div> */}
     </div>
   )
 }

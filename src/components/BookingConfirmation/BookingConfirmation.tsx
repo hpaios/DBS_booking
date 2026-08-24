@@ -14,13 +14,15 @@ const BookingConfirmation = ({
   selectedServices,
   selectedSlots,
   setCurrentStep,
-  handleIsErrorSubmit
+  handleIsErrorSubmit,
+  notes
 }: {
   selectedServices: Service[]
   selectedSlots: Record<number, SelectedSlot | null>
   selectedDates: Record<number, string>
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>
   handleIsErrorSubmit: React.Dispatch<React.SetStateAction<boolean>>
+  notes: string
 }) => {
   const { t } = useTranslation()
   const [phoneNumber, setNumber] = useState<string | null>(null)
@@ -102,7 +104,7 @@ const BookingConfirmation = ({
               email,
             },
             vin,
-            comment: commentWithVin,
+            comment: `${commentWithVin} ${notes ? `Описание проблемы: ${notes}` : ''}`,
             employeeId: Number(employeeId),
             serviceIds: employeeServices.map(s => s.id),
             dateStart,
@@ -250,7 +252,7 @@ const BookingConfirmation = ({
       <div className='flex w-full justify-center'>
         <ReCAPTCHA
           sitekey={`${RECAPTCHA_PROD}`}
-          // sitekey={`${RECAPTCHA_LOCAL}`}
+          //sitekey={`${RECAPTCHA_LOCAL}`}
           onChange={(value: string | null) => onChangeRecaptcha(value)}
         />
       </div>
