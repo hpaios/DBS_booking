@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import Success from '../../icons/Success'
-import Time from '../../icons/Time'
 import type { GroupedArray, SelectedSlot, Service } from '../../interfaces'
 import { formatBookingDateTime, groupServicesToArray } from '../../utils'
 import type { SupportedLanguage } from '../../i18n'
@@ -30,6 +29,26 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
   //   .flatMap(group => group.services)
   //   .reduce((sum, service) => sum + service.price, 0)
 
+  // TODO: Add total price calculation if needed BACK TO JSX
+  //  {group.services.map((service) => (
+  //           <div key={service.id} className="flex flex-col gap-2">
+  //               <div className='text-[var(--color-icon)] text-[16px] font-sans'>
+  //                 {t(`select_services.${service.id}.title`)}
+  //               </div>
+
+  //               <div className='flex justify-between'>
+  //                 <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1 font-sans'>
+  //                   <Time />
+  //                   {/* {formatDurationShort(service.durationMinutes as unknown as number, i18n.language)} */}
+  //                 </div>
+
+  //                 <span className='text-[var(--color-icon)] text-[14px] font-semibold font-sans'>
+  //                   {service.price} Kč
+  //                 </span>
+  //               </div>
+  //             </div>
+  //         ))} 
+
   const slots = services.map((group) => {
   const slotInfo = getFirstSlotInfo(group, selectedSlots)
 
@@ -38,25 +57,6 @@ const SuccessPage = ({ selectedServices, selectedSlots }:
           <h3 className='text-[18px] text-[var(--color-icon)] font-semibold font-sans'>{t(`select_services.${group.services[0].parentCategoryId}`)}:</h3>
           <div className='text-[var(--color-border)] font-sans mb-[var(--font-size-lg)]'> {t('success_page.date')} <span className='font-semibold text-[var(--color-icon)] font-sans'>
           {formatBookingDateTime(slotInfo.date, slotInfo.startTime, i18n.language as SupportedLanguage)}</span></div>
-
-          {group.services.map((service) => (
-            <div key={service.id} className="flex flex-col gap-2">
-                <div className='text-[var(--color-icon)] text-[16px] font-sans'>
-                  {t(`select_services.${service.id}.title`)}
-                </div>
-
-                <div className='flex justify-between'>
-                  <div className='text-[var(--color-border)] text-[14px] items-center flex gap-1 font-sans'>
-                    <Time />
-                    {/* {formatDurationShort(service.durationMinutes as unknown as number, i18n.language)} */}
-                  </div>
-
-                  {/* <span className='text-[var(--color-icon)] text-[14px] font-semibold font-sans'>
-                    {service.price} Kč
-                  </span> */}
-                </div>
-              </div>
-          ))}
         </div>
       )
   })

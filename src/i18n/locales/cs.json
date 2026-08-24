@@ -14,7 +14,7 @@
   "select_services": {
     "308291": "Autoservis",
     "310673": "Detailing",
-    "title": "Vyberte služby",
+    "title": "Popište vaše požadavky",
     "subtitle": "Můžete vybrat více služeb",
     "textarea": "Popište požadované služby nebo vaše požadavky",
     "placeholder": "Napište nám zprávu",
