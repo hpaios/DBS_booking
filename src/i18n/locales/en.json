@@ -14,10 +14,10 @@
   "select_services": {
     "308291": "Automotive Service",
     "310673": "Detailing",
-    "title": "Select services",
+    "title": "Describe your requirements",
     "subtitle": "You can select multiple services",
-    "textarea": "Describe the services you need or your specific requirements",
-    "placeholder": "Send us a message",
+    "textarea": "Describe the problem or tell us what needs to be done:",
+    "placeholder": "For example: BMW X5, 2019. I noticed vibrations when accelerating. I’d like to have the suspension checked and the automatic transmission oil changed.",
     "58009290": {
       "title": "#01 Classic Wash",
       "description": "Hand washing of the bodywork with pH-neutral foam, with a focus on paintwork safety. \n After the foam is applied, the wheel arches are cleaned, the vehicle is rinsed, dried with microfiber towels, and the tires are treated with tire dressing for a deep black finish."
