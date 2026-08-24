@@ -29,15 +29,15 @@ const Booking = ({handleIsErrorSubmit}: {
   const [selectedDates, setSelectedDates] = useState<Record<number, string>>({})
   const [notes, setNotes] = useState<string>('')
 
-  const handleSelectCategory = (id: number) => {
-    setSelectedCategoriesIds(prev => {
-      const newCategories = toggleId(prev, id)
-      setSelectedServices(services =>
-        services.filter(service => newCategories.includes(service.parentCategoryId))
-      )
-      return newCategories
-    })
-  }
+  // const handleSelectCategory = (id: number) => {
+  //   setSelectedCategoriesIds(prev => {
+  //     const newCategories = toggleId(prev, id)
+  //     setSelectedServices(services =>
+  //       services.filter(service => newCategories.includes(service.parentCategoryId))
+  //     )
+  //     return newCategories
+  //   })
+  // }
 
   // const handleSelectServices = (service: Service) => {
   //   if (!isObjectEmpty(selectedSlots)) {
@@ -51,17 +51,31 @@ const Booking = ({handleIsErrorSubmit}: {
   //   setSelectedServices(prev => toggleObjectById(prev, service))
   // }
 
-  const onSetNotes = (value: string) => {
-    setNotes(value)
-    setSelectedServices([])
+  const handleSelectCategory = (id: number) => {
+    const newCategories = toggleId(selectedCategoriesIds, id)
+
+    setSelectedCategoriesIds(newCategories)
+    setSelectedServices(getDefaultSelectedServices(newCategories))
+
+    if (!isObjectEmpty(selectedSlots)) {
+      setSelectedSlots({})
+    }
+
+    if (!isObjectEmpty(selectedDates)) {
+      setSelectedDates({})
+    }
   }
 
-  console.log('selectedCategoriesIds', selectedCategoriesIds)
+  const onSetNotes = (value: string) => {
+    setNotes(value)
+  }
 
-  const getDefaultSelectedServices = () => {
-    const defaultSelectedServices: Service[] = [];
+    const getDefaultSelectedServices = (
+    categoryIds: number[]
+  ): Service[] => {
+    const defaultSelectedServices: Service[] = []
 
-    if (selectedCategoriesIds.includes(308291)) {
+    if (categoryIds.includes(308291)) {
       defaultSelectedServices.push({
         id: 308291,
         title: 'Autoservis',
@@ -69,11 +83,11 @@ const Booking = ({handleIsErrorSubmit}: {
         durationMinutes: 60,
         price: 100,
         parentCategoryId: 308291,
-        parentCategoryLabel: 'Autoservis'
-      });
+        parentCategoryLabel: 'Autoservis',
+      })
     }
-   
-    if (selectedCategoriesIds.includes(310673)) {
+
+    if (categoryIds.includes(310673)) {
       defaultSelectedServices.push({
         id: 310673,
         title: 'Detailing',
@@ -81,12 +95,13 @@ const Booking = ({handleIsErrorSubmit}: {
         durationMinutes: 60,
         price: 150,
         parentCategoryId: 310673,
-        parentCategoryLabel: 'Detailing'
-      });
+        parentCategoryLabel: 'Detailing',
+      })
     }
 
-    return defaultSelectedServices;
+    return defaultSelectedServices
   }
+
 
   const stepComponentMap: Record<StepKey, React.ReactNode> = {
     select_categories: <SelectCategories
@@ -103,8 +118,7 @@ const Booking = ({handleIsErrorSubmit}: {
       error={error}
     />,
     select_slots: <SelectSlots
-      // selectedServices={selectedServices}
-      selectedServices={getDefaultSelectedServices()}
+      selectedServices={selectedServices}
       weekSchedule={location?.[0].weekSchedule ?? []}
       selectedSlots={selectedSlots}
       onSelectSlot={(employeeId, slot) =>

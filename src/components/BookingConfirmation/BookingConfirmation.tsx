@@ -5,10 +5,9 @@ import IntlTelInput from "intl-tel-input/reactWithUtils"
 import "intl-tel-input/build/css/intlTelInput.css"
 import type { SelectedSlot, Service } from "../../interfaces"
 import { createAppointment, getOrCreateClient, sendBookingConfirmation, type BookingSource } from '../../api/api/requests'
-import { addMinutes, getBookingSource, groupServicesToArray, subtractTwoHours } from '../../utils'
+import { addMinutes, getBookingSource, subtractTwoHours } from '../../utils'
 import { RECAPTCHA_PROD } from '../../config'
 import { btnSubmitStyle, inputClass, wrapperClass } from './BookingConfirmation.style'
-import SummaryOrder from './SummaryOrder'
 
 const BookingConfirmation = ({
   selectedServices,
@@ -86,7 +85,7 @@ const BookingConfirmation = ({
           // )
   
           // const dateEnd = addMinutes(dateStart, employeeTotalDuration)
-          
+
           // TODO: now duration is 60 hardcoded
           const dateEnd = addMinutes(dateStart, 60)
   
@@ -170,7 +169,7 @@ const BookingConfirmation = ({
     }
   }
 
-  const services = groupServicesToArray(selectedServices)
+  // const services = groupServicesToArray(selectedServices)
 
   const onChangeRecaptcha = (value: string | null) => {
     setIsRecaptcaValid(!!value)
@@ -178,7 +177,7 @@ const BookingConfirmation = ({
 
   return (
     <div className="space-y-4">
-      {<SummaryOrder services={services} />}
+      {/* {<SummaryOrder services={services} />} */}
       <div className="flex justify-between pt-[var(--space-sm)] mt-[var(--space-md)]">
       </div>
       <div className={wrapperClass}>
