@@ -77,7 +77,7 @@ const Booking = ({handleIsErrorSubmit}: {
 
     if (categoryIds.includes(308291)) {
       defaultSelectedServices.push({
-        id: 308291,
+        id: 58017002,
         title: 'Autoservis',
         description: 'Autoservis description',
         durationMinutes: 60,
@@ -89,7 +89,7 @@ const Booking = ({handleIsErrorSubmit}: {
 
     if (categoryIds.includes(310673)) {
       defaultSelectedServices.push({
-        id: 310673,
+        id: 58009290,
         title: 'Detailing',
         description: 'Detailing description',
         durationMinutes: 60,
