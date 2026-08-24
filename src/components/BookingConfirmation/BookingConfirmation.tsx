@@ -79,13 +79,16 @@ const BookingConfirmation = ({
           const employeeServices = selectedServices.filter(
             s => s.parentCategoryId === Number(employeeId)
           )
+          
+          // const employeeTotalDuration = employeeServices.reduce(
+          //   (sum, service) => sum + service.durationMinutes,
+          //   0
+          // )
   
-          const employeeTotalDuration = employeeServices.reduce(
-            (sum, service) => sum + service.durationMinutes,
-            0
-          )
-  
-          const dateEnd = addMinutes(dateStart, employeeTotalDuration)
+          // const dateEnd = addMinutes(dateStart, employeeTotalDuration)
+          
+          // TODO: now duration is 60 hardcoded
+          const dateEnd = addMinutes(dateStart, 60)
   
           const clientTypeTag = `--- CLIENT_TYPE=${isNewClient ? 'NEW' : 'OLD'} ---`
 
