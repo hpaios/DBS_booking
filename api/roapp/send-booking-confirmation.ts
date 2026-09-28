@@ -120,11 +120,20 @@ export default async function handler(
   }
 
   try {
-    const { clientFirstName, phone, bookingDate, bookingTime, email, bookingSource } =
-      req.body as BookingConfirmationBody
+    const {
+      clientFirstName,
+      phone,
+      bookingDate,
+      bookingTime,
+      email,
+      bookingSource,
+    } = req.body as BookingConfirmationBody
 
-      console.log('🟡 booking confirmation body:', JSON.stringify(req.body, null, 2))
-      console.log('🟡 bookingSource:', bookingSource)
+    console.log(
+      '🟡 booking confirmation body:',
+      JSON.stringify(req.body, null, 2)
+    )
+    console.log('🟡 bookingSource:', bookingSource)
 
     if (!clientFirstName || !phone || !bookingDate || !bookingTime) {
       return res.status(400).json({
@@ -133,49 +142,10 @@ export default async function handler(
       })
     }
 
-    if (!WAZZUP_API_KEY || !WAZZUP_CHANNEL_ID) {
-      return res.status(500).json({
-        ok: false,
-        error: 'Wazzup env is missing',
-      })
-    }
-
-    const text = buildBookingConfirmationMessage({
-      clientFirstName,
-      phone,
-      bookingDate,
-      bookingTime,
-    })
-
-    const response = await axios.post(
-      `${WAZZUP_API_BASE_URL}/message`,
-      {
-        channelId: WAZZUP_CHANNEL_ID,
-        chatType: WAZZUP_CHAT_TYPE,
-        chatId: normalizePhone(phone),
-        text,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${WAZZUP_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 15000,
-      }
-    )
-
-    const telegramText = buildTelegramBookingMessage({
-      clientFirstName,
-      phone,
-      bookingDate,
-      bookingTime,
-    })
-    
-    try {
-      await sendTelegramMessage(telegramText)
-    } catch (error) {
-      console.error('Telegram send failed:', error)
-    }
+    // =========================================================
+    // 1. SAVE BOOKING SOURCE TO SUPABASE
+    // Не зависит от Wazzup и Telegram
+    // =========================================================
 
     try {
       if (bookingSource) {
@@ -185,56 +155,146 @@ export default async function handler(
             client_name: clientFirstName,
             phone,
             email: email || null,
-    
+
             booking_date: bookingDate,
             booking_time: bookingTime,
-    
+
             utm_source: bookingSource.utm_source || null,
             utm_medium: bookingSource.utm_medium || null,
             utm_campaign: bookingSource.utm_campaign || null,
             utm_content: bookingSource.utm_content || null,
             utm_term: bookingSource.utm_term || null,
+
             gclid: bookingSource.gclid || null,
             fbclid: bookingSource.fbclid || null,
-    
+
             landing_url: bookingSource.landing_url || null,
             referrer: bookingSource.referrer || null,
           })
-    
+
         if (sourceError) {
-          console.error('Failed to save booking source:', sourceError)
+          console.error(
+            '❌ Failed to save booking source:',
+            sourceError
+          )
+        } else {
+          console.log('🟢 Booking source saved')
         }
+      } else {
+        console.log('🟡 No bookingSource provided')
       }
     } catch (error) {
-      console.error('Unexpected booking source save error:', error)
+      console.error(
+        '❌ Unexpected booking source save error:',
+        error
+      )
     }
+
+    // =========================================================
+    // 2. SEND WHATSAPP
+    // Ошибка Wazzup НЕ влияет на Supabase / Telegram
+    // =========================================================
+
+    let wazzupData = null
+
+    try {
+      if (!WAZZUP_API_KEY || !WAZZUP_CHANNEL_ID) {
+        console.error(
+          '❌ Wazzup env is missing. WhatsApp message skipped.'
+        )
+      } else {
+        const text = buildBookingConfirmationMessage({
+          clientFirstName,
+          phone,
+          bookingDate,
+          bookingTime,
+        })
+
+        const response = await axios.post(
+          `${WAZZUP_API_BASE_URL}/message`,
+          {
+            channelId: WAZZUP_CHANNEL_ID,
+            chatType: WAZZUP_CHAT_TYPE,
+            chatId: normalizePhone(phone),
+            text,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${WAZZUP_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            timeout: 15000,
+          }
+        )
+
+        wazzupData = response.data
+
+        console.log('🟢 Wazzup message sent')
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          '❌ Wazzup send failed:',
+          JSON.stringify(
+            {
+              message: error.message,
+              status: error.response?.status,
+              data: error.response?.data,
+              innerData: error.response?.data?.data,
+            },
+            null,
+            2
+          )
+        )
+      } else {
+        console.error(
+          '❌ Wazzup unexpected error:',
+          error
+        )
+      }
+    }
+
+    // =========================================================
+    // 3. SEND TELEGRAM
+    // Также полностью независим
+    // =========================================================
+
+    try {
+      const telegramText = buildTelegramBookingMessage({
+        clientFirstName,
+        phone,
+        bookingDate,
+        bookingTime,
+      })
+
+      await sendTelegramMessage(telegramText)
+
+      console.log('🟢 Telegram message sent')
+    } catch (error) {
+      console.error(
+        '❌ Telegram send failed:',
+        error
+      )
+    }
+
+    // =========================================================
+    // DONE
+    // Ошибка WhatsApp / Telegram не делает весь endpoint failed
+    // =========================================================
 
     return res.status(200).json({
       ok: true,
-      data: response.data,
+      wazzup: wazzupData,
     })
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(
-        'send-booking-confirmation axios error:',
-        JSON.stringify(
-          {
-            message: error.message,
-            status: error.response?.status,
-            data: error.response?.data,
-            innerData: error.response?.data?.data,
-          },
-          null,
-          2
-        )
-      )
-    } else {
-      console.error('send-booking-confirmation unexpected error:', error)
-    }
+    console.error(
+      '❌ send-booking-confirmation unexpected error:',
+      error
+    )
 
     return res.status(500).json({
       ok: false,
-      error: 'Failed to send booking confirmation',
+      error: 'Failed to process booking confirmation',
     })
   }
 }
