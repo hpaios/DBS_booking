@@ -11,6 +11,34 @@ const DBS_API =
 
 const LOCATION_ID = 186414;
 
+
+// =========================================================
+// SERVICE CONFIG
+// =========================================================
+
+const BOOKING_CONFIG = {
+  autoservice: {
+    employeeId: 308291,
+    serviceId: 58017002,
+    durationMinutes: 60
+  },
+
+  detailing: {
+    employeeId: 310673,
+    serviceId: 58009290,
+    durationMinutes: 60
+  }
+} as const;
+
+
+// =========================================================
+// TYPES
+// =========================================================
+
+type ServiceType =
+  keyof typeof BOOKING_CONFIG;
+
+
 type BookingSource = {
   utm_source: string | null;
   utm_medium: string | null;
@@ -23,7 +51,10 @@ type BookingSource = {
   referrer: string | null;
 };
 
-type BookingBody = {
+
+type WebflowBookingBody = {
+  service: ServiceType;
+
   name: string;
   phone: string;
   email: string;
@@ -31,25 +62,121 @@ type BookingBody = {
   vin?: string;
   description?: string;
 
-  employeeId: number;
-  serviceId: number;
-
-  dateStart: string;
-  dateEnd: string;
-
-  bookingDate?: string;
-  bookingTime?: string;
-
-  bookingSource?: BookingSource;
+  slotStart: string;
+  slotEnd: string;
 };
+
+
+// =========================================================
+// -2 HOURS
+// Existing Webflow calendar displays slots after +2h.
+// Existing React booking subtracts 2h before appointment.
+// =========================================================
+
+function subtractTwoHours(
+  iso: string
+) {
+
+  const date =
+    new Date(iso);
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    throw new Error(
+      "Invalid booking slot date"
+    );
+  }
+
+  date.setUTCHours(
+    date.getUTCHours() - 2
+  );
+
+  return date.toISOString();
+}
+
+
+// =========================================================
+// CONFIRMATION DATE
+// Same logic as current React booking
+// Uses displayed/shifted slot
+// =========================================================
+
+function formatBookingDate(
+  iso: string
+) {
+
+  const date =
+    new Date(iso);
+
+  return new Intl.DateTimeFormat(
+    "cs-CZ",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      timeZone: "UTC"
+    }
+  ).format(date);
+}
+
+
+function formatBookingTime(
+  iso: string
+) {
+
+  const date =
+    new Date(iso);
+
+  return new Intl.DateTimeFormat(
+    "cs-CZ",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "UTC"
+    }
+  ).format(date);
+}
+
+
+// =========================================================
+// EMPTY BOOKING SOURCE
+//
+// Webflow currently sends only compact booking data.
+// We can add UTM tracking separately later.
+// =========================================================
+
+function getBookingSource():
+BookingSource {
+
+  return {
+    utm_source: null,
+    utm_medium: null,
+    utm_campaign: null,
+    utm_content: null,
+    utm_term: null,
+    gclid: null,
+    fbclid: null,
+    landing_url: "",
+    referrer: null
+  };
+}
+
+
+// =========================================================
+// HANDLER
+// =========================================================
 
 export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
-  // ==========================================
+
+  // =======================================================
   // CORS
-  // ==========================================
+  // =======================================================
 
   res.setHeader(
     "Access-Control-Allow-Origin",
@@ -66,72 +193,158 @@ export default async function handler(
     "Content-Type"
   );
 
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
+
+  if (
+    req.method === "OPTIONS"
+  ) {
+
+    return res
+      .status(204)
+      .end();
   }
 
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      ok: false,
-      error: "Method not allowed"
-    });
+
+  if (
+    req.method !== "POST"
+  ) {
+
+    return res
+      .status(405)
+      .json({
+        ok: false,
+        error: "Method not allowed"
+      });
   }
+
 
   try {
+
+    // =====================================================
+    // BODY
+    // =====================================================
+
     const {
+      service,
       name,
       phone,
       email,
       vin = "",
       description = "",
-      employeeId,
-      serviceId,
-      dateStart,
-      dateEnd,
-      bookingDate,
-      bookingTime,
-      bookingSource
-    } = req.body as BookingBody;
+      slotStart,
+      slotEnd
+    } =
+      req.body as WebflowBookingBody;
 
-    // ==========================================
+
+    // =====================================================
     // VALIDATION
-    // ==========================================
+    // =====================================================
 
     if (
+      !service ||
       !name ||
       !phone ||
       !email ||
-      !employeeId ||
-      !serviceId ||
-      !dateStart ||
-      !dateEnd
+      !slotStart ||
+      !slotEnd
     ) {
-      return res.status(400).json({
-        ok: false,
-        error: "Missing required booking data"
-      });
+
+      return res
+        .status(400)
+        .json({
+          ok: false,
+          error:
+            "Missing required booking data"
+        });
     }
 
-    // ==========================================
-    // 1. FIND CLIENT
-    // ==========================================
 
-    const findUrl =
-      `${BOOKING_DOMAIN}` +
-      `/api/roapp/find-client-by-phone` +
-      `?phone=${encodeURIComponent(phone)}`;
+    const config =
+      BOOKING_CONFIG[
+        service
+      ];
+
+
+    if (!config) {
+
+      return res
+        .status(400)
+        .json({
+          ok: false,
+          error:
+            "Invalid service"
+        });
+    }
+
+
+    // Autoservice requires VIN.
+    if (
+      service ===
+        "autoservice" &&
+      !vin
+    ) {
+
+      return res
+        .status(400)
+        .json({
+          ok: false,
+          error:
+            "VIN is required"
+        });
+    }
+
+
+    // =====================================================
+    // PREPARE TIMES
+    // =====================================================
+
+    const dateStart =
+      subtractTwoHours(
+        slotStart
+      );
+
+
+    const dateEnd =
+      subtractTwoHours(
+        slotEnd
+      );
+
+
+    const bookingDate =
+      formatBookingDate(
+        slotStart
+      );
+
+
+    const bookingTime =
+      formatBookingTime(
+        slotStart
+      );
+
+
+    const bookingSource =
+      getBookingSource();
+
+
+    // =====================================================
+    // 1. FIND CLIENT BY PHONE
+    // =====================================================
 
     const findResponse =
-      await fetch(findUrl);
+      await fetch(
+        `${BOOKING_DOMAIN}/api/roapp/find-client-by-phone?phone=${encodeURIComponent(phone)}`
+      );
+
 
     if (!findResponse.ok) {
-      const error =
+
+      const responseText =
         await findResponse.text();
 
       console.error(
         "FIND CLIENT ERROR:",
         findResponse.status,
-        error
+        responseText
       );
 
       throw new Error(
@@ -139,19 +352,26 @@ export default async function handler(
       );
     }
 
+
     const findData =
       await findResponse.json();
 
+
     let clientId =
-      findData?.clientId || null;
+      findData?.clientId ||
+      null;
 
-    let isNewClient = false;
 
-    // ==========================================
-    // 2. CREATE CLIENT IF NOT FOUND
-    // ==========================================
+    let isNewClient =
+      false;
+
+
+    // =====================================================
+    // 2. CREATE CLIENT
+    // =====================================================
 
     if (!clientId) {
+
       const createResponse =
         await fetch(
           `${BOOKING_DOMAIN}/api/roapp/create-client`,
@@ -163,22 +383,28 @@ export default async function handler(
                 "application/json"
             },
 
-            body: JSON.stringify({
-              first_name: name,
-              phone,
-              email
-            })
+            body:
+              JSON.stringify({
+                first_name:
+                  name,
+
+                phone,
+
+                email
+              })
           }
         );
 
+
       if (!createResponse.ok) {
-        const error =
+
+        const responseText =
           await createResponse.text();
 
         console.error(
           "CREATE CLIENT ERROR:",
           createResponse.status,
-          error
+          responseText
         );
 
         throw new Error(
@@ -186,48 +412,61 @@ export default async function handler(
         );
       }
 
+
       const createData =
         await createResponse.json();
 
-      clientId =
-        createData?.clientId || null;
 
-      isNewClient = true;
+      clientId =
+        createData?.clientId ||
+        null;
+
+
+      isNewClient =
+        true;
+
 
       if (!clientId) {
+
         throw new Error(
           "Client ID missing after creation"
         );
       }
     }
 
-    // ==========================================
+
+    // =====================================================
     // 3. COMMENT
-    // Same idea as current React booking
-    // ==========================================
+    // Mirrors current React booking
+    // =====================================================
 
     const clientTypeTag =
       `--- CLIENT_TYPE=${
-        isNewClient ? "NEW" : "OLD"
+        isNewClient
+          ? "NEW"
+          : "OLD"
       } ---`;
 
-    const comment = [
-      vin
-        ? `VIN: ${vin}`
-        : null,
 
-      description
-        ? `Описание проблемы: ${description}`
-        : null,
+    const comment =
+      [
+        vin
+          ? `VIN: ${vin}`
+          : null,
 
-      clientTypeTag
-    ]
-      .filter(Boolean)
-      .join("\n");
+        clientTypeTag,
 
-    // ==========================================
+        description
+          ? `Описание проблемы: ${description}`
+          : null
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+
+    // =====================================================
     // 4. CREATE APPOINTMENT
-    // ==========================================
+    // =====================================================
 
     const appointmentResponse =
       await fetch(
@@ -243,80 +482,92 @@ export default async function handler(
               "application/json"
           },
 
-          body: JSON.stringify({
-            client: {
-              name,
-              phone,
-              email
-            },
+          body:
+            JSON.stringify({
+              client: {
+                name,
+                phone,
+                email
+              },
 
-            vin,
+              vin,
 
-            comment,
+              comment,
 
-            employee_id:
-              employeeId,
+              employee_id:
+                config.employeeId,
 
-            service_ids: [
-              serviceId
-            ],
+              service_ids: [
+                config.serviceId
+              ],
 
-            date_start:
-              dateStart,
+              date_start:
+                dateStart,
 
-            date_end:
-              dateEnd,
+              date_end:
+                dateEnd,
 
-            email,
+              email,
 
-            bookingSource:
-              bookingSource || {}
-          })
+              bookingSource
+            })
         }
       );
 
-    if (!appointmentResponse.ok) {
-      const error =
+
+    if (
+      !appointmentResponse.ok
+    ) {
+
+      const responseText =
         await appointmentResponse.text();
+
 
       console.error(
         "APPOINTMENT ERROR:",
         appointmentResponse.status,
-        error
+        responseText
       );
 
-      return res.status(502).json({
-        ok: false,
-        error:
-          "Failed to create appointment"
-      });
+
+      return res
+        .status(502)
+        .json({
+          ok: false,
+          error:
+            "Failed to create appointment"
+        });
     }
 
-    const appointment =
-      await appointmentResponse.json();
 
-    // ==========================================
+    const appointment =
+      await appointmentResponse
+        .json();
+
+
+    // =====================================================
     // 5. WHATSAPP CONFIRMATION
-    // Failure here MUST NOT fail booking
-    // ==========================================
+    //
+    // Important:
+    // failure here does NOT fail the booking.
+    // Same behavior as current React booking.
+    // =====================================================
 
     try {
-      if (
-        bookingDate &&
-        bookingTime
-      ) {
-        const confirmationResponse =
-          await fetch(
-            `${BOOKING_DOMAIN}/api/roapp/send-booking-confirmation`,
-            {
-              method: "POST",
 
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
+      const confirmationResponse =
+        await fetch(
+          `${BOOKING_DOMAIN}/api/roapp/send-booking-confirmation`,
+          {
+            method: "POST",
 
-              body: JSON.stringify({
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
                 clientFirstName:
                   name,
 
@@ -328,51 +579,72 @@ export default async function handler(
 
                 email,
 
-                bookingSource:
-                  bookingSource || {}
+                bookingSource
               })
-            }
-          );
+          }
+        );
 
-        if (!confirmationResponse.ok) {
-          console.error(
-            "BOOKING CONFIRMATION FAILED:",
-            confirmationResponse.status,
-            await confirmationResponse.text()
-          );
-        }
+
+      if (
+        !confirmationResponse.ok
+      ) {
+
+        const responseText =
+          await confirmationResponse
+            .text();
+
+
+        console.error(
+          "BOOKING CONFIRMATION FAILED:",
+          confirmationResponse.status,
+          responseText
+        );
       }
 
+
     } catch (error) {
+
       console.error(
         "WHATSAPP CONFIRMATION ERROR:",
         error
       );
     }
 
-    // ==========================================
-    // SUCCESS
-    // ==========================================
 
-    return res.status(200).json({
-      ok: true,
-      clientId,
-      isNewClient,
-      appointment
-    });
+    // =====================================================
+    // SUCCESS
+    // =====================================================
+
+    return res
+      .status(200)
+      .json({
+        ok: true,
+
+        clientId,
+
+        isNewClient,
+
+        appointment
+      });
+
 
   } catch (error) {
+
     console.error(
       "WEBFLOW BOOKING ERROR:",
       error
     );
 
-    return res.status(500).json({
-      ok: false,
-      error:
-        error instanceof Error
-          ? error.message
-          : "Booking failed"
-    });
+
+    return res
+      .status(500)
+      .json({
+        ok: false,
+
+        error:
+          error instanceof Error
+            ? error.message
+            : "Booking failed"
+      });
   }
 }
