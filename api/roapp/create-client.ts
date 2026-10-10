@@ -69,11 +69,17 @@ export default async function handler(
     })
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('create-client axios error:', {
-        message: error.message,
-        status: error.response?.status,
-        data: error.response?.data,
-      })
+          console.error(
+        'ROAPP VALIDATION ERROR:',
+        JSON.stringify(
+          {
+            status: error.response?.status,
+            data: error.response?.data,
+          },
+          null,
+          2
+        )
+      )
     } else {
       console.error('create-client unexpected error:', error)
     }
