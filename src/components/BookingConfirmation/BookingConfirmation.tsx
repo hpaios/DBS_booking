@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useTranslation } from 'react-i18next'
 import ReCAPTCHA from "react-google-recaptcha";
 import IntlTelInput from "intl-tel-input/reactWithUtils"
@@ -34,6 +34,8 @@ const BookingConfirmation = ({
   const [isRecaptcaValid, setIsRecaptcaValid] = useState(false)
 
   const [touched, setTouched] = useState(false)
+  const isSubmittingRef = useRef(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const isValidEmail = /\S+@\S+\.\S+/.test(email)
   const isValidName = name.trim().length > 1
@@ -50,11 +52,17 @@ const BookingConfirmation = ({
     isValidVin
 
   const bookingSource: BookingSource = getBookingSource()
+  
   const handleSubmit = async () => {
+    if (isSubmittingRef.current) return
+
     setTouched(true)
-  
+
     if (!isFormValid || !phoneNumber) return
-  
+
+    isSubmittingRef.current = true
+    setIsSubmitting(true)
+
     try {
       const clientResult = await getOrCreateClient({
         first_name: name,
@@ -64,32 +72,27 @@ const BookingConfirmation = ({
 
       const clientId = clientResult?.clientId
       const isNewClient = clientResult?.isNewClient
-        
+
       if (!clientId) {
         handleIsErrorSubmit(true)
         return
       }
-  
+
       const requests = Object.entries(selectedSlots)
         .filter(([_, value]) => value?.slot?.dateStart)
         .map(([employeeId, value]) => {
-          const dateStart = subtractTwoHours(value!.slot.dateStart as string)
-  
+          const dateStart = subtractTwoHours(
+            value!.slot.dateStart as string
+          )
+
           const employeeServices = selectedServices.filter(
             s => s.parentCategoryId === Number(employeeId)
           )
-          
-          // const employeeTotalDuration = employeeServices.reduce(
-          //   (sum, service) => sum + service.durationMinutes,
-          //   0
-          // )
-  
-          // const dateEnd = addMinutes(dateStart, employeeTotalDuration)
 
-          // TODO: now duration is 60 hardcoded
           const dateEnd = addMinutes(dateStart, 60)
-  
-          const clientTypeTag = `--- CLIENT_TYPE=${isNewClient ? 'NEW' : 'OLD'} ---`
+
+          const clientTypeTag =
+            `--- CLIENT_TYPE=${isNewClient ? 'NEW' : 'OLD'} ---`
 
           const commentWithVin = [
             vin ? `VIN: ${vin}` : null,
@@ -98,15 +101,17 @@ const BookingConfirmation = ({
           ]
             .filter(Boolean)
             .join('\n')
-  
-          const appointmentRequest = createAppointment({
+
+          return createAppointment({
             client: {
               name,
               phone: phoneNumber,
               email,
             },
             vin,
-            comment: `${commentWithVin} ${notes ? `Описание проблемы: ${notes}` : ''}`,
+            comment: `${commentWithVin} ${
+              notes ? `Описание проблемы: ${notes}` : ''
+            }`,
             employeeId: Number(employeeId),
             serviceIds: employeeServices.map(s => s.id),
             dateStart,
@@ -114,40 +119,46 @@ const BookingConfirmation = ({
             email,
             bookingSource,
           })
-          return appointmentRequest
         })
-  
+
       const responses = await Promise.allSettled(requests)
-      const success = responses.every(res => res.status === 'fulfilled')
-  
+
+      const success = responses.every(
+        res => res.status === 'fulfilled'
+      )
+
       if (!success) {
-        console.error('Some appointment requests failed:', responses)
+        console.error(
+          'Some appointment requests failed:',
+          responses
+        )
+
         handleIsErrorSubmit(true)
         setCurrentStep(prev => prev + 2)
         return
       }
-  
+
       try {
         const firstSelectedSlot = Object.values(selectedSlots).find(
           value => value?.slot?.dateStart
         )
-  
+
         if (firstSelectedSlot?.slot?.dateStart) {
           const date = new Date(firstSelectedSlot.slot.dateStart)
-  
+
           const bookingDate = new Intl.DateTimeFormat('cs-CZ', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
             timeZone: 'UTC',
           }).format(date)
-  
+
           const bookingTime = new Intl.DateTimeFormat('cs-CZ', {
             hour: '2-digit',
             minute: '2-digit',
             timeZone: 'UTC',
-          }).format(new Date(firstSelectedSlot?.slot?.dateStart))
-  
+          }).format(date)
+
           await sendBookingConfirmation({
             clientFirstName: name,
             phone: phoneNumber,
@@ -158,14 +169,18 @@ const BookingConfirmation = ({
           })
         }
       } catch (error) {
-        console.error('WhatsApp send failed:', error)
+        console.error('Booking confirmation failed:', error)
       }
-  
+
       setCurrentStep(prev => prev + 1)
     } catch (error) {
       console.error('handleSubmit failed:', error)
+
       handleIsErrorSubmit(true)
       setCurrentStep(prev => prev + 2)
+    } finally {
+      isSubmittingRef.current = false
+      setIsSubmitting(false)
     }
   }
 
@@ -261,7 +276,7 @@ const BookingConfirmation = ({
 
       <button
         onClick={handleSubmit}
-        disabled={!isFormValid || !isRecaptcaValid}
+        disabled={!isFormValid || !isRecaptcaValid || isSubmitting}
         className={btnSubmitStyle}
       >
         {t('common.send')}
