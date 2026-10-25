@@ -111,6 +111,7 @@ export const mapSlotsByDays = (slots: ApiTimeSlot[]) => {
 
   slots.forEach((slot) => {
     const date = new Date(slot.dateStart);
+    console.log('slot.dateStart', slot.dateStart);
 
     const dateKey = getLocalDateKey(date);
     const time = getSlotTime(slot.dateStart);
