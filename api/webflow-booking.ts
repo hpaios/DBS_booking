@@ -73,28 +73,74 @@ type WebflowBookingBody = {
 // Existing React booking subtracts 2h before appointment.
 // =========================================================
 
-function subtractTwoHours(
-  iso: string
-) {
+// function subtractTwoHours(
+//   iso: string
+// ) {
 
-  const date =
-    new Date(iso);
+//   const date =
+//     new Date(iso);
 
-  if (
-    Number.isNaN(
-      date.getTime()
-    )
-  ) {
-    throw new Error(
-      "Invalid booking slot date"
-    );
-  }
+//   if (
+//     Number.isNaN(
+//       date.getTime()
+//     )
+//   ) {
+//     throw new Error(
+//       "Invalid booking slot date"
+//     );
+//   }
 
-  date.setUTCHours(
-    date.getUTCHours() - 2
+//   date.setUTCHours(
+//     date.getUTCHours() - 2
+//   );
+
+//   return date.toISOString();
+// }
+
+function subtractTwoHours(iso: string): string {
+  const match = iso.match(
+    /^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/
   );
 
-  return date.toISOString();
+  if (!match) {
+    throw new Error("Invalid Prague booking date format");
+  }
+
+  const [, day, hour, minute, second = "00"] = match;
+
+  const localTime = `${day}T${hour}:${minute}:${second}`;
+
+  const utcGuess = new Date(`${localTime}Z`);
+
+  const getPragueTime = (date: Date) => {
+    const parts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Prague",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23"
+    }).formatToParts(date);
+
+    const get = (type: string) =>
+      parts.find(part => part.type === type)?.value;
+
+    return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}:${get("second")}`;
+  };
+
+  for (const offset of [1, 2]) {
+    const candidate = new Date(
+      utcGuess.getTime() - offset * 60 * 60 * 1000
+    );
+
+    if (getPragueTime(candidate) === localTime) {
+      return candidate.toISOString();
+    }
+  }
+
+  throw new Error("Invalid or nonexistent Prague local time");
 }
 
 
