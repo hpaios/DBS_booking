@@ -1,4 +1,5 @@
 import { type TFunction } from 'i18next'
+import { fromZonedTime } from 'date-fns-tz'
 import { afternoonSlots, morningSlots } from './config'
 import type { ApiTimeSlot, Category, DaySlots, FormattedDate, GroupedArray, GroupedServices, GroupedServicesByCategory, MappedCategory, Service, WeekScheduleItem } from './interfaces'
 import { AT_WORD, LOCALES, type SupportedLanguage } from './i18n'
@@ -93,42 +94,92 @@ export const getSlotTime = (iso: string): string => {
   return iso.slice(11, 16);
 };
 
-export const mapSlotsByDays = (slots: ApiTimeSlot[]) => {
-  const calendar: Record<string, DaySlots> = {};
+// export const mapSlotsByDays = (slots: ApiTimeSlot[]) => {
+//   const calendar: Record<string, DaySlots> = {};
 
-  const today = new Date();
-  today.setHours(0,0,0,0);
+//   const today = new Date();
+//   today.setHours(0,0,0,0);
+
+//   for (let i = 0; i < 31; i++) {
+//     const date = addDays(today, i);
+//     const dateKey = getLocalDateKey(date);
+
+//     calendar[dateKey] = {
+//       morning: [],
+//       afternoon: [],
+//     };
+//   }
+
+//   slots.forEach((slot) => {
+//     const date = new Date(slot.dateStart);
+//     console.log('slot.dateStart', slot.dateStart);
+
+//     const dateKey = getLocalDateKey(date);
+//     const time = getSlotTime(slot.dateStart);
+
+//     if (!calendar[dateKey]) return;
+
+//     if (morningSlots.includes(time)) {
+//       calendar[dateKey].morning.push(slot);
+//     }
+
+//     if (afternoonSlots.includes(time)) {
+//       calendar[dateKey].afternoon.push(slot);
+//     }
+//   });
+
+//   return calendar;
+// };
+
+export const mapSlotsByDays = (
+  slots: ApiTimeSlot[]
+): Record<string, DaySlots> => {
+  const calendar: Record<string, DaySlots> = {}
+
+  // Сегодняшняя дата по часовому поясу Праги
+  const todayPrague = new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Europe/Prague',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date())
+
+  const [year, month, day] = todayPrague.split('-').map(Number)
+
+  // Создаем календарь на 31 день
+  const startDate = new Date(Date.UTC(year, month - 1, day))
 
   for (let i = 0; i < 31; i++) {
-    const date = addDays(today, i);
-    const dateKey = getLocalDateKey(date);
+    const date = new Date(startDate)
+    date.setUTCDate(date.getUTCDate() + i)
+
+    const dateKey = date.toISOString().slice(0, 10)
 
     calendar[dateKey] = {
       morning: [],
-      afternoon: [],
-    };
+      afternoon: []
+    }
   }
 
+  // Распределяем слоты по дням
   slots.forEach((slot) => {
-    const date = new Date(slot.dateStart);
-    console.log('slot.dateStart', slot.dateStart);
+    // Слоты уже содержат локальное время Праги
+    const dateKey = slot.dateStart.slice(0, 10)
+    const time = slot.dateStart.slice(11, 16)
 
-    const dateKey = getLocalDateKey(date);
-    const time = getSlotTime(slot.dateStart);
-
-    if (!calendar[dateKey]) return;
+    if (!calendar[dateKey]) return
 
     if (morningSlots.includes(time)) {
-      calendar[dateKey].morning.push(slot);
+      calendar[dateKey].morning.push(slot)
     }
 
     if (afternoonSlots.includes(time)) {
-      calendar[dateKey].afternoon.push(slot);
+      calendar[dateKey].afternoon.push(slot)
     }
-  });
+  })
 
-  return calendar;
-};
+  return calendar
+}
 
 const getWeekday = (date: string) => {
   const [y, m, d] = date.split("-").map(Number);
@@ -152,63 +203,134 @@ export const normalizeSlotsBySchedule = (
   slots: ApiTimeSlot[],
   weekSchedule: WeekScheduleItem[]
 ): ApiTimeSlot[] => {
+  const slotsByDay = new Map<string, ApiTimeSlot[]>()
 
-  const slotsByDay = new Map<string, ApiTimeSlot[]>();
+  const getDate = (iso: string) => iso.slice(0, 10)
+  const getTime = (iso: string) => iso.slice(11, 16)
 
-  const getDate = (iso: string) => iso.slice(0, 10);
-  const getTime = (iso: string) => iso.slice(11, 16);
+  const scheduleMap = new Map(
+    weekSchedule.map((day) => [day.idx, day])
+  )
 
-  const scheduleMap = new Map(weekSchedule.map((d) => [d.idx, d]));
+  // Текущая дата и время в Праге
+  const now = new Date()
 
-  const now = new Date();
-  const today = now.toLocaleDateString("sv-SE"); // YYYY-MM-DD
-  const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
-    now.getMinutes()
-  ).padStart(2, "0")}`;
+  const pragueNow = new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Europe/Prague',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23'
+  }).format(now)
 
-  // группировка слотов по дню
+  const [today, currentTime] = pragueNow.split(' ')
+
+  // Группировка слотов по дням
   for (const slot of slots) {
-    const day = getDate(slot.dateStart);
+    const day = getDate(slot.dateStart)
 
     if (!slotsByDay.has(day)) {
-      slotsByDay.set(day, []);
+      slotsByDay.set(day, [])
     }
 
-    slotsByDay.get(day)!.push(slot);
+    slotsByDay.get(day)!.push(slot)
   }
 
-  const result: ApiTimeSlot[] = [];
+  const result: ApiTimeSlot[] = []
 
   for (const [day, daySlots] of slotsByDay) {
+    const weekday = getWeekday(day) // Monday = 0
+    const schedule = scheduleMap.get(weekday)
 
-    const weekday = getWeekday(day); // Monday = 0
-    const schedule = scheduleMap.get(weekday);
+    if (!schedule || !schedule.workDay) continue
 
-    if (!schedule || !schedule.workDay) continue;
-
-    daySlots.sort((a, b) => a.dateStart.localeCompare(b.dateStart));
-
-    const filtered: ApiTimeSlot[] = [];
+    daySlots.sort((a, b) =>
+      a.dateStart.localeCompare(b.dateStart)
+    )
 
     for (const slot of daySlots) {
+      const start = getTime(slot.dateStart)
+      const end = getTime(slot.dateEnd)
 
-      const start = getTime(slot.dateStart);
-      const end = getTime(slot.dateEnd);
+      // Проверяем рабочие часы сервиса
+      if (start < schedule.startTime) continue
+      if (end > schedule.endTime) continue
 
-      if (start < schedule.startTime) continue;
-      if (end > schedule.endTime) continue;
+      // Убираем прошедшие слоты за сегодня
+      if (day === today && start <= currentTime) continue
 
-      // удаляем прошедшие слоты сегодня
-      if (day === today && start <= currentTime) continue;
-
-      filtered.push(slot);
+      result.push(slot)
     }
-
-    result.push(...filtered);
   }
 
-  return result.sort((a, b) => a.dateStart.localeCompare(b.dateStart));
-};
+  return result.sort((a, b) =>
+    a.dateStart.localeCompare(b.dateStart)
+  )
+}
+
+// export const normalizeSlotsBySchedule = (
+//   slots: ApiTimeSlot[],
+//   weekSchedule: WeekScheduleItem[]
+// ): ApiTimeSlot[] => {
+
+//   const slotsByDay = new Map<string, ApiTimeSlot[]>();
+
+//   const getDate = (iso: string) => iso.slice(0, 10);
+//   const getTime = (iso: string) => iso.slice(11, 16);
+
+//   const scheduleMap = new Map(weekSchedule.map((d) => [d.idx, d]));
+
+//   const now = new Date();
+//   const today = now.toLocaleDateString("sv-SE"); // YYYY-MM-DD
+//   const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
+//     now.getMinutes()
+//   ).padStart(2, "0")}`;
+
+//   // группировка слотов по дню
+//   for (const slot of slots) {
+//     const day = getDate(slot.dateStart);
+
+//     if (!slotsByDay.has(day)) {
+//       slotsByDay.set(day, []);
+//     }
+
+//     slotsByDay.get(day)!.push(slot);
+//   }
+
+//   const result: ApiTimeSlot[] = [];
+
+//   for (const [day, daySlots] of slotsByDay) {
+
+//     const weekday = getWeekday(day); // Monday = 0
+//     const schedule = scheduleMap.get(weekday);
+
+//     if (!schedule || !schedule.workDay) continue;
+
+//     daySlots.sort((a, b) => a.dateStart.localeCompare(b.dateStart));
+
+//     const filtered: ApiTimeSlot[] = [];
+
+//     for (const slot of daySlots) {
+
+//       const start = getTime(slot.dateStart);
+//       const end = getTime(slot.dateEnd);
+
+//       if (start < schedule.startTime) continue;
+//       if (end > schedule.endTime) continue;
+
+//       // удаляем прошедшие слоты сегодня
+//       if (day === today && start <= currentTime) continue;
+
+//       filtered.push(slot);
+//     }
+
+//     result.push(...filtered);
+//   }
+
+//   return result.sort((a, b) => a.dateStart.localeCompare(b.dateStart));
+// };
 
 // TODO: remove this function
 // export const formatIsoDateCs = (iso: string): FormattedDate => {
@@ -318,19 +440,53 @@ export const shiftSlotsByHour = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
   }))
 }
 
-export const shiftSlotsByTwoHours = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
+// export const shiftSlotsByTwoHours = (slots: ApiTimeSlot[]): ApiTimeSlot[] => {
 
-  const shift = (iso: string) => {
-    const date = iso.slice(0, 10)
-    const [h, m] = iso.slice(11, 16).split(":").map(Number)
+//   const shift = (iso: string) => {
+//     const date = iso.slice(0, 10)
+//     const [h, m] = iso.slice(11, 16).split(":").map(Number)
 
-    const newH = String(h + 2).padStart(2, "0")
-    const newM = String(m).padStart(2, "0")
+//     const newH = String(h + 2).padStart(2, "0")
+//     const newM = String(m).padStart(2, "0")
 
-    return `${date}T${newH}:${newM}:00Z`
+//     return `${date}T${newH}:${newM}:00Z`
+//   }
+
+//   return slots.map(slot => ({
+//     dateStart: shift(slot.dateStart),
+//     dateEnd: shift(slot.dateEnd)
+//   }))
+// }
+
+export const shiftSlotsByTwoHours = (
+  slots: ApiTimeSlot[]
+): ApiTimeSlot[] => {
+  const shift = (iso: string): string => {
+    const date = new Date(iso)
+
+    if (Number.isNaN(date.getTime())) {
+      throw new Error('Invalid slot date')
+    }
+
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Prague',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h23'
+    }).formatToParts(date)
+
+    const get = (type: string) =>
+      parts.find(part => part.type === type)?.value
+
+    return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}:${get('minute')}:${get('second')}Z`
   }
 
   return slots.map(slot => ({
+    ...slot,
     dateStart: shift(slot.dateStart),
     dateEnd: shift(slot.dateEnd)
   }))
@@ -353,24 +509,31 @@ export const subtractHour = (iso: string) => {
   return `${date}T${newH}:${newM}:00Z`
 }
 
-export const subtractTwoHours = (iso: string) => {
-  const datePart = iso.slice(0, 10)
-  const [h, m] = iso.slice(11, 16).split(":").map(Number)
-
-  let newH = h - 2
-  let newDate = datePart
-
-  if (newH < 0) {
-    newH += 24
-
-    const d = new Date(datePart)
-    d.setDate(d.getDate() - 1)
-
-    newDate = d.toISOString().slice(0, 10)
-  }
-
-  return `${newDate}T${String(newH).padStart(2, "0")}:${String(m).padStart(2, "0")}:00Z`
+export const subtractTwoHours = (iso: string): string => {
+  return fromZonedTime(
+    iso.slice(0, 19),
+    'Europe/Prague'
+  ).toISOString()
 }
+
+// export const subtractTwoHours = (iso: string) => {
+//   const datePart = iso.slice(0, 10)
+//   const [h, m] = iso.slice(11, 16).split(":").map(Number)
+
+//   let newH = h - 2
+//   let newDate = datePart
+
+//   if (newH < 0) {
+//     newH += 24
+
+//     const d = new Date(datePart)
+//     d.setDate(d.getDate() - 1)
+
+//     newDate = d.toISOString().slice(0, 10)
+//   }
+
+//   return `${newDate}T${String(newH).padStart(2, "0")}:${String(m).padStart(2, "0")}:00Z`
+// }
 
 // export const subtractHour = (iso: string) => {
 //   const date = iso.slice(0, 10)
