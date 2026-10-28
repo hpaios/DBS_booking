@@ -86,53 +86,6 @@ type WebflowBookingBody = {
 
 };
 
-// =========================================================
-
-// -2 HOURS
-
-// Existing Webflow calendar displays slots after +2h.
-
-// Existing React booking subtracts 2h before appointment.
-
-// =========================================================
-
-// function subtractTwoHours(
-
-//   iso: string
-
-// ) {
-
-//   const date =
-
-//     new Date(iso);
-
-//   if (
-
-//     Number.isNaN(
-
-//       date.getTime()
-
-//     )
-
-//   ) {
-
-//     throw new Error(
-
-//       "Invalid booking slot date"
-
-//     );
-
-//   }
-
-//   date.setUTCHours(
-
-//     date.getUTCHours() - 2
-
-//   );
-
-//   return date.toISOString();
-
-// }
 
 function subtractTwoHours(iso: string): string {
 
@@ -203,16 +156,6 @@ function subtractTwoHours(iso: string): string {
   throw new Error("Invalid or nonexistent Prague local time");
 
 }
-
-// =========================================================
-
-// CONFIRMATION DATE
-
-// Same logic as current React booking
-
-// Uses displayed/shifted slot
-
-// =========================================================
 
 function formatBookingDate(
 
@@ -303,12 +246,6 @@ function getBookingSource(incoming?: Partial<BookingSource>): BookingSource {
   };
 }
 
-// =========================================================
-
-// HANDLER
-
-// =========================================================
-
 export default async function handler(
 
   req: VercelRequest,
@@ -316,12 +253,6 @@ export default async function handler(
   res: VercelResponse
 
 ) {
-
-// =======================================================
-
-// CORS
-
-// =======================================================
 
   res.setHeader(
 
@@ -700,41 +631,43 @@ export default async function handler(
 
 // =====================================================
 
-    const clientTypeTag =
+   const clientTypeTag =
+  `--- CLIENT_TYPE=${isNewClient ? "NEW" : "OLD"} ---`;
 
-      `--- CLIENT_TYPE=${
+const sourceDetails = [
+  "--- BOOKING SOURCE ---",
+  "Booking via: Webflow Quiz",
+  `Source: ${bookingSource.utm_source || "direct"}`,
+  `Medium: ${bookingSource.utm_medium || "none"}`,
+  `Campaign: ${bookingSource.utm_campaign || "none"}`,
+  `Content: ${bookingSource.utm_content || "none"}`,
+  `Term: ${bookingSource.utm_term || "none"}`,
+  bookingSource.gclid
+    ? `GCLID: ${bookingSource.gclid}`
+    : null,
+  bookingSource.fbclid
+    ? `FBCLID: ${bookingSource.fbclid}`
+    : null,
+  bookingSource.landing_url
+    ? `Landing URL: ${bookingSource.landing_url}`
+    : null,
+  bookingSource.referrer
+    ? `Referrer: ${bookingSource.referrer}`
+    : null
+]
+  .filter(Boolean)
+  .join("\n");
 
-        isNewClient
-
-          ? "NEW"
-
-          : "OLD"
-
-      } ---`;
-
-    const comment =
-
-      [
-
-        vin
-
-          ? `VIN: ${vin}`
-
-          : null,
-
-        clientTypeTag,
-
-        description
-
-          ? `Описание проблемы: ${description}`
-
-          : null
-
-      ]
-
-        .filter(Boolean)
-
-        .join("\n");
+const comment = [
+  vin ? `VIN: ${vin}` : null,
+  clientTypeTag,
+  description
+    ? `Описание проблемы: ${description}`
+    : null,
+  sourceDetails
+]
+  .filter(Boolean)
+  .join("\n\n");
 
 // =====================================================
 
