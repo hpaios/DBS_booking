@@ -78,6 +78,26 @@ const BookingConfirmation = ({
         return
       }
 
+      const sourceDetails = [
+        '--- BOOKING SOURCE ---',
+        'Booking via: React Booking',
+        `Source: ${bookingSource?.utm_source || 'direct'}`,
+        `Medium: ${bookingSource?.utm_medium || 'none'}`,
+        `Campaign: ${bookingSource?.utm_campaign || 'none'}`,
+        `Content: ${bookingSource?.utm_content || 'none'}`,
+        `Term: ${bookingSource?.utm_term || 'none'}`,
+        bookingSource?.gclid ? `GCLID: ${bookingSource.gclid}` : null,
+        bookingSource?.fbclid ? `FBCLID: ${bookingSource.fbclid}` : null,
+        bookingSource?.landing_url
+          ? `Landing URL: ${bookingSource.landing_url}`
+          : null,
+        bookingSource?.referrer
+          ? `Referrer: ${bookingSource.referrer}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join('\n')
+
       const requests = Object.entries(selectedSlots)
         .filter(([_, value]) => value?.slot?.dateStart)
         .map(([employeeId, value]) => {
@@ -109,9 +129,13 @@ const BookingConfirmation = ({
               email,
             },
             vin,
-            comment: `${commentWithVin} ${
-              notes ? `Описание проблемы: ${notes}` : ''
-            }`,
+            comment: [
+            commentWithVin,
+            notes ? `Описание проблемы: ${notes}` : null,
+            sourceDetails,
+          ]
+            .filter(Boolean)
+            .join('\n\n'),
             employeeId: Number(employeeId),
             serviceIds: employeeServices.map(s => s.id),
             dateStart,
